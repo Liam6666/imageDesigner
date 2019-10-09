@@ -1,2 +1,2 @@
-include ':app', ':utils', ':permissionutil'
+include ':app', ':utils', ':permission'
 rootProject.name='ImageDesigner'
