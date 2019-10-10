@@ -8,11 +8,20 @@ import yzx.app.image.design.logicViews.MainListHelper
 
 class MainActivity : AppCompatActivity() {
 
+
+    private val listHelper: MainListHelper = MainListHelper()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         BarUtils.setStatusBarLightMode(this, true)
-        MainListHelper.makeItem(this, recyclerView)
+        listHelper.makeItem(this, recyclerView)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listHelper.cancel()
     }
 
 }

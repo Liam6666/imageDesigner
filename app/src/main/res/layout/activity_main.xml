@@ -39,7 +39,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:clipToPadding="false"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:paddingBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
