@@ -13,10 +13,7 @@ import yzx.app.image.design.R
 import yzx.app.image.design.utils.application
 import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.inflateView
-import yzx.app.image.design.views.itemAnimIcons.AddTextIcon
-import yzx.app.image.design.views.itemAnimIcons.AnimIconAble
-import yzx.app.image.design.views.itemAnimIcons.FilterIcon
-import yzx.app.image.design.views.itemAnimIcons.RotateTransIcon
+import yzx.app.image.design.views.itemAnimIcons.*
 
 
 class MainListHelper {
@@ -97,7 +94,6 @@ class MainListHelper {
      */
     private class ItemInfo {
         var animIcon: View? = null
-        var icon: Int? = null
         var text: String? = null
         var click: Runnable? = null
     }
@@ -109,43 +105,36 @@ class MainListHelper {
     private val itemsList = arrayOf(
         ItemInfo().apply {
             animIcon = RotateTransIcon(application)
-            icon = R.mipmap.ic_launcher
             text = "旋转偏移"
             click = Runnable { }
         },
         ItemInfo().apply {
             animIcon = AddTextIcon(application)
-            icon = R.mipmap.ic_launcher
             text = "加文字"
             click = Runnable { }
         },
         ItemInfo().apply {
             animIcon = FilterIcon(application)
-            icon = R.mipmap.ic_launcher
             text = "效果滤镜"
             click = Runnable { }
         },
         ItemInfo().apply {
-            animIcon = RotateTransIcon(application)
-            icon = R.mipmap.ic_launcher
+            animIcon = DrawIcon(application)
             text = "画图"
             click = Runnable { }
         },
         ItemInfo().apply {
             animIcon = RotateTransIcon(application)
-            icon = R.mipmap.ic_launcher
             text = "裁剪"
             click = Runnable { }
         },
         ItemInfo().apply {
             animIcon = RotateTransIcon(application)
-            icon = R.mipmap.ic_launcher
             text = "拼接合并"
             click = Runnable { }
         },
         ItemInfo().apply {
             animIcon = RotateTransIcon(application)
-            icon = R.mipmap.ic_launcher
             text = "区域抠取"
             click = Runnable { }
         }
