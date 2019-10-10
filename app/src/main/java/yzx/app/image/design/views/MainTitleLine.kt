@@ -17,7 +17,7 @@ class MainTitleLine : View {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        paint.color = Color.parseColor("#00ff88")
+        paint.color = Color.parseColor("#0088ff")
     }
 
 
