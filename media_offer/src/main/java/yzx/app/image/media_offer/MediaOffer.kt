@@ -1,9 +1,10 @@
 package yzx.app.image.media_offer
 
 import android.content.Context
+import java.io.File
 
 
-typealias PathCallback = (path: String?) -> Unit
+typealias PathCallback = (path: File?) -> Unit
 
 
 object MediaOffer {

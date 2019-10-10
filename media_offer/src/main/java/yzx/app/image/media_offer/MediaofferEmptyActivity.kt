@@ -6,8 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.UriUtils
 import yzx.app.image.design.utils.launchActivity
 import yzx.app.image.permissionutil.PermissionRequester
+import java.io.File
 
 
 class MediaOfferEmptyActivity : AppCompatActivity() {
@@ -49,7 +51,7 @@ class MediaOfferEmptyActivity : AppCompatActivity() {
         }
     }
 
-    private fun doOver(path: String?) {
+    private fun doOver(path: File?) {
         MediaOffer.callbacks.remove(sign)?.invoke(path)
         finish()
     }
@@ -62,13 +64,14 @@ class MediaOfferEmptyActivity : AppCompatActivity() {
             if (uri == null) {
                 doOver(null)
             } else {
-
-
+                doOver(UriUtils.uri2File(uri))
             }
         } else {
             doOver(null)
         }
     }
 
+
+    override fun onBackPressed() = Unit
 
 }
