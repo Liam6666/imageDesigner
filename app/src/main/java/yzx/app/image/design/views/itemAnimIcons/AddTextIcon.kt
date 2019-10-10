@@ -16,7 +16,7 @@ class AddTextIcon : ImageView, AnimIconAble {
 
 
     init {
-        val padding = dp2px(4)
+        val padding = dp2px(5)
         setPadding(padding, padding, padding, padding)
         scaleType = ScaleType.FIT_CENTER
         setImageResource(R.drawable.main_list_icon_2)
@@ -30,7 +30,7 @@ class AddTextIcon : ImageView, AnimIconAble {
             scaleX = p
             scaleY = p
         }
-        anim.repeatCount = 5
+        anim.repeatCount = 7
         anim.repeatMode = ValueAnimator.REVERSE
         anim.interpolator = DecelerateInterpolator()
         anim.start()
