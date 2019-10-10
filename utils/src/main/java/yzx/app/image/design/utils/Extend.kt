@@ -5,6 +5,9 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
@@ -38,4 +41,14 @@ fun longToast(str: String) {
     longToast?.cancel()
     longToast = Toast.makeText(application, str, Toast.LENGTH_LONG)
     longToast!!.show()
+}
+
+
+fun dp2px(dp: Int): Int {
+    return (application.resources.displayMetrics.density * dp + 0.5f).toInt()
+}
+
+
+fun inflateView(context: Context = application, res: Int, parent: ViewGroup? = null, attach: Boolean = false): View {
+    return LayoutInflater.from(context).inflate(res, parent, attach)
 }
