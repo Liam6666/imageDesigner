@@ -24,6 +24,8 @@ class AddTextIcon : ImageView, AnimIconAble {
 
 
     override fun doAnim() {
+        scaleX = 1f
+        scaleY = 1f
         val anim = ValueAnimator.ofFloat(1f, 1.4f).setDuration(250)
         anim.addUpdateListener { va ->
             val p = va.animatedValue as Float

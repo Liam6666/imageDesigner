@@ -15,6 +15,7 @@ import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.inflateView
 import yzx.app.image.design.views.itemAnimIcons.AddTextIcon
 import yzx.app.image.design.views.itemAnimIcons.AnimIconAble
+import yzx.app.image.design.views.itemAnimIcons.FilterIcon
 import yzx.app.image.design.views.itemAnimIcons.RotateTransIcon
 
 
@@ -119,7 +120,7 @@ class MainListHelper {
             click = Runnable { }
         },
         ItemInfo().apply {
-            animIcon = RotateTransIcon(application)
+            animIcon = FilterIcon(application)
             icon = R.mipmap.ic_launcher
             text = "效果滤镜"
             click = Runnable { }
