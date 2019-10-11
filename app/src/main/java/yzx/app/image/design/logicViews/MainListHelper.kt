@@ -129,7 +129,7 @@ class MainListHelper {
             click = Runnable { }
         },
         ItemInfo().apply {
-            animIcon = RotateTransIcon(application)
+            animIcon = CombineIcon(application)
             text = "拼接合并"
             click = Runnable { }
         },
