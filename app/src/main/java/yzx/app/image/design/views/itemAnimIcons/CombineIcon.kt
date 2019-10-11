@@ -23,7 +23,7 @@ class CombineIcon : FrameLayout, AnimIconAble {
 
 
     override fun doAnim() {
-        val perDuration = 180
+        val perDuration = 200
         views.forEachIndexed { index, view ->
             val hideDelay = index * perDuration
             view.animate().scaleX(0f).scaleY(0f).setDuration(perDuration.toLong()).setStartDelay(hideDelay.toLong()).start()
