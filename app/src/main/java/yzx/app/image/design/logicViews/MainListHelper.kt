@@ -71,7 +71,7 @@ class MainListHelper {
         if (animTimer != null)
             throw IllegalStateException("list animation has already begin")
         var first = true
-        animTimer = object : CountDownTimer(Long.MAX_VALUE, 4000) {
+        animTimer = object : CountDownTimer(Long.MAX_VALUE, 2000) {
             override fun onFinish() = Unit
             override fun onTick(p0: Long) {
                 if (first) {
@@ -124,7 +124,7 @@ class MainListHelper {
             click = Runnable { }
         },
         ItemInfo().apply {
-            animIcon = RotateTransIcon(application)
+            animIcon = ClipIcon(application)
             text = "裁剪"
             click = Runnable { }
         },
