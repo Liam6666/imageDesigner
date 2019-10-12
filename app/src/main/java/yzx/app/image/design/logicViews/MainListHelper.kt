@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import yzx.app.image.design.R
+import yzx.app.image.design.ui.RotateTranslateActivity
 import yzx.app.image.design.utils.application
 import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.inflateView
 import yzx.app.image.design.views.itemAnimIcons.*
+import yzx.app.image.media_offer.MediaOffer
 
 
 class MainListHelper {
@@ -62,7 +64,6 @@ class MainListHelper {
 
 
     private var animTimer: CountDownTimer? = null
-    private var animIndex = 0
 
     /*
      * 开始挨个执行icon的小动画
@@ -71,17 +72,14 @@ class MainListHelper {
         if (animTimer != null)
             throw IllegalStateException("list animation has already begin")
         var first = true
-        animTimer = object : CountDownTimer(Long.MAX_VALUE, 1000) {
+        animTimer = object : CountDownTimer(Long.MAX_VALUE, 5000) {
             override fun onFinish() = Unit
             override fun onTick(p0: Long) {
                 if (first) {
                     first = false
                 } else {
-                    val index = animIndex % itemsList.size
-                    val info = itemsList[index]
-                    if (info.animIcon is AnimIconAble)
-                        (info.animIcon as AnimIconAble).doAnim()
-                    animIndex++
+                    val info = itemsList[(Math.random() * itemsList.size).toInt()]
+                    (info.animIcon as AnimIconAble).doAnim()
                 }
             }
         }
@@ -106,7 +104,11 @@ class MainListHelper {
         ItemInfo().apply {
             animIcon = RotateTransIcon(application)
             text = "旋转偏移"
-            click = Runnable { }
+            click = Runnable {
+                MediaOffer.requestImage(application) { result ->
+                    result?.run { RotateTranslateActivity.launch(application, absolutePath) }
+                }
+            }
         },
         ItemInfo().apply {
             animIcon = AddTextIcon(application)

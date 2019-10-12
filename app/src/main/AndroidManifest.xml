@@ -24,6 +24,11 @@
         </activity>
 
 
+        <activity
+            android:name=".ui.RotateTranslateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
+
     </application>
 
 </manifest>
