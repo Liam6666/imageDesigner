@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="#000000">
 
 
     <ImageView
@@ -21,7 +23,212 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.6" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+    <View
+        android:id="@+id/left1"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_operation"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/left10"
+        app:layout_constraintTop_toBottomOf="@id/tbGuide" />
+
+
+    <View
+        android:id="@+id/left10"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_operation"
+        app:layout_constraintLeft_toRightOf="@id/left1"
+        app:layout_constraintRight_toLeftOf="@id/centerGuide"
+        app:layout_constraintTop_toBottomOf="@id/tbGuide" />
+
+
+    <View
+        android:id="@+id/right1"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_operation"
+        app:layout_constraintLeft_toLeftOf="@id/centerGuide"
+        app:layout_constraintRight_toLeftOf="@id/right10"
+        app:layout_constraintTop_toBottomOf="@id/tbGuide" />
+
+
+    <View
+        android:id="@+id/right10"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_operation"
+        app:layout_constraintLeft_toRightOf="@id/right1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tbGuide" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/left1"
+        app:layout_constraintLeft_toLeftOf="@id/left1"
+        app:layout_constraintRight_toRightOf="@id/left1"
+        app:layout_constraintTop_toTopOf="@id/left1">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_rotate_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"
+            android:text="左转1°"
+            android:textColor="#333"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/left10"
+        app:layout_constraintLeft_toLeftOf="@id/left10"
+        app:layout_constraintRight_toRightOf="@id/left10"
+        app:layout_constraintTop_toTopOf="@id/left10">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_rotate_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"
+            android:text="左转10°"
+            android:textColor="#333"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/right1"
+        app:layout_constraintLeft_toLeftOf="@id/right1"
+        app:layout_constraintRight_toRightOf="@id/right1"
+        app:layout_constraintTop_toTopOf="@id/right1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp"
+            android:text="右转1°"
+            android:textColor="#333"
+            android:textSize="12dp" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_rotate_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/right10"
+        app:layout_constraintLeft_toLeftOf="@id/right10"
+        app:layout_constraintRight_toRightOf="@id/right10"
+        app:layout_constraintTop_toTopOf="@id/right10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp"
+            android:text="右转10°"
+            android:textColor="#333"
+            android:textSize="12dp" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_rotate_right" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/complete"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_complete"
+        android:text="保存"
+        android:textColor="#fff"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/cache" />
+
+    <Button
+        android:id="@+id/cache"
+        android:layout_width="60dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_complete"
+        android:text="暂存"
+        android:textColor="#fff"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/complete"
+        app:layout_constraintRight_toLeftOf="@id/returnOrigin" />
+
+    <Button
+        android:id="@+id/returnOrigin"
+        android:layout_width="60dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_operation"
+        android:text="还原"
+        android:textColor="#333"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/cache"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,8 +28,12 @@ fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, 
     if (wh == null) {
         cb.invoke(null)
     } else {
-        val w = Math.min(wh[0], max)
-        val h = Math.min(wh[1], max)
+        var w = wh[0]
+        var h = wh[1]
+        if (w * h > max * max) {
+            w = Math.min(max, w)
+            h = Math.min(max, h)
+        }
         GlobalScope.launch(Dispatchers.Default) {
             val bmp = Glide.with(context).asBitmap().load(File(path)).submit(w, h).get()
             launch(Dispatchers.Main) { cb.invoke(bmp) }
