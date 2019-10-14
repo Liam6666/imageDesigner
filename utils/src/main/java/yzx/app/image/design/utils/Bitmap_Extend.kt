@@ -23,7 +23,7 @@ fun getFileBitmapWH(path: String): Array<Int>? {
 }
 
 
-fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, max: Int = 1920, cb: (Bitmap?) -> Unit) {
+fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, max: Int, cb: (Bitmap?) -> Unit) {
     val wh = getFileBitmapWH(path)
     if (wh == null) {
         cb.invoke(null)

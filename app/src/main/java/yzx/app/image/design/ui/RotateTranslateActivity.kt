@@ -36,7 +36,7 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
 
 
     private fun makeUI() {
-        decodeFileBitmapWithMaxLength(this, filePath!!) { originBitmap ->
+        decodeFileBitmapWithMaxLength(this, filePath!!, BitmapDecodeOptions.decodeBitmapMaxLength) { originBitmap ->
             if (originBitmap == null) {
                 toast("图片有误, 请重新选择")
                 finish()

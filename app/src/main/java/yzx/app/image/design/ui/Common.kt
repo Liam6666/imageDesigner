@@ -5,6 +5,7 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Color
 import com.blankj.utilcode.util.FileIOUtils
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import yzx.app.image.design.utils.application
 import yzx.app.image.design.utils.longToast
@@ -12,6 +13,11 @@ import yzx.app.image.design.utils.toast
 import yzx.app.image.permissionutil.PermissionRequester
 import java.io.ByteArrayOutputStream
 import java.io.File
+
+
+object BitmapDecodeOptions {
+    var decodeBitmapMaxLength = 1080
+}
 
 
 interface IImageDesignActivity
@@ -34,6 +40,7 @@ fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
             val out = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
             FileIOUtils.writeFileFromBytesByStream(targetFile, out.toByteArray())
+            FileUtils.notifySystemToScan(targetFile)
             longToast("已保存到系统相册ImageXO文件夹中")
             finish()
         } else {
