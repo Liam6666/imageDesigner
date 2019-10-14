@@ -7,8 +7,10 @@ import android.graphics.Color
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
+import com.bumptech.glide.request.target.Target
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import yzx.app.image.design.logicViews.dismissWaitingDialog
 import yzx.app.image.design.logicViews.showWaitingDialog
@@ -21,22 +23,36 @@ import java.io.File
 
 
 object BitmapDecodeOptions {
-    var decodeBitmapMaxLength = 1080
+    val decodeMaxLength_LOW = 760
+    val decodeMaxLength_MIDDLE = 1280
+    val decodeMaxLength_HIGH = 1920
+    val decodeMaxLength_ORIGIN = Target.SIZE_ORIGINAL
+
+    // 从本地加载到内存bitmap的最大像素值
+    var decodeBitmapMaxLength = decodeMaxLength_MIDDLE
 }
 
 
 interface IImageDesignActivity
 
 
+// 临时存储目录文件夹
 val cacheDir = File(application.filesDir, "BMP_CACHE")
+// 系统相册文件夹
 val saveDir = File(PathUtils.getExternalPicturesPath(), "ImageXO")
 
 
+/**
+ * 让通知栏变黑色
+ * */
 fun IImageDesignActivity.makeStatusBar() {
     (this as Activity).window.statusBarColor = Color.BLACK
 }
 
 
+/**
+ * 开始存储图片到本地相册
+ */
 fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
     PermissionRequester.request(this as Activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) { result ->
         val act = this as Activity
@@ -49,6 +65,7 @@ fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
                 FileIOUtils.writeFileFromBytesByStream(targetFile, out.toByteArray())
                 FileUtils.notifySystemToScan(targetFile)
+                delay(getFakeDelayDuration(bitmap))
                 launch(Dispatchers.Main) {
                     act.dismissWaitingDialog()
                     longToast("已保存到系统相册ImageXO文件夹中")
@@ -62,6 +79,27 @@ fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
 }
 
 
+/* 获取保存图片的延迟时间, 为了能完美暂时WaitingDialog的动画 */
+private fun getFakeDelayDuration(bitmap: Bitmap): Long {
+    val long = 1000 * 1000
+    val middle = 2000 * 2000
+    return when (bitmap.width * bitmap.height) {
+        in 0 until long -> {
+            900L
+        }
+        in 0 until middle -> {
+            500L
+        }
+        else -> {
+            200L
+        }
+    }
+}
+
+
+/**
+ * 存储图片到临时缓存区
+ */
 fun IImageDesignActivity.cacheBitmap(bitmap: Bitmap) {
 
 }
