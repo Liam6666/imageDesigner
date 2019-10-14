@@ -22,9 +22,16 @@ fun getFileBitmapWH(path: String): Array<Int>? {
 
 
 fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, max: Int = 1920, cb: (Bitmap?) -> Unit) {
-    GlobalScope.launch(Dispatchers.Default) {
-        val bmp = Glide.with(context).asBitmap().load(File(path)).submit(max, max).get()
-        launch(Dispatchers.Main) { cb.invoke(bmp) }
+    val wh = getFileBitmapWH(path)
+    if (wh == null) {
+        cb.invoke(null)
+    } else {
+        val w = Math.min(wh[0], max)
+        val h = Math.min(wh[1], max)
+        GlobalScope.launch(Dispatchers.Default) {
+            val bmp = Glide.with(context).asBitmap().load(File(path)).submit(w, h).get()
+            launch(Dispatchers.Main) { cb.invoke(bmp) }
+        }
     }
 }
 
