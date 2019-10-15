@@ -103,7 +103,7 @@ class MainListHelper {
     private val itemsList = arrayOf(
         ItemInfo().apply {
             animIcon = RotateTransIcon(application)
-            text = "旋转偏移"
+            text = "旋转缩放"
             click = Runnable {
                 MediaOffer.requestImage(application) { result ->
                     result?.run { RotateTranslateActivity.launch(application, absolutePath) }

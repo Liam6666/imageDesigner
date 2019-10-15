@@ -7,15 +7,43 @@
     tools:background="#000000">
 
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imageL"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1666" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imageT"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imageR"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8333" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imageB"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
     <ImageView
         android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@id/tbGuide"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/imageB"
+        app:layout_constraintLeft_toLeftOf="@id/imageL"
+        app:layout_constraintRight_toRightOf="@id/imageR"
+        app:layout_constraintTop_toTopOf="@id/imageT" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -190,7 +218,7 @@
     <Button
         android:id="@+id/complete"
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_complete"
@@ -204,7 +232,7 @@
     <Button
         android:id="@+id/cache"
         android:layout_width="60dp"
-        android:layout_height="44dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_complete"
@@ -218,7 +246,7 @@
     <Button
         android:id="@+id/returnOrigin"
         android:layout_width="60dp"
-        android:layout_height="44dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -229,6 +257,66 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/cache"
         app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/xScaleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:text="X轴缩放: (1.0)"
+        android:textColor="#fff"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/left1" />
+
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/xScaleSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginRight="10dp"
+        android:maxHeight="2dp"
+        android:minHeight="2dp"
+        android:progressDrawable="@drawable/seekbar_scale"
+        android:thumbTint="#03A9F4"
+        app:layout_constraintLeft_toRightOf="@id/xScaleText"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/left1" />
+
+
+    <TextView
+        android:id="@+id/yScaleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Y轴缩放: (1.0)"
+        android:textColor="#fff"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/xScaleText" />
+
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/yScaleSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="10dp"
+        android:maxHeight="2dp"
+        android:minHeight="2dp"
+        android:progressDrawable="@drawable/seekbar_scale"
+        android:thumbTint="#03A9F4"
+        app:layout_constraintLeft_toRightOf="@id/yScaleText"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/xScaleText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
