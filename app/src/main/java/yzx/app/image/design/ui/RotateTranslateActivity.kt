@@ -36,8 +36,14 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
 
     @SuppressLint("SetTextI18n")
     private fun makeUI() {
-        decodeFileBitmapWithMaxLength(this, filePath!!, BitmapDecodeOptions.decodeBitmapMaxLength) { originBitmap ->
-            if (originBitmap == null) {
+        decodeFileBitmap(filePath!!) { originBitmap, outOfMemory, toLarge ->
+            if (toLarge) {
+                toast("图片过大, 请重新选择")
+                finish()
+            } else if (outOfMemory) {
+                toast("运行内存不足, 请重试")
+                finish()
+            } else if (originBitmap == null) {
                 toast("图片有误, 请重新选择")
                 finish()
             } else {
@@ -111,7 +117,7 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
             val scaleBmp = makeScaleBitmap(source, image.scaleX, image.scaleY)!!
             makeRotatingBitmap(scaleBmp, image.rotation)
         } catch (e: OutOfMemoryError) {
-            toast("内存不足, 请先清理内存")
+            toast("运行内存不足, 请重试")
             null
         }
     }

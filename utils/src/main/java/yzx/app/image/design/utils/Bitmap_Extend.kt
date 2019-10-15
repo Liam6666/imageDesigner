@@ -45,15 +45,25 @@ fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, 
 }
 
 
+// 内存中bitmap的最大像素面积
+val max_bitmap_size = 4000 * 4000
+
+
 /**
  * 获取原图bitmap
  */
-fun decodeFileBitmap(path: String, cb: (bmp: Bitmap?, OutOfMemory: Boolean) -> Unit) {
+fun decodeFileBitmap(path: String, cb: (bmp: Bitmap?, OutOfMemory: Boolean, tooLarge: Boolean) -> Unit) {
     try {
-        val bmp = BitmapFactory.decodeFile(path, BitmapFactory.Options().apply { inMutable = true })
-        cb.invoke(bmp, false)
+        val wh = getFileBitmapWH(path)
+        if (wh == null) {
+            cb.invoke(null, false, false)
+        } else if (wh[0] * wh[1] > max_bitmap_size) {
+            cb.invoke(null, false, true)
+        } else {
+            cb.invoke(BitmapFactory.decodeFile(path, BitmapFactory.Options().apply { inMutable = true }), false, false)
+        }
     } catch (e: OutOfMemoryError) {
-        cb.invoke(null, true)
+        cb.invoke(null, true, false)
     }
 }
 
