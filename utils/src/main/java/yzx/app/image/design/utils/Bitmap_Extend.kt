@@ -1,10 +1,7 @@
 package yzx.app.image.design.utils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -62,4 +59,19 @@ fun makeRotatingBitmap(source: Bitmap, degree: Float): Bitmap {
     canvas.rotate(degree, result.width / 2f, result.height / 2f)
     canvas.drawBitmap(source, (result.width - source.width) / 2f, (result.height - source.height) / 2f, Paint(Paint.ANTI_ALIAS_FLAG))
     return result
+}
+
+
+/**
+ * 获取指定scaleXY的bitmap
+ */
+fun makeScaleBitmap(source: Bitmap, x: Float, y: Float): Bitmap? {
+    val newWidth = source.width * x
+    val newHeight = source.height * y
+    if (newWidth == 0f || newHeight == 0f)
+        return null
+    return Bitmap.createBitmap(newWidth.toInt(), newHeight.toInt(), Bitmap.Config.ARGB_8888).apply {
+        val canvas = Canvas(this)
+        canvas.drawBitmap(source, Matrix().apply { postScale(x, y) }, null)
+    }
 }
