@@ -1,5 +1,6 @@
 package yzx.app.image.design.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -33,6 +34,7 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun makeUI() {
         decodeFileBitmapWithMaxLength(this, filePath!!, BitmapDecodeOptions.decodeBitmapMaxLength) { originBitmap ->
             if (originBitmap == null) {
@@ -50,8 +52,12 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
                 right10.setOnClickListener { image.rotation += 10 }
 
                 returnOrigin.setOnClickListener { reset() }
-                cache.setOnClickListener { cacheBitmap(makeBitmap(originBitmap)) }
-                complete.setOnClickListener { startSaveBitmap(makeBitmap(originBitmap)) }
+                cache.setOnClickListener {
+                    makeBitmap(originBitmap)?.run { cacheBitmap(this) }
+                }
+                complete.setOnClickListener {
+                    makeBitmap(originBitmap)?.run { startSaveBitmap(this) }
+                }
 
                 xScaleSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
@@ -76,7 +82,10 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
+    /* 根据seekBar进度获取缩放比例 */
     private fun getScaleValueByProgress(p: Int): Float = scaleArray[p]
+
+    // x/y的缩放比例
     private val scaleArray = arrayOf(
         0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f,
         1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f, 1.7f, 1.8f, 1.9f, 2.0f
@@ -97,9 +106,14 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
     /*
      * 生成bitmap
      */
-    private fun makeBitmap(source: Bitmap): Bitmap {
-        val scaleBmp = makeScaleBitmap(source, image.scaleX, image.scaleY)!!
-        return makeRotatingBitmap(scaleBmp, image.rotation)
+    private fun makeBitmap(source: Bitmap): Bitmap? {
+        return try {
+            val scaleBmp = makeScaleBitmap(source, image.scaleX, image.scaleY)!!
+            makeRotatingBitmap(scaleBmp, image.rotation)
+        } catch (e: OutOfMemoryError) {
+            toast("内存不足, 请先清理内存")
+            null
+        }
     }
 
 
