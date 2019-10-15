@@ -1,5 +1,6 @@
 package yzx.app.image.design.utils
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -51,4 +52,11 @@ fun dp2px(dp: Int): Int {
 
 fun inflateView(context: Context = application, res: Int, parent: ViewGroup? = null, attach: Boolean = false): View {
     return LayoutInflater.from(context).inflate(res, parent, attach)
+}
+
+
+fun ValueAnimator?.cancel2() {
+    this?.removeAllUpdateListeners()
+    this?.removeAllListeners()
+    this?.cancel()
 }
