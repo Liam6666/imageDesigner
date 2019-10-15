@@ -43,16 +43,16 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
                     setImageBitmap(originBitmap)
                     post { pivotX = image.width / 2f; pivotY = image.height / 2f }
                 }
+
                 left1.setOnClickListener { image.rotation -= 1 }
                 left10.setOnClickListener { image.rotation -= 10 }
                 right1.setOnClickListener { image.rotation += 1 }
                 right10.setOnClickListener { image.rotation += 10 }
 
-                returnOrigin.setOnClickListener { image.rotation = 0f }
+                returnOrigin.setOnClickListener { reset() }
                 cache.setOnClickListener { cacheBitmap(makeBitmap(originBitmap)) }
                 complete.setOnClickListener { startSaveBitmap(makeBitmap(originBitmap)) }
 
-                xScaleSeekBar.progress = scaleArray.size / 2
                 xScaleSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
                     override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
@@ -61,7 +61,6 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
                         xScaleText.text = "X轴缩放: (${image.scaleX})"
                     }
                 })
-                yScaleSeekBar.progress = scaleArray.size / 2
                 yScaleSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
                     override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
@@ -70,6 +69,8 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
                         yScaleText.text = "Y轴缩放: (${image.scaleY})"
                     }
                 })
+
+                reset()
             }
         }
     }
@@ -81,6 +82,17 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
         1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f, 1.7f, 1.8f, 1.9f, 2.0f
     )
 
+
+    /*
+     * 重置
+     */
+    private fun reset() {
+        image.scaleX = 1f
+        image.scaleY = 1f
+        xScaleSeekBar.progress = scaleArray.size / 2 - 1
+        yScaleSeekBar.progress = scaleArray.size / 2 - 1
+        image.rotation = 0f
+    }
 
     /*
      * 生成bitmap
