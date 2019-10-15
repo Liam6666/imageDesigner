@@ -29,7 +29,7 @@ object BitmapDecodeOptions {
     val decodeMaxLength_ORIGIN = Target.SIZE_ORIGINAL
 
     // 从本地加载到内存bitmap的最大像素值
-    var decodeBitmapMaxLength = decodeMaxLength_MIDDLE
+    var decodeBitmapMaxLength = decodeMaxLength_ORIGIN
 }
 
 
@@ -63,13 +63,17 @@ fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
                 val targetFile = File(saveDir, "ImageXO_${System.currentTimeMillis()}.png")
                 val out = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-                FileIOUtils.writeFileFromBytesByStream(targetFile, out.toByteArray())
-                FileUtils.notifySystemToScan(targetFile)
+                val saveResult = FileIOUtils.writeFileFromBytesByStream(targetFile, out.toByteArray())
                 delay(getFakeDelayDuration(bitmap))
                 launch(Dispatchers.Main) {
                     act.dismissWaitingDialog()
-                    longToast("已保存到系统相册ImageXO文件夹中")
-                    finish()
+                    if (saveResult) {
+                        FileUtils.notifySystemToScan(targetFile)
+                        longToast("已保存到系统相册ImageXO文件夹中")
+                        finish()
+                    } else {
+                        toast("保存失败, 存储空间不足")
+                    }
                 }
             }
         } else {

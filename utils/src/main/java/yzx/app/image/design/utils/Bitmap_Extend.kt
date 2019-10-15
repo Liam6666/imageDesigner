@@ -9,6 +9,9 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
+/**
+ * 获取图片文件宽高
+ */
 fun getFileBitmapWH(path: String): Array<Int>? {
     val op = BitmapFactory.Options()
     BitmapFactory.decodeFile(path, op.apply { inJustDecodeBounds = true })
@@ -20,6 +23,9 @@ fun getFileBitmapWH(path: String): Array<Int>? {
 }
 
 
+/**
+ * 限制最大长度获取图片
+ */
 fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, max: Int, cb: (Bitmap?) -> Unit) {
     val wh = getFileBitmapWH(path)
     if (wh == null) {
@@ -35,6 +41,19 @@ fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, 
             val bmp = Glide.with(context).asBitmap().load(File(path)).submit(w, h).get()
             launch(Dispatchers.Main) { cb.invoke(bmp) }
         }
+    }
+}
+
+
+/**
+ * 获取原图bitmap
+ */
+fun decodeFileBitmap(path: String, cb: (bmp: Bitmap?, OutOfMemory: Boolean) -> Unit) {
+    try {
+        val bmp = BitmapFactory.decodeFile(path, BitmapFactory.Options().apply { inMutable = true })
+        cb.invoke(bmp, false)
+    } catch (e: OutOfMemoryError) {
+        cb.invoke(null, true)
     }
 }
 
