@@ -42,9 +42,9 @@ fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, 
 /**
  * 获取指定角度旋转的bitmap
  */
-fun makeRotatingBitmap(source: Bitmap, degree: Float): Bitmap {
+fun makeRotatingBitmap(source: Bitmap, degree: Float, useOriginIfNoChange: Boolean = true): Bitmap {
     if (degree % 360f == 0f)
-        return Bitmap.createBitmap(source)
+        return if (useOriginIfNoChange) source else Bitmap.createBitmap(source)
     val resultW: Int
     val resultH: Int
     if (degree % 90f == 0f) {
@@ -65,7 +65,9 @@ fun makeRotatingBitmap(source: Bitmap, degree: Float): Bitmap {
 /**
  * 获取指定scaleXY的bitmap
  */
-fun makeScaleBitmap(source: Bitmap, x: Float, y: Float): Bitmap? {
+fun makeScaleBitmap(source: Bitmap, x: Float, y: Float, useOriginIfNoChange: Boolean = true): Bitmap? {
+    if (x == 1f && y == 1f)
+        return if (useOriginIfNoChange) source else Bitmap.createBitmap(source)
     val newWidth = source.width * x
     val newHeight = source.height * y
     if (newWidth == 0f || newHeight == 0f)
