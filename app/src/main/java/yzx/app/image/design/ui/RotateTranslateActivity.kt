@@ -120,7 +120,7 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
     /* 将旋转角度转化为0-359之间 */
     private fun fixRotationDegree() {
         if (image.rotation < 0) {
-            image.rotation = 360 - image.rotation
+            image.rotation = 360 + image.rotation
         } else if (image.rotation > 359) {
             image.rotation = image.rotation - 360
         }
