@@ -36,14 +36,8 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
 
     @SuppressLint("SetTextI18n")
     private fun makeUI() {
-        decodeFileBitmap(filePath!!) { originBitmap, outOfMemory, toLarge ->
-            if (toLarge) {
-                toast("图片过大, 请重新选择")
-                finish()
-            } else if (outOfMemory) {
-                toast("运行内存不足, 请重试")
-                finish()
-            } else if (originBitmap == null) {
+        decodeFileBitmapWithMaxLength(this, filePath!!, BitmapDecodeOptions.decodeBitmapMaxLength) { originBitmap ->
+            if (originBitmap == null) {
                 toast("图片有误, 请重新选择")
                 finish()
             } else {
@@ -52,33 +46,63 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
                     post { pivotX = image.width / 2f; pivotY = image.height / 2f }
                 }
 
-                left1.setOnClickListener { image.rotation -= 1 }
-                left10.setOnClickListener { image.rotation -= 10 }
-                right1.setOnClickListener { image.rotation += 1 }
-                right10.setOnClickListener { image.rotation += 10 }
-
-                returnOrigin.setOnClickListener { reset() }
-                cache.setOnClickListener {
-                    makeBitmap(originBitmap)?.run { cacheBitmap(this) }
+                left1.setOnClickListener {
+                    image.rotation -= 1
+                    fixRotationDegree()
+                    syncRotationDegreeToSeekBar()
                 }
+                left10.setOnClickListener {
+                    image.rotation -= 10
+                    fixRotationDegree()
+                    syncRotationDegreeToSeekBar()
+                }
+                right1.setOnClickListener {
+                    image.rotation += 1
+                    fixRotationDegree()
+                    syncRotationDegreeToSeekBar()
+                }
+                right10.setOnClickListener {
+                    image.rotation += 10
+                    fixRotationDegree()
+                    syncRotationDegreeToSeekBar()
+                }
+
                 complete.setOnClickListener {
                     makeBitmap(originBitmap)?.run { startSaveBitmap(this) }
                 }
+                cache.setOnClickListener {
+                    makeBitmap(originBitmap)?.run { cacheBitmap(this) }
+                }
+                returnOrigin.setOnClickListener {
+                    reset()
+                }
 
-                xScaleSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                rotationSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
                     override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        image.scaleX = getScaleValueByProgress(progress)
-                        xScaleText.text = "X轴缩放: (${image.scaleX})"
+                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                        image.rotation = progress.toFloat()
+                        rotationText.text = "旋转角度: (${progress}°)"
                     }
                 })
-                yScaleSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                whScaleSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
                     override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        image.scaleY = getScaleValueByProgress(progress)
-                        yScaleText.text = "Y轴缩放: (${image.scaleY})"
+                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                        val scale = getScaleByProgress(progress)
+                        val ws = scale[0]
+                        val hs = scale[1]
+                        if (ws == hs) {
+                            image.scaleX = 1f
+                            image.scaleY = 1f
+                        } else if (ws > hs) {
+                            image.scaleX = 1f
+                            image.scaleY = hs / ws.toFloat()
+                        } else {
+                            image.scaleX = ws / hs.toFloat()
+                            image.scaleY = 1f
+                        }
+                        whScaleText.text = "宽高比例: (${ws}:${hs})"
                     }
                 })
 
@@ -88,26 +112,49 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
-    /* 根据seekBar进度获取缩放比例 */
-    private fun getScaleValueByProgress(p: Int): Float = scaleArray[p]
+    /* 同步旋转SeekBar的数值 */
+    private fun syncRotationDegreeToSeekBar() {
+        rotationSeekBar.progress = image.rotation.toInt()
+    }
 
-    // x/y的缩放比例
-    private val scaleArray = arrayOf(
-        0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f,
-        1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f, 1.7f, 1.8f, 1.9f, 2.0f
-    )
+    /* 将旋转角度转化为0-359之间 */
+    private fun fixRotationDegree() {
+        if (image.rotation < 0) {
+            image.rotation = 360 - image.rotation
+        } else if (image.rotation > 359) {
+            image.rotation = image.rotation - 360
+        }
+    }
+
+
+    private val scaleRadius = 8
+    private fun getScaleProgressMax(): Int = (scaleRadius - 1) * 2
+    private fun getScaleByProgress(p: Int): Array<Int> {
+        if (p == scaleRadius - 1)
+            return arrayOf(scaleRadius, scaleRadius)
+        else if (p < scaleRadius - 1)
+            return arrayOf(p + 1, scaleRadius)
+        else
+            return arrayOf(scaleRadius, scaleRadius - (p - (scaleRadius - 1)))
+    }
 
 
     /*
      * 重置
      */
+    @SuppressLint("SetTextI18n")
     private fun reset() {
         image.scaleX = 1f
         image.scaleY = 1f
-        xScaleSeekBar.progress = scaleArray.size / 2 - 1
-        yScaleSeekBar.progress = scaleArray.size / 2 - 1
         image.rotation = 0f
+        rotationSeekBar.max = 359
+        rotationSeekBar.progress = 0
+        whScaleSeekBar.max = getScaleProgressMax()
+        whScaleSeekBar.progress = whScaleSeekBar.max / 2
+        rotationText.text = "旋转角度: (0°)"
+        whScaleText.text = "宽高比例: (${scaleRadius}:${scaleRadius})"
     }
+
 
     /*
      * 生成bitmap

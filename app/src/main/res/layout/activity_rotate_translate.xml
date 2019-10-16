@@ -260,65 +260,65 @@
 
 
     <TextView
-        android:id="@+id/xScaleText"
-        android:layout_width="wrap_content"
+        android:id="@+id/rotationText"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
-        android:text="X轴缩放: (1.0)"
         android:textColor="#fff"
-        android:textSize="16dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/left1" />
+        app:layout_constraintTop_toBottomOf="@id/left1"
+        tools:text="旋转角度: (0°)" />
 
 
     <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/xScaleSeekBar"
+        android:id="@+id/rotationSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginRight="10dp"
-        android:max="19"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginRight="7dp"
+        android:max="359"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
         android:thumbTint="#03A9F4"
-        app:layout_constraintLeft_toRightOf="@id/xScaleText"
+        app:layout_constraintLeft_toRightOf="@id/rotationText"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/left1" />
 
 
     <TextView
-        android:id="@+id/yScaleText"
-        android:layout_width="wrap_content"
+        android:id="@+id/whScaleText"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:text="Y轴缩放: (1.0)"
         android:textColor="#fff"
-        android:textSize="16dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/xScaleText" />
+        app:layout_constraintTop_toBottomOf="@id/rotationText"
+        tools:text="宽高比例: (1:1)" />
 
 
     <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/yScaleSeekBar"
+        android:id="@+id/whScaleSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="7dp"
         android:max="19"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
         android:thumbTint="#03A9F4"
-        app:layout_constraintLeft_toRightOf="@id/yScaleText"
+        app:layout_constraintLeft_toRightOf="@id/whScaleText"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/xScaleText" />
+        app:layout_constraintTop_toBottomOf="@id/rotationText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

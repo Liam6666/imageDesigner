@@ -29,7 +29,7 @@ object BitmapDecodeOptions {
     val decodeMaxLength_ORIGIN = Target.SIZE_ORIGINAL
 
     // 从本地加载到内存bitmap的最大像素值
-    var decodeBitmapMaxLength = decodeMaxLength_ORIGIN
+    var decodeBitmapMaxLength = decodeMaxLength_MIDDLE
 }
 
 
