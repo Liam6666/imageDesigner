@@ -2,10 +2,12 @@ package yzx.app.image.design.utils
 
 import android.content.Context
 import android.graphics.*
+import com.blankj.utilcode.util.FileIOUtils
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 
@@ -105,4 +107,11 @@ fun makeScaleBitmap(source: Bitmap, x: Float, y: Float, useOriginIfNoChange: Boo
         val canvas = Canvas(this)
         canvas.drawBitmap(source, Matrix().apply { postScale(x, y) }, null)
     }
+}
+
+
+fun Bitmap.saveToFile(file: File): Boolean {
+    val out = ByteArrayOutputStream()
+    compress(Bitmap.CompressFormat.PNG, 100, out)
+    return FileIOUtils.writeFileFromBytesByStream(file, out.toByteArray())
 }
