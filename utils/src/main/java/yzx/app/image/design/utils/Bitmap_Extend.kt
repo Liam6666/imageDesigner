@@ -9,6 +9,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.max
+import kotlin.math.sin
 
 
 /**
@@ -74,16 +78,34 @@ fun decodeFileBitmap(path: String, cb: (bmp: Bitmap?, OutOfMemory: Boolean, tooL
  * 获取指定角度旋转的bitmap
  */
 fun makeRotatingBitmap(source: Bitmap, degree: Float, useOriginIfNoChange: Boolean = true): Bitmap {
-    if (degree % 360f == 0f)
+    if (degree < 0 || degree > 359)
+        throw IllegalStateException("degree must in 0 - 359")
+    if (degree == 0f)
         return if (useOriginIfNoChange) source else Bitmap.createBitmap(source)
-    val resultW: Int
-    val resultH: Int
+    var resultW: Int
+    var resultH: Int
     if (degree % 90f == 0f) {
         resultW = if (degree % 180f == 0f) source.width else source.height
         resultH = if (degree % 180f == 0f) source.height else source.width
     } else {
-        resultW = Math.sqrt((source.width * source.width + source.height * source.height).toDouble()).toInt()
-        resultH = resultW
+        val realDeg = Math.toRadians(
+            if (degree > 180) {
+                (degree - 180).toDouble() % 90
+            } else {
+                degree.toDouble() % 90
+            }
+        )
+        val x1 = (source.width / 2) * cos(realDeg) - (-source.height / 2) * sin(realDeg)
+        val y1 = (source.width / 2) * sin(realDeg) - (-source.height / 2) * cos(realDeg)
+        val x2 = (source.width / 2) * cos(realDeg) - (-source.height / 2) * sin(realDeg)
+        val y2 = (source.width / 2) * sin(realDeg) - (-source.height / 2) * cos(realDeg)
+        resultW = abs(max(x1 * 2, x2 * 2)).toInt()
+        resultH = abs(max(y1 * 2, y2 * 2)).toInt()
+        if (degree > 90 && degree < 180 || degree > 270 && degree < 360) {
+            val ow = resultW
+            resultW = resultH
+            resultH = ow
+        }
     }
     val result = Bitmap.createBitmap(resultW, resultH, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(result)
