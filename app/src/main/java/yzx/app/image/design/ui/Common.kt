@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import yzx.app.image.design.logicViews.ImageCacheMgr
 import yzx.app.image.design.logicViews.dismissWaitingDialog
 import yzx.app.image.design.logicViews.showWaitingDialog
 import yzx.app.image.design.utils.application
@@ -36,9 +37,9 @@ interface IImageDesignActivity
 
 
 // 临时存储目录文件夹
-val cacheDir = File(application.filesDir, "BMP_CACHES")
+val xo_ImageCacheDir = File(application.filesDir, "BMP_CACHES")
 // 系统相册文件夹
-val saveDir = File(PathUtils.getExternalPicturesPath(), "ImageXO")
+val xo_ImageSaveDir = File(PathUtils.getExternalPicturesPath(), "ImageXO")
 
 
 /**
@@ -58,8 +59,8 @@ fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
         if (result) {
             act.showWaitingDialog()
             GlobalScope.launch {
-                saveDir.mkdir()
-                val targetFile = File(saveDir, "ImageXO_${System.currentTimeMillis()}.png")
+                xo_ImageSaveDir.mkdir()
+                val targetFile = File(xo_ImageSaveDir, "ImageXO_${System.currentTimeMillis()}.png")
                 val saveResult = bitmap.saveToFile(targetFile)
                 delay(getFakeDelayDuration(bitmap))
                 launch(Dispatchers.Main) {
@@ -106,7 +107,7 @@ fun IImageDesignActivity.cacheBitmap(bitmap: Bitmap) {
     act.showWaitingDialog()
     GlobalScope.launch {
         cacheDir.mkdir()
-        val saveResult = bitmap.saveToFile(File(cacheDir, "C_${System.currentTimeMillis()}.cpng"))
+        val saveResult = bitmap.saveToFile(File(cacheDir, ImageCacheMgr.getCacheFileName()))
         delay(getFakeDelayDuration(bitmap))
         launch(Dispatchers.Main) {
             act.dismissWaitingDialog()
