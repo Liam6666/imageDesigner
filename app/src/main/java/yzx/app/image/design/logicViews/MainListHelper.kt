@@ -99,6 +99,17 @@ class MainListHelper {
     }
 
 
+    /* 选择的文件路径结果回调 */
+    private fun onSelectedResult(callback: (path: String) -> Unit) {
+        SelectFromCacheOrSystemDialog.showIfNeeded(AppPageRecord.getResumedActivity()!!) { fromCache, _ ->
+            if (fromCache) {
+                CacheListActivity.launch(AppPageRecord.getResumedActivity()!!) { path -> callback.invoke(path) }
+            } else {
+                MediaOffer.requestImage(application) { result -> result?.run { callback.invoke(result.absolutePath) } }
+            }
+        }
+    }
+
     /*
      * 首页列表数据
      */
@@ -106,19 +117,7 @@ class MainListHelper {
         ItemInfo().apply {
             animIcon = RotateTransIcon(application)
             text = "旋转缩放"
-            click = Runnable {
-                SelectFromCacheOrSystemDialog.showIfNeeded(AppPageRecord.getResumedActivity()!!) { fromCache, _ ->
-                    if (fromCache) {
-                        CacheListActivity.launch(AppPageRecord.getResumedActivity()!!) { path ->
-                            RotateTranslateActivity.launch(application, path)
-                        }
-                    } else {
-                        MediaOffer.requestImage(application) { result ->
-                            result?.run { RotateTranslateActivity.launch(application, absolutePath) }
-                        }
-                    }
-                }
-            }
+            click = Runnable { onSelectedResult { path -> RotateTranslateActivity.launch(application, path) } }
         },
         ItemInfo().apply {
             animIcon = AddTextIcon(application)
