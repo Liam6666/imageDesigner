@@ -20,7 +20,7 @@ object ImageCacheMgr {
         val result = ArrayList<File>()
         files.forEach { result.add(it) }
         result.sortWith(Comparator { o1, o2 ->
-            (o1.lastModified() - o2.lastModified()).toInt()
+            (o2.lastModified() - o1.lastModified()).toInt()
         })
         return result
     }
