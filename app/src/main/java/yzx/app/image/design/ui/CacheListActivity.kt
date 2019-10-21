@@ -39,36 +39,46 @@ class CacheListActivity : AppCompatActivity() {
             finish()
             return
         }
-        window.statusBarColor = Color.BLACK
-        setContentView(R.layout.activity_cache_list)
 
         val files = ImageCacheMgr.getAllCacheFiles()
         if (files.isEmpty()) {
             finish()
             return
         }
+
+        window.statusBarColor = Color.BLACK
+        setContentView(R.layout.activity_cache_list)
         back.setOnClickListener { finish() }
 
-        val width = ScreenUtils.getAppScreenWidth() / 3
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(this, 3)
+
+        fun createItem(parent: ViewGroup) = object : RecyclerView.ViewHolder(inflateView(parent.context, R.layout.item_cache_list, parent, false).apply {
+            val width = ScreenUtils.getAppScreenWidth() / 3
+            layoutParams = ViewGroup.LayoutParams(width, width)
+        }) {}
+
+        fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            val file = files[position]
+            val image = holder.itemView.findViewById<ImageView>(R.id.image)
+            Glide.with(image).load(file).into(image)
+            image.setOnClickListener { onItemClick(file.absolutePath, holder) }
+            image.setOnLongClickListener { onLongClick(file.absolutePath, holder); true }
+        }
+
         recyclerView.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             override fun getItemCount(): Int = files.size
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                object : RecyclerView.ViewHolder(inflateView(parent.context, R.layout.item_cache_list, parent, false).apply {
-                    layoutParams = ViewGroup.LayoutParams(width, width)
-                }) {}
-
-            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                val image = holder.itemView.findViewById<ImageView>(R.id.image)
-                Glide.with(image).load(files[position]).into(image)
-                image.setOnClickListener { onItemClick(files[position].absolutePath) }
-            }
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createItem(parent)
+            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = bindViewHolder(holder, position)
         }
     }
 
 
-    private fun onItemClick(path: String) {
+    private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
+
+    }
+
+    private fun onLongClick(path: String, holder: RecyclerView.ViewHolder) {
 
     }
 
