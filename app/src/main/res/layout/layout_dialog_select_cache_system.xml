@@ -105,4 +105,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <yzx.app.image.design.views.BallRunning
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        app:brun_color="#ffffff"
+        app:brun_duration="1000"
+        app:brun_radius="3dp"
+        app:layout_constraintBottom_toTopOf="@id/fromSystem"
+        app:layout_constraintLeft_toLeftOf="@id/fromCache"
+        app:layout_constraintRight_toRightOf="@id/fromSystem" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

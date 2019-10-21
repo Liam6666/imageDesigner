@@ -5,4 +5,11 @@
         <attr name="cv_color" format="color" />
     </declare-styleable>
 
+
+    <declare-styleable name="BallRunning">
+        <attr name="brun_color" format="color" />
+        <attr name="brun_radius" format="dimension" />
+        <attr name="brun_duration" format="integer" />
+    </declare-styleable>
+
 </resources>
