@@ -106,8 +106,8 @@ fun IImageDesignActivity.cacheBitmap(bitmap: Bitmap) {
     val act = this as Activity
     act.showWaitingDialog()
     GlobalScope.launch {
-        cacheDir.mkdir()
-        val saveResult = bitmap.saveToFile(File(cacheDir, ImageCacheMgr.getCacheFileName()))
+        xo_ImageCacheDir.mkdir()
+        val saveResult = bitmap.saveToFile(File(xo_ImageCacheDir, ImageCacheMgr.getCacheFileName()))
         delay(getFakeDelayDuration(bitmap))
         launch(Dispatchers.Main) {
             act.dismissWaitingDialog()

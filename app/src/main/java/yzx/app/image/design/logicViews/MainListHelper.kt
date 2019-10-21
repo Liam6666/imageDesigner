@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import yzx.app.image.design.R
+import yzx.app.image.design.ui.CacheListActivity
 import yzx.app.image.design.ui.RotateTranslateActivity
+import yzx.app.image.design.utils.AppPageRecord
 import yzx.app.image.design.utils.application
 import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.inflateView
@@ -105,8 +107,16 @@ class MainListHelper {
             animIcon = RotateTransIcon(application)
             text = "旋转缩放"
             click = Runnable {
-                MediaOffer.requestImage(application) { result ->
-                    result?.run { RotateTranslateActivity.launch(application, absolutePath) }
+                SelectFromCacheOrSystemDialog.showIfNeeded(AppPageRecord.getResumedActivity()!!) { fromCache, _ ->
+                    if (fromCache) {
+                        CacheListActivity.launch(AppPageRecord.getResumedActivity()!!) { path ->
+                            RotateTranslateActivity.launch(application, path)
+                        }
+                    } else {
+                        MediaOffer.requestImage(application) { result ->
+                            result?.run { RotateTranslateActivity.launch(application, absolutePath) }
+                        }
+                    }
                 }
             }
         },

@@ -4,8 +4,8 @@
     package="yzx.app.image.design">
 
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
@@ -29,6 +29,11 @@
 
         <activity
             android:name=".ui.RotateTranslateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
+
+        <activity
+            android:name=".ui.CacheListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DesignActivityCommonStyle" />
 
