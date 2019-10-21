@@ -1,27 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <Button
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+    <View
         android:id="@+id/fromCache"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FromCache"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:background="@drawable/button_white_gray_corner"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/centerGuide"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/fromSystem"
+    <ImageView
+        android:id="@+id/cacheIv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_menu_select_cache"
+        android:translationY="-6dp"
+        app:layout_constraintBottom_toBottomOf="@id/fromCache"
+        app:layout_constraintLeft_toLeftOf="@id/fromCache"
+        app:layout_constraintRight_toRightOf="@id/fromCache"
+        app:layout_constraintTop_toTopOf="@id/fromCache"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/cacheTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FromCache"
+        android:text="暂存图片"
+        android:textColor="#555"
+        android:textSize="12dp"
+        android:translationY="-4dp"
+        app:layout_constraintLeft_toLeftOf="@id/cacheIv"
+        app:layout_constraintRight_toRightOf="@id/cacheIv"
+        app:layout_constraintTop_toBottomOf="@id/cacheIv" />
+
+
+    <View
+        android:id="@+id/fromSystem"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:background="@drawable/button_white_gray_corner"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/centerGuide"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/systemIv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="3dp"
+        android:src="@drawable/ic_menu_select_system"
+        android:translationY="-6dp"
+        app:layout_constraintBottom_toBottomOf="@id/fromSystem"
+        app:layout_constraintLeft_toLeftOf="@id/fromSystem"
+        app:layout_constraintRight_toRightOf="@id/fromSystem"
+        app:layout_constraintTop_toTopOf="@id/fromSystem" />
+
+
+    <TextView
+        android:id="@+id/systemTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="系统图片"
+        android:textColor="#555"
+        android:textSize="12dp"
+        android:translationY="-4dp"
+        app:layout_constraintLeft_toLeftOf="@id/systemIv"
+        app:layout_constraintRight_toRightOf="@id/systemIv"
+        app:layout_constraintTop_toBottomOf="@id/systemIv" />
+
+
+    <View
+        android:layout_width="5dp"
+        android:layout_height="98dp"
+        android:background="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/centerGuide"
+        app:layout_constraintRight_toRightOf="@id/centerGuide"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="98dp"
+        android:background="#eeeeee"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/centerGuide"
+        app:layout_constraintRight_toRightOf="@id/centerGuide"
         app:layout_constraintTop_toTopOf="parent" />
 
 

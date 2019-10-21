@@ -30,4 +30,9 @@ object ImageCacheMgr {
         return !xo_ImageCacheDir.listFiles().isNullOrEmpty()
     }
 
+
+    fun getCacheFilesCount(): Int {
+        return xo_ImageCacheDir.listFiles()?.size ?: 0
+    }
+
 }

@@ -2,6 +2,8 @@ package yzx.app.image.design.logicViews
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewGroup
 import yzx.app.image.design.R
@@ -20,6 +22,7 @@ object SelectFromCacheOrSystemDialog {
                     show()
 
                     val view = inflateView(activity, R.layout.layout_dialog_select_cache_system, activity.window.decorView as ViewGroup, false)
+                    window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     setContentView(view)
 
                     view.findViewById<View>(R.id.fromCache).setOnClickListener {
