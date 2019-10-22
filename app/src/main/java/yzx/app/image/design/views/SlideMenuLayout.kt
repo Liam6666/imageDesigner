@@ -49,6 +49,7 @@ class SlideMenuLayout(context: Context, val attrs: AttributeSet?) : FrameLayout(
         if (isMenuOpen || menuView == null || menuView!!.width <= 0)
             return
         if (!anim) {
+            cancelAnim()
             scrollTo(menuView!!.width, 0)
         } else {
             animToTargetState(true)
@@ -57,10 +58,11 @@ class SlideMenuLayout(context: Context, val attrs: AttributeSet?) : FrameLayout(
     }
 
 
-    fun hide(anim: Boolean = false) {
+    fun hide(anim: Boolean = true) {
         if (!isMenuOpen || menuView == null || menuView!!.width <= 0)
             return
         if (!anim) {
+            cancelAnim()
             scrollTo(0, 0)
         } else {
             animToTargetState(false)

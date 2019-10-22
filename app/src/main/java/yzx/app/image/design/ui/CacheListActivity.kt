@@ -3,6 +3,8 @@ package yzx.app.image.design.ui
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +17,8 @@ import yzx.app.image.design.R
 import yzx.app.image.design.logicViews.ImageCacheMgr
 import yzx.app.image.design.utils.inflateView
 import yzx.app.image.design.utils.launchActivity
+import yzx.app.image.design.views.SlideMenuLayout
+import java.io.File
 
 
 private val callbackList = HashMap<String, (String) -> Unit>()
@@ -56,6 +60,11 @@ class CacheListActivity : AppCompatActivity() {
         fun createItem(parent: ViewGroup) = object : RecyclerView.ViewHolder(inflateView(parent.context, R.layout.item_cache_list, parent, false).apply {
             val width = ScreenUtils.getAppScreenWidth() / 3
             layoutParams = ViewGroup.LayoutParams(width, width)
+            findViewById<View>(R.id.image).setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_DOWN)
+                    hideMenuIfExistsOpen(v)
+                false
+            }
         }) {}
 
         fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -64,6 +73,8 @@ class CacheListActivity : AppCompatActivity() {
             Glide.with(image).load(file).into(image)
             image.setOnClickListener { onItemClick(file.absolutePath, holder) }
             image.setOnLongClickListener { onLongClick(file.absolutePath, holder); true }
+            holder.itemView.findViewById<View>(R.id.menuLayout).setOnClickListener { deleteItem(file, files) }
+            (holder.itemView as SlideMenuLayout).hide(false)
         }
 
         recyclerView.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -71,15 +82,35 @@ class CacheListActivity : AppCompatActivity() {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createItem(parent)
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = bindViewHolder(holder, position)
         }
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) = hideMenuIfExistsOpen(null)
+        })
     }
 
+
+    private fun hideMenuIfExistsOpen(self: View?) {
+        val cc = recyclerView.childCount
+        for (i in 0 until cc) {
+            val child = recyclerView.getChildAt(i)
+            if (child.findViewById<View>(R.id.image) != self)
+                (child as? SlideMenuLayout)?.hide()
+        }
+    }
+
+    private fun deleteItem(file: File, files: List<File>) {
+        val position = files.indexOf(file)
+        file.delete()
+        (files as MutableList).remove(file)
+        recyclerView.adapter?.notifyItemRemoved(position)
+    }
 
     private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
 
     }
 
     private fun onLongClick(path: String, holder: RecyclerView.ViewHolder) {
-
+        (holder.itemView as SlideMenuLayout).show()
     }
 
 
