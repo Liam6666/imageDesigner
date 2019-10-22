@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<yzx.app.image.design.views.SlideMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:scrollbars="none">
 
 
     <ImageView
@@ -12,4 +13,19 @@
         android:scaleType="centerCrop" />
 
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="#f00">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_cache_list_delete" />
+
+    </FrameLayout>
+
+
+</yzx.app.image.design.views.SlideMenuLayout>
