@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
@@ -60,3 +61,6 @@ fun ValueAnimator?.cancel2() {
     this?.removeAllListeners()
     this?.cancel()
 }
+
+
+val singletonLinearInterpolator = LinearInterpolator()

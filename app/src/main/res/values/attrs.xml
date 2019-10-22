@@ -12,4 +12,9 @@
         <attr name="brun_duration" format="integer" />
     </declare-styleable>
 
+
+    <declare-styleable name="SlideMenuLayout">
+        <attr name="sml_toggleStateGap" format="dimension" />
+    </declare-styleable>
+
 </resources>
