@@ -39,11 +39,14 @@ class CacheListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            finish()
+            return
+        }
         if (key.isEmpty()) {
             finish()
             return
         }
-
         val files = ImageCacheMgr.getAllCacheFiles()
         if (files.isEmpty()) {
             finish()
@@ -61,8 +64,10 @@ class CacheListActivity : AppCompatActivity() {
             val width = ScreenUtils.getAppScreenWidth() / 3
             layoutParams = ViewGroup.LayoutParams(width, width)
             findViewById<View>(R.id.image).setOnTouchListener { v, event ->
-                if (event.action == MotionEvent.ACTION_DOWN)
+                if (event.action == MotionEvent.ACTION_DOWN) {
                     hideMenuIfExistsOpen(v)
+                    event.action = MotionEvent.ACTION_CANCEL
+                }
                 false
             }
         }) {}
@@ -106,7 +111,7 @@ class CacheListActivity : AppCompatActivity() {
     }
 
     private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
-
+        CacheImageSelectedActivity.launch(key, path)
     }
 
     private fun onLongClick(path: String, holder: RecyclerView.ViewHolder) {

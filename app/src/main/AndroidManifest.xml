@@ -36,6 +36,12 @@
             android:name=".ui.CacheListActivity"
             android:screenOrientation="portrait" />
 
+
+        <activity
+            android:name=".ui.CacheImageSelectedActivity"
+            android:screenOrientation="portrait" />
+        
+
     </application>
 
 </manifest>
