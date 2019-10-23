@@ -3,6 +3,7 @@ package yzx.app.image.design.views
 import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.layout_empty.view.*
 import yzx.app.image.design.R
@@ -31,8 +32,8 @@ class EmptyIcon : FrameLayout {
     fun start() {
         stop()
         isRunning = true
-        anim = ValueAnimator.ofFloat(0f, -dp2px(6).toFloat()).setDuration(500).apply {
-            interpolator = singletonLinearInterpolator
+        anim = ValueAnimator.ofFloat(0f, -dp2px(6).toFloat()).setDuration(600).apply {
+            interpolator = AccelerateDecelerateInterpolator()
             repeatCount = ValueAnimator.INFINITE
             repeatMode = ValueAnimator.REVERSE
             addUpdateListener { plane.translationY = it.animatedValue as Float }
