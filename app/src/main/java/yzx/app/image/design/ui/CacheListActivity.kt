@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
@@ -117,13 +118,15 @@ class CacheListActivity : AppCompatActivity() {
 
     private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
         cancelListenEvent(keyEvent_ImageSelected)
-        CacheImageSelectedActivity.launch(this, path)
         listenEvent(keyEvent_ImageSelected, object : EventCallback {
             override fun onEvent(what: String, data: Any?) {
                 callbackList.remove(key)?.invoke(path)
                 finish()
             }
         })
+        val image = holder.itemView.findViewById<ImageView>(R.id.image)
+        ViewCompat.setTransitionName(image, "image")
+        CacheImageSelectedActivity.launch(image, "image", this, path)
     }
 
     private fun onLongClick(path: String, holder: RecyclerView.ViewHolder) {
