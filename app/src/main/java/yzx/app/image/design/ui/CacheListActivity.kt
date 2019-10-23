@@ -2,6 +2,7 @@ package yzx.app.image.design.ui
 
 import android.app.Activity
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_cache_list.*
 import yzx.app.image.design.R
 import yzx.app.image.design.logicViews.ImageCacheMgr
@@ -59,9 +61,15 @@ class CacheListActivity : AppCompatActivity() {
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(this, 3)
+        val dp1 = dp2px(2)
+        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                outRect.left = dp1; outRect.top = dp1
+            }
+        })
 
         fun createItem(parent: ViewGroup) = object : RecyclerView.ViewHolder(inflateView(parent.context, R.layout.item_cache_list, parent, false).apply {
-            val width = ScreenUtils.getAppScreenWidth() / 3
+            val width = (ScreenUtils.getAppScreenWidth() - 4 * dp1) / 3
             layoutParams = ViewGroup.LayoutParams(width, width)
             findViewById<View>(R.id.image).setOnTouchListener { v, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
@@ -74,7 +82,7 @@ class CacheListActivity : AppCompatActivity() {
         fun bindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val file = files[position]
             val image = holder.itemView.findViewById<ImageView>(R.id.image)
-            Glide.with(image).load(file).into(image)
+            Glide.with(image).load(file).diskCacheStrategy(DiskCacheStrategy.NONE).into(image)
             image.setOnClickListener { onItemClick(file.absolutePath, holder) }
             image.setOnLongClickListener { onLongClick(file.absolutePath, holder); true }
             holder.itemView.findViewById<View>(R.id.menuLayout).setOnClickListener { deleteItem(file, files) }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import com.blankj.utilcode.util.FileIOUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ fun decodeFileBitmapWithMaxLength(context: Context = application, path: String, 
             h = Math.min(max, h)
         }
         GlobalScope.launch(Dispatchers.Default) {
-            val bmp = Glide.with(context).asBitmap().load(File(path)).submit(w, h).get()
+            val bmp = Glide.with(context).asBitmap().load(File(path)).diskCacheStrategy(DiskCacheStrategy.NONE).submit(w, h).get()
             launch(Dispatchers.Main) { cb.invoke(bmp) }
         }
     }

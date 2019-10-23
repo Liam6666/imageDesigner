@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_cache_image_selected.*
 import yzx.app.image.design.R
 import yzx.app.image.design.utils.sendEvent
@@ -48,7 +49,7 @@ class CacheImageSelectedActivity : AppCompatActivity() {
         backShadow.setOnClickListener { finish() }
 
         ViewCompat.setTransitionName(image, intent.getStringExtra("tname") ?: "")
-        Glide.with(this).load(path).into(image)
+        Glide.with(this).load(path).diskCacheStrategy(DiskCacheStrategy.NONE).into(image)
 
         confirm.setOnClickListener {
             sendEvent(keyEvent_ImageSelected)
