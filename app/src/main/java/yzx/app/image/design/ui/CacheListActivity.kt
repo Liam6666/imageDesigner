@@ -15,14 +15,13 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_cache_list.*
 import yzx.app.image.design.R
 import yzx.app.image.design.logicViews.ImageCacheMgr
-import yzx.app.image.design.utils.inflateView
-import yzx.app.image.design.utils.launchActivity
+import yzx.app.image.design.utils.*
 import yzx.app.image.design.views.SlideMenuLayout
 import java.io.File
 
 
 private val callbackList = HashMap<String, (String) -> Unit>()
-
+val keyEvent_ImageSelected = "k_cache_image_selected"
 
 class CacheListActivity : AppCompatActivity() {
 
@@ -111,7 +110,14 @@ class CacheListActivity : AppCompatActivity() {
     }
 
     private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
+        cancelListenEvent(keyEvent_ImageSelected)
         CacheImageSelectedActivity.launch(key, path)
+        listenEvent(keyEvent_ImageSelected, object : EventCallback {
+            override fun onEvent(what: String, data: Any?) {
+                callbackList.remove(key)?.invoke(path)
+                finish()
+            }
+        })
     }
 
     private fun onLongClick(path: String, holder: RecyclerView.ViewHolder) {
@@ -121,6 +127,7 @@ class CacheListActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        cancelListenEvent(keyEvent_ImageSelected)
         callbackList.remove(key)
     }
 

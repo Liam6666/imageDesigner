@@ -2,7 +2,7 @@ package yzx.app.image.design.utils
 
 
 interface EventCallback {
-    fun <DataType> onEvent(what: String, data: DataType)
+    fun onEvent(what: String, data: Any?)
 }
 
 
@@ -19,7 +19,7 @@ fun Any.listenEvent(what: String, callback: EventCallback) {
 }
 
 
-fun <DataType> Any.sendEvent(what: String, data: DataType? = null) {
+fun Any.sendEvent(what: String, data: Any? = null) {
     runOnMainThread {
         val cbs = events[what]
         cbs?.forEach { it.onEvent(what, data) }
