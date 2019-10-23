@@ -106,6 +106,13 @@ class CacheListActivity : AppCompatActivity() {
         file.delete()
         (files as MutableList).remove(file)
         recyclerView.adapter?.notifyItemRemoved(position)
+        if (files.isEmpty()) {
+            recyclerView.visibility = View.INVISIBLE
+            emptyLayout.alpha = 0f
+            emptyLayout.visibility = View.VISIBLE
+            emptyLayout.animate().alpha(1f).setDuration(200).start()
+            emptyView.start()
+        }
     }
 
     private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
@@ -126,6 +133,7 @@ class CacheListActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        emptyView.stop()
         cancelListenEvent(keyEvent_ImageSelected)
         callbackList.remove(key)
     }

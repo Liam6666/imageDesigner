@@ -25,7 +25,10 @@ class CacheImageSelectedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (savedInstanceState != null) {
+            finish()
+            return
+        }
         if (path.isEmpty()) {
             finish()
             return

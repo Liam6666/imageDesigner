@@ -6,6 +6,25 @@
     android:background="#000000">
 
 
+    <FrameLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <yzx.app.image.design.views.EmptyIcon
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+
+    <!--  -->
+    <!--  -->
+    <!--  -->
+
+
     <yzx.app.image.design.views.FixTouchRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -35,5 +54,6 @@
         android:padding="12dp"
         android:src="@drawable/back"
         tools:ignore="ContentDescription" />
+
 
 </FrameLayout>
