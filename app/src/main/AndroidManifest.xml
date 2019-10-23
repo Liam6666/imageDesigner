@@ -34,13 +34,15 @@
 
         <activity
             android:name=".ui.CacheListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
 
 
         <activity
             android:name=".ui.CacheImageSelectedActivity"
-            android:screenOrientation="portrait" />
-        
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
+
 
     </application>
 
