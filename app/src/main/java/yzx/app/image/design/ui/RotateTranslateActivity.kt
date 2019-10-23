@@ -127,7 +127,7 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
-    private val scaleRadius = 8
+    private val scaleRadius = 5
     private fun getScaleProgressMax(): Int = (scaleRadius - 1) * 2
     private fun getScaleByProgress(p: Int): Array<Int> {
         if (p == scaleRadius - 1)
