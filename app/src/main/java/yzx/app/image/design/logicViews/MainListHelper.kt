@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import yzx.app.image.design.R
 import yzx.app.image.design.ui.CacheListActivity
+import yzx.app.image.design.ui.FingerPaintActivity
 import yzx.app.image.design.ui.RotateTranslateActivity
 import yzx.app.image.design.utils.AppPageRecord
 import yzx.app.image.design.utils.application
@@ -132,7 +133,7 @@ class MainListHelper {
         ItemInfo().apply {
             animIcon = DrawIcon(application)
             text = "画图"
-            click = Runnable { }
+            click = Runnable { onSelectedResult { path -> FingerPaintActivity.launch(application, path) } }
         },
         ItemInfo().apply {
             animIcon = ClipIcon(application)

@@ -43,6 +43,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/DesignActivityCommonStyle" />
 
+        <activity
+            android:name=".ui.FingerPaintActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
+
 
     </application>
 
