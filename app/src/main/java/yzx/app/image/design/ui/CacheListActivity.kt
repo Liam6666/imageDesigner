@@ -65,7 +65,6 @@ class CacheListActivity : AppCompatActivity() {
             findViewById<View>(R.id.image).setOnTouchListener { v, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     hideMenuIfExistsOpen(v)
-                    event.action = MotionEvent.ACTION_CANCEL
                 }
                 false
             }
@@ -111,7 +110,7 @@ class CacheListActivity : AppCompatActivity() {
 
     private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
         cancelListenEvent(keyEvent_ImageSelected)
-        CacheImageSelectedActivity.launch(key, path)
+        CacheImageSelectedActivity.launch(this, path)
         listenEvent(keyEvent_ImageSelected, object : EventCallback {
             override fun onEvent(what: String, data: Any?) {
                 callbackList.remove(key)?.invoke(path)

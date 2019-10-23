@@ -83,7 +83,7 @@ class SlideMenuLayout(context: Context, val attrs: AttributeSet?) : FrameLayout(
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (anim != null && anim!!.isRunning)
-            return false
+            return super.dispatchTouchEvent(ev)
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 downPoint.x = ev.rawX
@@ -98,6 +98,8 @@ class SlideMenuLayout(context: Context, val attrs: AttributeSet?) : FrameLayout(
 
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        if (anim != null && anim!!.isRunning)
+            return super.onInterceptTouchEvent(ev)
         if (hasIntercepted)
             return true
         when (ev.action) {
@@ -123,6 +125,8 @@ class SlideMenuLayout(context: Context, val attrs: AttributeSet?) : FrameLayout(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
+        if (anim != null && anim!!.isRunning)
+            return super.onTouchEvent(ev)
         when (ev.action) {
             MotionEvent.ACTION_MOVE -> {
                 val nowX = ev.rawX
