@@ -6,6 +6,8 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,3 +66,13 @@ fun ValueAnimator?.cancel2() {
 
 
 val singletonLinearInterpolator = LinearInterpolator()
+
+
+private val mainHandler = Handler(Looper.getMainLooper())
+fun runOnMainThread(block: () -> Unit) {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        block()
+    } else {
+        mainHandler.post(block)
+    }
+}
