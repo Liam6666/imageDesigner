@@ -50,31 +50,16 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         bSeekBar.max = 255
         aSeekBar.max = 255
         lineSeekBar.max = 19
-        rSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
             override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = makeCircleViewAndLineUI()
-        })
-        gSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = makeCircleViewAndLineUI()
-        })
-        bSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = makeCircleViewAndLineUI()
-        })
-        aSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = makeCircleViewAndLineUI()
-        })
-        lineSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = makeCircleViewAndLineUI()
-        })
+        }
+        rSeekBar.setOnSeekBarChangeListener(listener)
+        gSeekBar.setOnSeekBarChangeListener(listener)
+        bSeekBar.setOnSeekBarChangeListener(listener)
+        aSeekBar.setOnSeekBarChangeListener(listener)
+        lineSeekBar.setOnSeekBarChangeListener(listener)
         rSeekBar.progress = 255
         gSeekBar.progress = 255
         bSeekBar.progress = 255
@@ -82,19 +67,12 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         lineSeekBar.progress = 5
     }
 
-
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
         paint.style = Paint.Style.STROKE
         paint.strokeCap = Paint.Cap.ROUND
     }
-
-
-    private fun makeCanvas(originBitmap: Bitmap) {
-
-    }
-
 
     private fun getColor(): Int = Color.argb(255, rSeekBar.progress, gSeekBar.progress, bSeekBar.progress)
     private fun getLineDP(): Int = lineSeekBar.progress + 1
@@ -112,5 +90,11 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         line.pivotY = 0f
         line.scaleY = paint.strokeWidth
     }
+
+
+    private fun makeCanvas(originBitmap: Bitmap) {
+
+    }
+
 
 }
