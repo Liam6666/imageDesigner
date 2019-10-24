@@ -11,10 +11,27 @@
         android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@id/centerGuide"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@id/centerGuide"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <yzx.app.image.design.views.PaintView
+            android:id="@+id/paintView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -154,36 +171,13 @@
         app:layout_constraintLeft_toRightOf="@id/b"
         app:layout_constraintTop_toTopOf="@id/b" />
 
-    <TextView
-        android:id="@+id/a"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="5dp"
-        android:text="A:"
-        android:textColor="#fff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/b" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/aSeekBar"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="2dp"
-        android:minHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_scale"
-        android:thumbTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="@id/a"
-        app:layout_constraintLeft_toRightOf="@id/a"
-        app:layout_constraintTop_toTopOf="@id/a" />
 
     <yzx.app.image.design.views.CircleView
         android:id="@+id/colorCircle"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:cv_color="#ffffff"
-        app:layout_constraintBottom_toBottomOf="@id/a"
+        app:layout_constraintBottom_toBottomOf="@id/b"
         app:layout_constraintLeft_toRightOf="@id/gSeekBar"
         app:layout_constraintTop_toTopOf="@id/r" />
 

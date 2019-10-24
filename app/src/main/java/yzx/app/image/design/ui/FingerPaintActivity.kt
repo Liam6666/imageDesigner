@@ -37,19 +37,19 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
                 toast("图片有误, 请重新选择")
                 finish()
             } else {
-                makeUI()
-                makeCanvas(originBitmap)
+                image.setImageBitmap(originBitmap)
+                makeUI(originBitmap)
             }
         }
     }
 
 
-    private fun makeUI() {
+    private fun makeUI(originBmp: Bitmap) {
         rSeekBar.max = 255
         gSeekBar.max = 255
         bSeekBar.max = 255
-        aSeekBar.max = 255
         lineSeekBar.max = 19
+
         val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
             override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
@@ -58,43 +58,61 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         rSeekBar.setOnSeekBarChangeListener(listener)
         gSeekBar.setOnSeekBarChangeListener(listener)
         bSeekBar.setOnSeekBarChangeListener(listener)
-        aSeekBar.setOnSeekBarChangeListener(listener)
         lineSeekBar.setOnSeekBarChangeListener(listener)
+
         rSeekBar.progress = 255
         gSeekBar.progress = 255
         bSeekBar.progress = 255
-        aSeekBar.progress = 255
         lineSeekBar.progress = 5
+
+        save.setOnClickListener { saveBmp(originBmp) }
+        cache.setOnClickListener { cacheBmp(originBmp) }
+        clear.setOnClickListener { clear() }
+        back1.setOnClickListener { back1() }
+
+        initPaintView()
     }
 
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    init {
-        paint.style = Paint.Style.STROKE
-        paint.strokeCap = Paint.Cap.ROUND
-    }
 
     private fun getColor(): Int = Color.argb(255, rSeekBar.progress, gSeekBar.progress, bSeekBar.progress)
-    private fun getLineDP(): Int = lineSeekBar.progress + 1
-    private fun getAlpha(): Int = aSeekBar.progress
+    private fun getLineWidth(): Float = dp2px(lineSeekBar.progress + 1).toFloat()
 
     private fun makeCircleViewAndLineUI() {
-        paint.color = getColor()
-        paint.alpha = getAlpha()
-        paint.strokeWidth = dp2px(getLineDP()).toFloat()
-        colorCircle.setColor(paint.color)
-        colorCircle.alpha = paint.alpha / 255f
-        line.setBackgroundColor(paint.color)
+        colorCircle.setColor(getColor())
+        line.setBackgroundColor(getColor())
         line.alpha = colorCircle.alpha
         line.pivotX = 0f
         line.pivotY = 0f
-        line.scaleY = paint.strokeWidth
+        line.scaleY = getLineWidth()
     }
 
 
-    private fun makeCanvas(originBitmap: Bitmap) {
+    private fun initPaintView() {
+        paintView.onNewPaintCreated = { p ->
+            p.style = Paint.Style.STROKE
+            p.strokeCap = Paint.Cap.ROUND
+            p.strokeWidth = getLineWidth()
+            p.color = getColor()
+        }
+        paintView.post {
+            paintView.bitmap = Bitmap.createBitmap(paintView.width, paintView.height, Bitmap.Config.ARGB_8888)
+        }
+    }
+
+    private fun saveBmp(originBmp: Bitmap) {
 
     }
 
+    private fun cacheBmp(originBmp: Bitmap) {
+
+    }
+
+    private fun back1() {
+
+    }
+
+    private fun clear() {
+
+    }
 
 }
