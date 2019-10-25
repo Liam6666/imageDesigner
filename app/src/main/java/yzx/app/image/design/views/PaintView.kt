@@ -24,6 +24,7 @@ class PaintView : View {
     var onNewPaintCreated: ((Paint) -> Unit)? = null
 
 
+    /** 回退上一步 */
     fun back1() {
         if (paintInfoList.isEmpty())
             return
@@ -34,6 +35,7 @@ class PaintView : View {
         invalidate()
     }
 
+    /** 清除全部 */
     fun clear() {
         if (paintInfoList.isEmpty())
             return

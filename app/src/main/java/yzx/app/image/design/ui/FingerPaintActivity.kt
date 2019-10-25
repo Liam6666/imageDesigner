@@ -88,7 +88,7 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
-    private fun initPaintView(originBmp: Bitmap) {
+    private fun initPaintView(bmp: Bitmap) {
         paintView.onNewPaintCreated = { p ->
             p.style = Paint.Style.STROKE
             p.strokeCap = Paint.Cap.ROUND
@@ -96,10 +96,22 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
             p.color = getColor()
             p.pathEffect = CornerPathEffect(p.strokeWidth)
         }
-        paintView.post {
-            paintView.bitmap = Bitmap.createBitmap(paintView.width, paintView.height, Bitmap.Config.ARGB_8888)
+        image.post {
+            val dw = image.drawable.bounds.width()
+            val dh = image.drawable.bounds.height()
+            val values = FloatArray(10)
+            image.imageMatrix.getValues(values)
+            val sx = values[0]
+            val sy = values[4]
+            val w = (dw * sx).toInt()
+            val h = (dh * sy).toInt()
+            paintView.layoutParams.width = w
+            paintView.layoutParams.height = h
+            paintView.requestLayout()
+            paintView.bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         }
     }
+
 
     private fun saveBmp(originBmp: Bitmap) {
 
