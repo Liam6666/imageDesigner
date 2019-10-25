@@ -76,3 +76,25 @@ fun runOnMainThread(block: () -> Unit) {
         mainHandler.post(block)
     }
 }
+
+
+fun runCacheOutOfMemory(block: () -> Unit, onOutOfMemory: () -> Unit = {}) {
+    try {
+        block()
+    } catch (e: OutOfMemoryError) {
+        onOutOfMemory()
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

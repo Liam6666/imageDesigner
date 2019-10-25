@@ -164,7 +164,7 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
             val scaleBmp = makeScaleBitmap(source, image.scaleX, image.scaleY)!!
             makeRotatingBitmap(scaleBmp, image.rotation)
         } catch (e: OutOfMemoryError) {
-            toast("运行内存不足, 请重试")
+            toastMemoryError()
             null
         }
     }

@@ -105,7 +105,10 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
             paintView.layoutParams.width = w
             paintView.layoutParams.height = h
             paintView.requestLayout()
-            paintView.bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            runCacheOutOfMemory({ paintView.bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888) }) {
+                toastMemoryError()
+                finish()
+            }
         }
     }
 
@@ -113,10 +116,8 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
     private fun createBmp(originBmp: Bitmap, cb: (Bitmap?) -> Unit) {
         if (paintView.bitmap == null)
             return
-        try {
-            cb.invoke(makeSameScaleAndOverlayBitmap(originBmp, paintView.bitmap!!))
-        } catch (e: OutOfMemoryError) {
-            toast("运行内存不足, 请重试")
+        runCacheOutOfMemory({ cb.invoke(makeSameScaleAndOverlayBitmap(originBmp, paintView.bitmap!!)) }) {
+            toastMemoryError()
             cb.invoke(null)
         }
     }

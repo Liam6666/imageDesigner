@@ -51,6 +51,14 @@ fun IImageDesignActivity.makeStatusBar() {
 
 
 /**
+ * 内存不够toast
+ */
+fun IImageDesignActivity.toastMemoryError() {
+    toast("运行内存不足, 请重试")
+}
+
+
+/**
  * 开始存储图片到本地相册
  */
 fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
