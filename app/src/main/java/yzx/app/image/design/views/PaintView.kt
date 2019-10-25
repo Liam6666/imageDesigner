@@ -25,11 +25,21 @@ class PaintView : View {
 
 
     fun back1() {
-
+        if (paintInfoList.isEmpty())
+            return
+        paintInfoList.remove(paintInfoList.last())
+        canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+        if (paintInfoList.isNotEmpty())
+            paintInfoList.forEach { canvas?.drawPath(it.path, it.paint) }
+        invalidate()
     }
 
     fun clear() {
-
+        if (paintInfoList.isEmpty())
+            return
+        paintInfoList.clear()
+        canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+        invalidate()
     }
 
 
@@ -83,7 +93,7 @@ class PaintView : View {
                 lastPoint.y = event.y
                 invalidate()
             }
-            MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 invalidate()
             }
         }

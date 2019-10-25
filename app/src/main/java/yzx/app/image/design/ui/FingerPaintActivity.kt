@@ -3,6 +3,7 @@ package yzx.app.image.design.ui
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.CornerPathEffect
 import android.graphics.Paint
 import android.os.Bundle
 import android.widget.SeekBar
@@ -48,7 +49,7 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         rSeekBar.max = 255
         gSeekBar.max = 255
         bSeekBar.max = 255
-        lineSeekBar.max = 19
+        lineSeekBar.max = 15
 
         val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
@@ -67,10 +68,10 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
 
         save.setOnClickListener { saveBmp(originBmp) }
         cache.setOnClickListener { cacheBmp(originBmp) }
-        clear.setOnClickListener { clear() }
-        back1.setOnClickListener { back1() }
+        clear.setOnClickListener { paintView.clear() }
+        back1.setOnClickListener { paintView.back1() }
 
-        initPaintView()
+        initPaintView(originBmp)
     }
 
 
@@ -87,12 +88,13 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
-    private fun initPaintView() {
+    private fun initPaintView(originBmp: Bitmap) {
         paintView.onNewPaintCreated = { p ->
             p.style = Paint.Style.STROKE
             p.strokeCap = Paint.Cap.ROUND
             p.strokeWidth = getLineWidth()
             p.color = getColor()
+            p.pathEffect = CornerPathEffect(p.strokeWidth)
         }
         paintView.post {
             paintView.bitmap = Bitmap.createBitmap(paintView.width, paintView.height, Bitmap.Config.ARGB_8888)
@@ -104,14 +106,6 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
     private fun cacheBmp(originBmp: Bitmap) {
-
-    }
-
-    private fun back1() {
-
-    }
-
-    private fun clear() {
 
     }
 
