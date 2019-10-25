@@ -50,7 +50,7 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
 
         val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+            override fun onStopTrackingTouch(seekBar: SeekBar?) = saveLastSetting()
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = makeCircleViewAndLineUI()
         }
         rSeekBar.setOnSeekBarChangeListener(listener)
@@ -58,10 +58,7 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         bSeekBar.setOnSeekBarChangeListener(listener)
         lineSeekBar.setOnSeekBarChangeListener(listener)
 
-        rSeekBar.progress = 255
-        gSeekBar.progress = 255
-        bSeekBar.progress = 255
-        lineSeekBar.progress = 5
+        restoreLastSetting()
 
         save.setOnClickListener { createBmp(originBmp) { newBmp -> newBmp?.run { startSaveBitmap(newBmp) } } }
         cache.setOnClickListener { createBmp(originBmp) { newBmp -> newBmp?.run { cacheBitmap(newBmp) } } }
@@ -120,6 +117,34 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
             toastMemoryError()
             cb.invoke(null)
         }
+    }
+
+
+    private fun restoreLastSetting() {
+        var r = 255
+        var g = 255
+        var b = 255
+        var l = 5
+        LocalData.get("finger_paint_setting")?.runCatching {
+            val arr = split("_")
+            r = arr[0].toInt()
+            g = arr[1].toInt()
+            b = arr[2].toInt()
+            l = arr[3].toInt()
+        }
+        rSeekBar.progress = r
+        gSeekBar.progress = g
+        bSeekBar.progress = b
+        lineSeekBar.progress = l
+    }
+
+    private fun saveLastSetting() {
+        val r = rSeekBar.progress
+        val g = gSeekBar.progress
+        val b = bSeekBar.progress
+        val l = lineSeekBar.progress
+        val value = "${r}_${g}_${b}_$l"
+        LocalData.save("finger_paint_setting", value)
     }
 
 }
