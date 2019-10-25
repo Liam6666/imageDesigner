@@ -10,10 +10,7 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_finger_paint.*
 import yzx.app.image.design.R
-import yzx.app.image.design.utils.decodeFileBitmapWithMaxLength
-import yzx.app.image.design.utils.dp2px
-import yzx.app.image.design.utils.launchActivity
-import yzx.app.image.design.utils.toast
+import yzx.app.image.design.utils.*
 
 
 class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
@@ -66,8 +63,8 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         bSeekBar.progress = 255
         lineSeekBar.progress = 5
 
-        save.setOnClickListener { saveBmp(originBmp) }
-        cache.setOnClickListener { cacheBmp(originBmp) }
+        save.setOnClickListener { createBmp(originBmp) { newBmp -> newBmp?.run { startSaveBitmap(newBmp) } } }
+        cache.setOnClickListener { createBmp(originBmp) { newBmp -> newBmp?.run { cacheBitmap(newBmp) } } }
         clear.setOnClickListener { paintView.clear() }
         back1.setOnClickListener { paintView.back1() }
 
@@ -113,12 +110,15 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
-    private fun saveBmp(originBmp: Bitmap) {
-
-    }
-
-    private fun cacheBmp(originBmp: Bitmap) {
-
+    private fun createBmp(originBmp: Bitmap, cb: (Bitmap?) -> Unit) {
+        if (paintView.bitmap == null)
+            return
+        try {
+            cb.invoke(makeSameScaleAndOverlayBitmap(originBmp, paintView.bitmap!!))
+        } catch (e: OutOfMemoryError) {
+            toast("运行内存不足, 请重试")
+            cb.invoke(null)
+        }
     }
 
 }

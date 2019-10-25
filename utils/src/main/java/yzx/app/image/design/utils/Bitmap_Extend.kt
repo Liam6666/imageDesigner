@@ -133,8 +133,46 @@ fun makeScaleBitmap(source: Bitmap, x: Float, y: Float, useOriginIfNoChange: Boo
 }
 
 
+/**
+ * 保存到文件
+ */
 fun Bitmap.saveToFile(file: File): Boolean {
     val out = ByteArrayOutputStream()
     compress(Bitmap.CompressFormat.PNG, 100, out)
     return FileIOUtils.writeFileFromBytesByStream(file, out.toByteArray())
 }
+
+
+/**
+ * 将上层图片缩放到底图同样大小并叠加图片, 形成新图
+ */
+fun makeSameScaleAndOverlayBitmap(source: Bitmap, overlay: Bitmap): Bitmap {
+    val result = Bitmap.createBitmap(source)
+    val canvas = Canvas(result)
+    canvas.drawBitmap(overlay, Matrix().apply {
+        postScale(source.width.toFloat() / overlay.width.toFloat(), source.height.toFloat() / overlay.height.toFloat())
+    }, null)
+    return result
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
