@@ -4,22 +4,22 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 
-class HttpRequestEntity(val client: OkHttpClient) {
+class HttpRequestEntity(private val client: OkHttpClient) {
 
     private lateinit var url: String
-    private var params: HashMap<String, String>? = null
-    private var headers: HashMap<String, String>? = null
+    private var params: HttpStringMap? = null
+    private var headers: HttpStringMap? = null
     private var content: String? = null
     private var gzip = false
     private var files: MutableList<UploadFileInfo>? = null
     private var tag: Any? = null
 
     fun url(url: String) = apply { this.url = url }
-    fun params(p: HashMap<String, String>) = apply { this.params = p }
+    fun params(p: HttpStringMap) = apply { this.params = p }
     fun postContent(content: String, gzip: Boolean = false) = apply { this.content = content; this.gzip = gzip }
-    fun header(headers: HashMap<String, String>) = apply { this.headers = headers }
+    fun header(headers: HttpStringMap) = apply { this.headers = headers }
     fun files(files: MutableList<UploadFileInfo>) = apply { this.files = files }
-    fun tag(tag: Any?) = apply { this.tag = tag }
+    fun tag(tag: Any) = apply { this.tag = tag }
 
 
     fun get() = HttpResponse().apply {
