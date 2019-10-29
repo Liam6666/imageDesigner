@@ -21,6 +21,9 @@ class HttpClientInitConfig {
 
     fun allTimeout(time: Long) = apply { connTimeout = time; readTimeout = time; writeTimeout = time }
 
+    /**
+     * build OKHttpClient by config
+     */
     internal fun buildClient(): OkHttpClient = OkHttpClient.Builder().run {
         connectTimeout(connTimeout, TimeUnit.MILLISECONDS)
         readTimeout(readTimeout, TimeUnit.MILLISECONDS)

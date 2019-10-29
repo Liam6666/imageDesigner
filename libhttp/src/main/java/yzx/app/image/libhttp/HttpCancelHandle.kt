@@ -8,6 +8,9 @@ class HttpCancelHandle {
     @Volatile
     internal var call: Call? = null
 
+    /**
+     * cancel task
+     */
     fun cancel() = call?.cancel()
 
 }

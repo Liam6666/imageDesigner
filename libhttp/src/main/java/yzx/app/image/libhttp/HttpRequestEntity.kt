@@ -20,25 +20,44 @@ class HttpRequestEntity(private val client: OkHttpClient) {
     private var files: MutableList<UploadFileInfo>? = null
     private var tag: Any? = null
     private var cancelHandle: HttpCancelHandle? = null
+    @Volatile
+    private var hasRequested = false
 
+
+    /** 设置url */
     fun url(url: String) = apply { this.url = url }
+
+    /** 设置参数 */
     fun params(p: HttpStringMap) = apply { this.params = p }
+
+    /** 设置post请求的body数据 */
     fun postContent(content: String, gzip: Boolean = false) = apply { this.content = content; this.gzip = gzip }
+
+    /** 添加header */
     fun header(headers: HttpStringMap) = apply { this.headers = headers }
+
+    /** 添加上传的文件 */
     fun files(files: MutableList<UploadFileInfo>) = apply { this.files = files }
+
+    /** 设置tag, 用来cancel请求 */
     fun tag(tag: Any) = apply { this.tag = tag }
+
+    /** 设置cancel, 用来cancel请求 */
     fun cancelHandle(handle: HttpCancelHandle) = apply { this.cancelHandle = handle }
 
 
+    /** get请求 */
     fun get() = HttpResponse().apply {
+        markTaskCalled()
         doRequest(Request.Builder().run {
             headers?.entries?.forEach { addHeader(it.key, it.value) }
             tag(tag).url("${url}${buildGetParams()}").get().build()
         }, this)
     }
 
-
+    /** post请求 */
     fun post() = HttpResponse().apply {
+        markTaskCalled()
         val body = MultipartBody.Builder().run {
             content?.runCatching { addPart(if (gzip) GzipRequestBody(toByteArray()) else toRequestBody()) }
             params?.entries?.forEach { addFormDataPart(it.key, it.value) }
@@ -57,6 +76,7 @@ class HttpRequestEntity(private val client: OkHttpClient) {
     }
 
 
+    /* 执行求情 */
     private fun doRequest(request: Request, result: HttpResponse) {
         val call = client.newCall(request)
         cancelHandle?.call = call
@@ -79,11 +99,18 @@ class HttpRequestEntity(private val client: OkHttpClient) {
         }
     }
 
+    /* 设置一个实例只能请求一次 */
+    private fun markTaskCalled() {
+        if (hasRequested) throw IllegalStateException("task has called")
+        hasRequested = true
+    }
+
 
     //
     //
 
 
+    /* gzip body */
     private class GzipRequestBody(val bytes: ByteArray) : RequestBody() {
         override fun contentType(): MediaType? = "charset=utf-8".toMediaTypeOrNull()
         override fun writeTo(sink: BufferedSink) {
@@ -91,7 +118,7 @@ class HttpRequestEntity(private val client: OkHttpClient) {
         }
     }
 
-
+    /* 创建get请求参数 */
     private fun buildGetParams(): String {
         if (params.isNullOrEmpty())
             return ""
