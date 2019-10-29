@@ -60,9 +60,22 @@ class HttpRequestEntity(private val client: OkHttpClient) {
     private fun doRequest(request: Request, result: HttpResponse) {
         val call = client.newCall(request)
         cancelHandle?.call = call
-        call.execute().apply {
-            result.code = code
-            result.bodyString = body?.string()
+        runCatching {
+            call.execute().apply {
+                result.code = code
+                result.bodyString = body?.string()
+            }
+        }.onFailure { err ->
+            when {
+                err.toString().contains("Socket closed") -> {
+                    result.code = HttpResponse.code_task_cancel
+                    result.bodyString = null
+                }
+                else -> {
+                    result.code = HttpResponse.code_network_error
+                    result.bodyString = null
+                }
+            }
         }
     }
 
