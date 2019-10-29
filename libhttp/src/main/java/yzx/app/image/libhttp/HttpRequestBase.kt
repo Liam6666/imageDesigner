@@ -24,7 +24,7 @@ class HttpRequestBase(internal val client: OkHttpClient, internal val url: Strin
     fun gzip(gzip: Boolean) = apply { this.gzip = gzip }
 
     /** 表单post */
-    fun fromPost() = HttpFormPost(this)
+    fun formPost() = HttpFormPost(this)
 
     /** 文件提交 */
     fun multipartPost() = HttpMultipartPost(this)

@@ -2,6 +2,7 @@ package yzx.app.image.libhttp
 
 import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 abstract class HttpRequestAble internal constructor(private val baseInfo: HttpRequestBase) {
@@ -40,7 +41,9 @@ abstract class HttpRequestAble internal constructor(private val baseInfo: HttpRe
             tag(baseInfo.tag)
             baseInfo.headers?.entries?.forEach { addHeader(it.key, it.value) }
             if (baseInfo.gzip) addHeader("Content-Encoding", "gzip")
-            val originBody = getRequestBody()
+            var originBody = getRequestBody()
+            if (METHOD_POST == getMethod() && originBody == null)
+                originBody = "".toRequestBody()
             method(getMethod(), if (baseInfo.gzip && originBody != null) GzipRequestBody(originBody) else originBody)
             build()
         }
