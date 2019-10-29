@@ -17,7 +17,7 @@ object HttpClient {
     /**
      *
      */
-    fun url(url: String): HttpRequestEntity = HttpRequestEntity(client).url(url)
+    fun url(url: String): HttpRequestBase = HttpRequestBase(client, url)
 
 
     /**
