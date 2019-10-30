@@ -26,9 +26,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation dpd.androidX
-    implementation dpd.androidXCoreKt
-    implementation dpd.ktStdLib
+    dependentBaseCompat(project)
     implementation project(':permission')
     implementation project(':utils')
     dependentJunit(project)
