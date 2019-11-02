@@ -16,9 +16,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
 
-lateinit var application: Application
-
-
 inline fun <reified T : Activity> Context.launchActivity(vararg params: Pair<String, String>) {
     startActivity(Intent(this, T::class.java).apply {
         if (this !is Activity)

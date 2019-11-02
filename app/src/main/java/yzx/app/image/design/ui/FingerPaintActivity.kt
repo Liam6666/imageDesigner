@@ -125,7 +125,7 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         var g = 255
         var b = 255
         var l = 5
-        LocalData.get("finger_paint_setting")?.runCatching {
+        localStorage.get("finger_paint_setting")?.runCatching {
             val arr = split("_")
             r = arr[0].toInt()
             g = arr[1].toInt()
@@ -144,7 +144,7 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         val b = bSeekBar.progress
         val l = lineSeekBar.progress
         val value = "${r}_${g}_${b}_$l"
-        LocalData.save("finger_paint_setting", value)
+        localStorage.save("finger_paint_setting", value)
     }
 
 }
