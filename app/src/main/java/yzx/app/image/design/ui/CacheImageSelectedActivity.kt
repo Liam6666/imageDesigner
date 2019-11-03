@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_cache_image_selected.*
 import yzx.app.image.design.R
-import yzx.app.image.design.utils.sendEvent
+import yzx.app.image.design.utils.appEvent
 
 
 class CacheImageSelectedActivity : AppCompatActivity() {
@@ -52,7 +52,7 @@ class CacheImageSelectedActivity : AppCompatActivity() {
         Glide.with(this).load(path).diskCacheStrategy(DiskCacheStrategy.NONE).into(image)
 
         confirm.setOnClickListener {
-            sendEvent(keyEvent_ImageSelected)
+            appEvent.postAppEvent(keyEvent_ImageSelected)
             finish()
         }
     }

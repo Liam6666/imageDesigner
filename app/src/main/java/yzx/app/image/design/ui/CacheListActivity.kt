@@ -18,7 +18,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_cache_list.*
 import yzx.app.image.design.R
 import yzx.app.image.design.logicViews.ImageCacheMgr
-import yzx.app.image.design.utils.*
+import yzx.app.image.design.utils.appEvent
+import yzx.app.image.design.utils.dp2px
+import yzx.app.image.design.utils.inflateView
+import yzx.app.image.design.utils.launchActivity
 import yzx.app.image.design.views.SlideMenuLayout
 import java.io.File
 
@@ -125,13 +128,11 @@ class CacheListActivity : AppCompatActivity() {
     }
 
     private fun onItemClick(path: String, holder: RecyclerView.ViewHolder) {
-        cancelListenEvent(keyEvent_ImageSelected)
-        listenEvent(keyEvent_ImageSelected, object : EventCallback {
-            override fun onEvent(what: String, data: Any?) {
-                callbackList.remove(key)?.invoke(path)
-                finish()
-            }
-        })
+        appEvent.unregisterAppEvent(keyEvent_ImageSelected)
+        appEvent.registerAppEvent(keyEvent_ImageSelected) { _, _ ->
+            callbackList.remove(key)?.invoke(path)
+            finish()
+        }
         val image = holder.itemView.findViewById<ImageView>(R.id.image)
         ViewCompat.setTransitionName(image, "image")
         CacheImageSelectedActivity.launch(image, "image", this, path)
@@ -145,7 +146,7 @@ class CacheListActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         emptyView.stop()
-        cancelListenEvent(keyEvent_ImageSelected)
+        appEvent.unregisterAppEvent(keyEvent_ImageSelected)
         callbackList.remove(key)
     }
 
