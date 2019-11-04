@@ -43,6 +43,15 @@ val xo_ImageSaveDir = File(PathUtils.getExternalPicturesPath(), "ImageXO")
 
 
 /**
+ * 根据path加载图片有误
+ */
+fun IImageDesignActivity.onBitmapLoadedError() {
+    toast("图片有误, 请重新选择")
+    (this as Activity).finish()
+}
+
+
+/**
  * 让通知栏变黑色
  * */
 fun IImageDesignActivity.makeStatusBar() {

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import yzx.app.image.design.R
+import yzx.app.image.design.ui.AddTextActivity
 import yzx.app.image.design.ui.CacheListActivity
 import yzx.app.image.design.ui.FingerPaintActivity
 import yzx.app.image.design.ui.RotateTranslateActivity
@@ -123,7 +124,7 @@ class MainListHelper {
         ItemInfo().apply {
             animIcon = AddTextIcon(application)
             text = "加文字"
-            click = Runnable { }
+            click = Runnable { onSelectedResult { path -> AddTextActivity.launch(application, path) } }
         },
         ItemInfo().apply {
             animIcon = FilterIcon(application)

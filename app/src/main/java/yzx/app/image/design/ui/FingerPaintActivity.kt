@@ -32,8 +32,7 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         setContentView(R.layout.activity_finger_paint)
         decodeFileBitmapWithMaxLength(this, filePath!!, BitmapDecodeOptions.decodeBitmapMaxLength) { originBitmap ->
             if (originBitmap == null) {
-                toast("图片有误, 请重新选择")
-                finish()
+                onBitmapLoadedError()
             } else {
                 image.setImageBitmap(originBitmap)
                 makeUI(originBitmap)

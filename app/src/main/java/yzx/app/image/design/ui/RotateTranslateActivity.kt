@@ -8,7 +8,10 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_rotate_translate.*
 import yzx.app.image.design.R
-import yzx.app.image.design.utils.*
+import yzx.app.image.design.utils.decodeFileBitmapWithMaxLength
+import yzx.app.image.design.utils.launchActivity
+import yzx.app.image.design.utils.makeRotatingBitmap
+import yzx.app.image.design.utils.makeScaleBitmap
 
 
 class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
@@ -38,8 +41,7 @@ class RotateTranslateActivity : AppCompatActivity(), IImageDesignActivity {
     private fun makeUI() {
         decodeFileBitmapWithMaxLength(this, filePath!!, BitmapDecodeOptions.decodeBitmapMaxLength) { originBitmap ->
             if (originBitmap == null) {
-                toast("图片有误, 请重新选择")
-                finish()
+                onBitmapLoadedError()
             } else {
                 image.apply {
                     setImageBitmap(originBitmap)
