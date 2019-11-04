@@ -5,19 +5,64 @@
     android:layout_height="match_parent">
 
 
-    <ImageView
-        android:id="@+id/image"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="72dp">
 
-    <yzx.app.image.design.views.TextBoxLayer
-        android:id="@+id/textBox"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/image"
-        app:layout_constraintLeft_toLeftOf="@id/image"
-        app:layout_constraintRight_toRightOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/image" />
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <yzx.app.image.design.views.TextBoxLayer
+            android:id="@+id/textBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="72dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_operation"
+        android:gravity="center"
+        android:text="添加文字"
+        android:textColor="#0088ff"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_complete"
+        android:text="保存"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/cache"
+        android:layout_width="72dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_complete"
+        android:text="暂存"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/save" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

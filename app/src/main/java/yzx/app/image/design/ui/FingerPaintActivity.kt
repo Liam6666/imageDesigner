@@ -89,19 +89,11 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
             p.color = getColor()
             p.pathEffect = CornerPathEffect(p.strokeWidth)
         }
-        image.post {
-            val dw = image.drawable.bounds.width()
-            val dh = image.drawable.bounds.height()
-            val values = FloatArray(10)
-            image.imageMatrix.getValues(values)
-            val sx = values[0]
-            val sy = values[4]
-            val w = (dw * sx).toInt()
-            val h = (dh * sy).toInt()
-            paintView.layoutParams.width = w
-            paintView.layoutParams.height = h
+        image.getRealImageWidthAndHeight { result ->
+            paintView.layoutParams.width = result.x
+            paintView.layoutParams.height = result.y
             paintView.requestLayout()
-            runCacheOutOfMemory({ paintView.bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888) }) {
+            runCacheOutOfMemory({ paintView.bitmap = Bitmap.createBitmap(result.x, result.y, Bitmap.Config.ARGB_8888) }) {
                 toastMemoryError()
                 finish()
             }
