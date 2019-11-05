@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.customview.widget.ViewDragHelper
+import yzx.app.image.design.utils.dp2px
 
 class TextBoxLayer : FrameLayout {
 
@@ -24,6 +25,8 @@ class TextBoxLayer : FrameLayout {
             this.text = text
             setTextColor(color)
             textSize = 20f
+            val pd = dp2px(20)
+            setPadding(pd, pd, pd, pd)
             addView(this, LayoutParams(-2, -2).apply { gravity = Gravity.CENTER })
             setOnClickListener { onTextViewClick?.invoke(this) }
         }
@@ -66,14 +69,14 @@ class TextBoxLayer : FrameLayout {
         override fun getViewHorizontalDragRange(child: View): Int = measuredWidth - child.measuredWidth
         override fun getViewVerticalDragRange(child: View): Int = measuredHeight - child.measuredHeight
         override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
-            if (left < 0) return 0
-            if (left > measuredWidth - child.measuredWidth) return measuredWidth - child.measuredWidth
+//            if (left < 0) return 0
+//            if (left > measuredWidth - child.measuredWidth) return measuredWidth - child.measuredWidth
             return left
         }
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-            if (top < 0) return 0
-            if (top > measuredHeight - child.measuredHeight) return measuredHeight - child.measuredHeight
+//            if (top < 0) return 0
+//            if (top > measuredHeight - child.measuredHeight) return measuredHeight - child.measuredHeight
             return top
         }
 

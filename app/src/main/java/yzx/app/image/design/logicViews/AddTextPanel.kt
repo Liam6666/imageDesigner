@@ -20,6 +20,9 @@ class AddTextPanel : FrameLayout {
     }
 
 
+    var onChangeTextButtonClick: (() -> Unit)? = null
+
+
     fun getCloseView() = close
 
 

@@ -1,5 +1,7 @@
 package yzx.app.image.design.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -89,13 +91,26 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             translationX = resources.displayMetrics.widthPixels.toFloat()
         }
         (window.decorView as ViewGroup).addView(panel)
-        panel.post { panel.animate().translationX(0f).setDuration(150).start() }
+        panel.post {
+            if (panel.tag == "1") return@post
+            panel.animate().translationX(0f).setDuration(150).start()
+        }
     }
 
     /* 关闭调整文字样式的面板 */
     private fun dismissPanel(): Boolean {
         val panel = findViewById<View>(panelID) ?: return false
-        return run { (panel.parent as ViewGroup).removeView(panel); true }
+        panel.setOnTouchListener { _, _ -> true }
+        panel.tag = "1"
+        panel.animate().cancel()
+        panel.animate().translationX(resources.displayMetrics.widthPixels.toFloat())
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    (panel.parent as ViewGroup).removeView(panel)
+                }
+            })
+            .setDuration(150).start()
+        return true
     }
 
 
