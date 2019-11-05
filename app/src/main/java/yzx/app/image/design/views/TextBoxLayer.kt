@@ -34,7 +34,18 @@ class TextBoxLayer : FrameLayout {
     var onTextViewClick: ((TextView) -> Unit)? = null
 
 
-    //
+    /** 移除一个TextView */
+    fun delete(tv: TextView) {
+        dragXYInfo.remove(tv)
+        removeView(tv)
+    }
+
+
+    //--  --\\
+    //--    --\\
+    //--      --\\
+    //--        --\\
+    //--          --\\
 
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -52,10 +63,20 @@ class TextBoxLayer : FrameLayout {
 
     private val dragHelper: ViewDragHelper = ViewDragHelper.create(this, 1f, object : ViewDragHelper.Callback() {
         override fun tryCaptureView(child: View, pointerId: Int): Boolean = true
-        override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int = left
-        override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int = top
         override fun getViewHorizontalDragRange(child: View): Int = measuredWidth - child.measuredWidth
         override fun getViewVerticalDragRange(child: View): Int = measuredHeight - child.measuredHeight
+        override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
+            if (left < 0) return 0
+            if (left > measuredWidth - child.measuredWidth) return measuredWidth - child.measuredWidth
+            return left
+        }
+
+        override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
+            if (top < 0) return 0
+            if (top > measuredHeight - child.measuredHeight) return measuredHeight - child.measuredHeight
+            return top
+        }
+
         override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
             dragXYInfo[releasedChild] = Int2(releasedChild.left, releasedChild.top)
         }
@@ -75,6 +96,5 @@ class TextBoxLayer : FrameLayout {
         dragHelper.processTouchEvent(event)
         return true
     }
-
 
 }
