@@ -70,13 +70,13 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
                     toast("文字不能为空")
                 } else {
                     textBox.add(text = inputTxt)
-                    dismissDialog(dialog)
                     KeyboardUtils.hideSoftInput(input)
+                    dismissDialog(dialog)
                 }
             }
             view.findViewById<View>(R.id.cancel).setOnClickListener {
-                dismissDialog(dialog)
                 KeyboardUtils.hideSoftInput(input)
+                dismissDialog(dialog)
             }
             view.post { KeyboardUtils.showSoftInput(input) }
         }
