@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.KeyboardUtils
 import kotlinx.android.synthetic.main.activity_add_text.*
 import yzx.app.image.design.R
 import yzx.app.image.design.logicViews.AddTextPanel
@@ -75,6 +76,7 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             view.findViewById<View>(R.id.cancel).setOnClickListener {
                 dismissDialog(dialog)
             }
+            view.post { KeyboardUtils.showSoftInput(view.findViewById<EditText>(R.id.input)) }
         }
     }
 
