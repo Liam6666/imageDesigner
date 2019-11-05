@@ -5,14 +5,13 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_text.*
 import yzx.app.image.design.R
 import yzx.app.image.design.logicViews.AddTextPanel
-import yzx.app.image.design.utils.decodeFileBitmapWithMaxLength
-import yzx.app.image.design.utils.getRealImageWidthAndHeight
-import yzx.app.image.design.utils.launchActivity
+import yzx.app.image.design.utils.*
 
 
 class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
@@ -49,15 +48,31 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             textBox.layoutParams.height = result.y
             textBox.requestLayout()
         }
-        add.setOnClickListener { showInput() }
+        add.setOnClickListener { showAddTextInput() }
         save.setOnClickListener { }
         cache.setOnClickListener { }
         textBox.onTextViewClick = { innerTextView -> showEditPanel(innerTextView) }
     }
 
 
-    private fun showInput() {
-
+    private fun showAddTextInput() {
+        val view = inflateView(this, R.layout.layout_dialog_add_text, (window.decorView as ViewGroup))
+        showDialog(view, resources.displayMetrics.widthPixels / 11 * 9, -2) { dialog ->
+            dialog.setCancelable(false)
+            val input = view.findViewById<EditText>(R.id.input)
+            view.findViewById<View>(R.id.confirm).setOnClickListener {
+                val inputTxt = input.text.toString().trim()
+                if (inputTxt.isEmpty()) {
+                    toast("文字不能为空")
+                } else {
+                    textBox.add(text = inputTxt)
+                    dismissDialog(dialog)
+                }
+            }
+            view.findViewById<View>(R.id.cancel).setOnClickListener {
+                dismissDialog(dialog)
+            }
+        }
     }
 
 
