@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.renderscript.Int2
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -24,7 +25,7 @@ class TextBoxLayer : FrameLayout {
         return TextView(context).apply {
             this.text = text
             setTextColor(color)
-            textSize = 20f
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, dp2px(20).toFloat())
             val pd = dp2px(20)
             setPadding(pd, pd, pd, pd)
             addView(this, LayoutParams(-2, -2).apply { gravity = Gravity.CENTER })

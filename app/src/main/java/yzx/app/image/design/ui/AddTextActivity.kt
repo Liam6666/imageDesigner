@@ -89,7 +89,6 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             setTextView(tv)
             id = panelID
             layoutParams = ViewGroup.LayoutParams(-1, -1)
-            getCloseView().setOnClickListener { dismissPanel() }
             translationX = resources.displayMetrics.widthPixels.toFloat()
         }
         (window.decorView as ViewGroup).addView(panel)

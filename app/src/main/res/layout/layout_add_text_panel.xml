@@ -4,22 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.5"
-    android:background="#000"
-    android:clickable="true"
-    android:paddingTop="40dp"
-    android:paddingBottom="30dp">
+    android:clickable="true">
+
+    <View
+        android:id="@+id/layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="#000" />
 
 
     <ImageView
         android:id="@+id/close"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="12dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="12dp"
         android:padding="6dp"
         android:src="@drawable/x_white"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rotationSeekBar"
+        app:layout_goneMarginTop="50dp" />
 
 
     <TextView
@@ -27,10 +33,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
-        android:text="文字 : "
+        android:layout_marginTop="60dp"
+        android:text="文字内容 : "
         android:textColor="#fff"
         android:textSize="14dp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +46,7 @@
         android:id="@+id/changeText"
         android:layout_width="60dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="18dp"
         android:background="@drawable/button_operation"
         android:text="修改"
         android:textColor="#0088ff"
@@ -47,19 +54,34 @@
         app:layout_constraintBaseline_toBaselineOf="@id/tv_text"
         app:layout_constraintLeft_toRightOf="@id/tv_text" />
 
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/button_red_notice"
+        android:text="删除"
+        android:textColor="#fff"
+        android:textSize="12dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_text"
+        app:layout_constraintLeft_toRightOf="@id/changeText"
+        app:layout_goneMarginLeft="12dp" />
+
+
     <TextView
         android:id="@+id/tv_text_content"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:maxLines="3"
         android:textColor="#fff"
         android:textSize="13dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_text"
-        tools:text="啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊" />
+        tools:text="啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊" />
 
 
     <TextView
@@ -67,10 +89,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
-        android:text="文字颜色 :"
+        android:layout_marginTop="30dp"
+        android:text="文字颜色: "
         android:textColor="#ffffff"
         android:textSize="14dp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_text_content" />
 
@@ -89,14 +112,16 @@
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/rSeekBar"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
         android:thumbTint="#03A9F4"
         app:layout_constraintBottom_toBottomOf="@id/r"
         app:layout_constraintLeft_toRightOf="@id/r"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/r" />
 
 
@@ -112,16 +137,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/r" />
 
+
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/gSeekBar"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
         android:thumbTint="#03A9F4"
         app:layout_constraintBottom_toBottomOf="@id/g"
         app:layout_constraintLeft_toRightOf="@id/g"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/g" />
 
     <TextView
@@ -138,14 +166,16 @@
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/bSeekBar"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
         android:thumbTint="#03A9F4"
         app:layout_constraintBottom_toBottomOf="@id/b"
         app:layout_constraintLeft_toRightOf="@id/b"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/b" />
 
 
@@ -154,24 +184,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="20dp"
-        android:text="文字大小: (20)"
+        android:layout_marginTop="30dp"
         android:textColor="#ffffff"
         android:textSize="14dp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/b" />
+        app:layout_constraintTop_toBottomOf="@id/b"
+        tools:text="文字大小: (20)" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/sizeSeekBar"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
         android:thumbTint="#03A9F4"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_size" />
 
 
@@ -180,39 +213,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="20dp"
-        android:text="文字旋转角度 :"
+        android:layout_marginTop="30dp"
         android:textColor="#ffffff"
         android:textSize="14dp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sizeSeekBar" />
+        app:layout_constraintTop_toBottomOf="@id/sizeSeekBar"
+        tools:text="文字旋转角度: (0°)" />
 
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/rotationSeekBar"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
         android:thumbTint="#03A9F4"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_rotation" />
-
-    <Button
-        android:id="@+id/delete"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="12dp"
-        android:background="@drawable/button_red_notice"
-        android:text="删除"
-        android:textColor="#fff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rotationSeekBar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
