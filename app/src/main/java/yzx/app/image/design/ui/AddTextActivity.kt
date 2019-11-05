@@ -55,6 +55,7 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
     }
 
 
+    /* 弹出添加输入文字的弹框 */
     private fun showAddTextInput() {
         val view = inflateView(this, R.layout.layout_dialog_add_text, (window.decorView as ViewGroup))
         showDialog(view, resources.displayMetrics.widthPixels / 11 * 9, -2) { dialog ->
@@ -78,6 +79,7 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
 
     private val panelID = View.generateViewId()
 
+    /* 显示调整文字样式的面板 */
     private fun showEditPanel(tv: TextView) {
         val panel = AddTextPanel(this).apply {
             setTextView(tv)
@@ -90,6 +92,7 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
         panel.post { panel.animate().translationX(0f).setDuration(150).start() }
     }
 
+    /* 关闭调整文字样式的面板 */
     private fun dismissPanel(): Boolean {
         val panel = findViewById<View>(panelID) ?: return false
         return run { (panel.parent as ViewGroup).removeView(panel); true }
