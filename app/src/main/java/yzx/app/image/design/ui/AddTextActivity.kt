@@ -71,12 +71,14 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
                 } else {
                     textBox.add(text = inputTxt)
                     dismissDialog(dialog)
+                    KeyboardUtils.hideSoftInput(input)
                 }
             }
             view.findViewById<View>(R.id.cancel).setOnClickListener {
                 dismissDialog(dialog)
+                KeyboardUtils.hideSoftInput(input)
             }
-            view.post { KeyboardUtils.showSoftInput(view.findViewById<EditText>(R.id.input)) }
+            view.post { KeyboardUtils.showSoftInput(input) }
         }
     }
 

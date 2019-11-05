@@ -26,7 +26,7 @@ class TextBoxLayer : FrameLayout {
             this.text = text
             setTextColor(color)
             setTextSize(TypedValue.COMPLEX_UNIT_PX, dp2px(20).toFloat())
-            val pd = dp2px(20)
+            val pd = dp2px(5)
             setPadding(pd, pd, pd, pd)
             addView(this, LayoutParams(-2, -2).apply { gravity = Gravity.CENTER })
             setOnClickListener { onTextViewClick?.invoke(this) }
