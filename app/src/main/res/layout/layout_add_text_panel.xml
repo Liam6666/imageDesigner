@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container"
     android:clickable="true">
 
     <View
@@ -46,7 +46,7 @@
 
     <Button
         android:id="@+id/changeText"
-        android:layout_width="60dp"
+        android:layout_width="90dp"
         android:layout_height="24dp"
         android:layout_marginLeft="18dp"
         android:background="@drawable/button_operation"
@@ -58,7 +58,7 @@
 
     <Button
         android:id="@+id/delete"
-        android:layout_width="60dp"
+        android:layout_width="90dp"
         android:layout_height="24dp"
         android:layout_marginLeft="12dp"
         android:background="@drawable/button_red_notice"
@@ -116,7 +116,7 @@
         android:id="@+id/rSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="90dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
@@ -144,7 +144,7 @@
         android:id="@+id/gSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="90dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
@@ -170,7 +170,7 @@
         android:id="@+id/bSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="90dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
@@ -200,7 +200,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="90dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"
@@ -230,7 +230,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="90dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/seekbar_scale"

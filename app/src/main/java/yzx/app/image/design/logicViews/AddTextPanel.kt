@@ -56,7 +56,6 @@ class AddTextPanel : FrameLayout {
             override fun onStopTrackingTouch(seekBar: SeekBar) = transparentBack()
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 val color = Color.rgb(rSeekBar.progress, gSeekBar.progress, bSeekBar.progress)
-                tv_color.setTextColor(color)
                 tv.setTextColor(color)
             }
         }
@@ -74,6 +73,15 @@ class AddTextPanel : FrameLayout {
         }
         sizeSeekBar.setOnSeekBarChangeListener(sizeSeekBarListener)
 
+        val rotationSeekBarListener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onStartTrackingTouch(seekBar: SeekBar) = transparentAllExcept(tv_rotation, rotationSeekBar)
+            override fun onStopTrackingTouch(seekBar: SeekBar) = transparentBack()
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tv.rotation = progress.toFloat()
+                tv_rotation.text = "文字旋转角度: (${tv.rotation.toInt()}°)"
+            }
+        }
+        rotationSeekBar.setOnSeekBarChangeListener(rotationSeekBarListener)
     }
 
 
@@ -116,10 +124,9 @@ class AddTextPanel : FrameLayout {
         rSeekBar.progress = r
         gSeekBar.progress = g
         bSeekBar.progress = b
-        tv_color.setTextColor(tvColor)
 
         val size = tv.textSize.toInt()
-        sizeSeekBar.max = dp2px(100)
+        sizeSeekBar.max = dp2px(200)
         sizeSeekBar.progress = size
         tv_size.text = "文字大小: (${size})"
 

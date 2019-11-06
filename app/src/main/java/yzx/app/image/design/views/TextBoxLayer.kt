@@ -31,6 +31,7 @@ class TextBoxLayer : FrameLayout {
             setPadding(pd, pd, pd, pd)
             addView(this, LayoutParams(-2, -2).apply { gravity = Gravity.CENTER })
             setOnClickListener { onTextViewClick?.invoke(this) }
+            post { dragXYInfo[this] = Int2().apply { x = left; y = top } }
         }
     }
 
