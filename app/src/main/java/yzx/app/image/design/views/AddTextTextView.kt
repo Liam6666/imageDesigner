@@ -1,7 +1,6 @@
 package yzx.app.image.design.views
 
 import android.content.Context
-import android.graphics.Color
 import android.text.Layout
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
@@ -11,9 +10,6 @@ class AddTextTextView : AppCompatTextView {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    init {
-        setBackgroundColor(Color.parseColor("#abcdef"))
-    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val pdLR = paddingLeft + paddingRight

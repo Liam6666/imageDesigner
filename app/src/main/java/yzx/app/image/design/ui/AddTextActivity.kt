@@ -59,11 +59,11 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
 
 
     /* 弹出添加输入文字的弹框 */
-    private fun showAddOrEditTextInput(add: Boolean = true, onResult: ((String) -> Unit)? = null) {
+    private fun showAddOrEditTextInput(add: Boolean = true, text: CharSequence = "", onResult: ((String) -> Unit)? = null) {
         val view = inflateView(this, R.layout.layout_dialog_add_text, (window.decorView as ViewGroup))
         showDialog(view, resources.displayMetrics.widthPixels / 11 * 9, -2) { dialog ->
             dialog.setCancelable(false)
-            val input = view.findViewById<EditText>(R.id.input)
+            val input = view.findViewById<EditText>(R.id.input).apply { setText(text) }
             view.findViewById<View>(R.id.confirm).setOnClickListener {
                 val inputTxt = input.text.toString().trim()
                 if (inputTxt.isEmpty()) {
@@ -95,7 +95,11 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             translationX = resources.displayMetrics.widthPixels.toFloat()
             onCloseButtonClick = { dismissPanel() }
             onDeleteButtonClick = { textBox.delete(tv); dismissPanel() }
-            onChangeTextButtonClick = { showAddOrEditTextInput(false) { newText -> tv.text = newText; setNewText(newText) } }
+            onChangeTextButtonClick = {
+                showAddOrEditTextInput(false, tv.text) { newText ->
+                    tv.text = newText; setNewText(newText)
+                }
+            }
         }
         (window.decorView as ViewGroup).addView(panel)
         panel.post {
