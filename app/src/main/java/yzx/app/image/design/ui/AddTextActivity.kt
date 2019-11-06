@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -52,8 +53,8 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             textBox.requestLayout()
         }
         add.setOnClickListener { showAddOrEditTextInput() }
-        save.setOnClickListener { }
-        cache.setOnClickListener { }
+        save.setOnClickListener { makeBitmap(originBitmap)?.run { startSaveBitmap(this) } }
+        cache.setOnClickListener { makeBitmap(originBitmap)?.run { cacheBitmap(this) } }
         textBox.onTextViewClick = { innerTextView -> showEditPanel(innerTextView) }
     }
 
@@ -122,6 +123,18 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             })
             .setDuration(150).start()
         return true
+    }
+
+
+    /* 创建bitmap */
+    private fun makeBitmap(origin: Bitmap): Bitmap? {
+        var result: Bitmap? = null
+        runCacheOutOfMemory({
+            val textLayerBitmap = Bitmap.createBitmap(textBox.width, textBox.height, Bitmap.Config.ARGB_8888)
+            textBox.draw(Canvas(textLayerBitmap))
+            result = makeSameScaleAndOverlayBitmap(origin, textLayerBitmap)
+        }) { toastMemoryError() }
+        return result
     }
 
 
