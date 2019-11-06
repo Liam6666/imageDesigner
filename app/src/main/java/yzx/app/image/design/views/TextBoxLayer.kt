@@ -22,8 +22,9 @@ class TextBoxLayer : FrameLayout {
 
     /** 添加文字 */
     fun add(text: String = "", color: Int = Color.WHITE): TextView {
-        return TextView(context).apply {
+        return AddTextTextView(context).apply {
             this.text = text
+            setSingleLine()
             setTextColor(color)
             setTextSize(TypedValue.COMPLEX_UNIT_PX, dp2px(20).toFloat())
             val pd = dp2px(5)
@@ -67,8 +68,8 @@ class TextBoxLayer : FrameLayout {
 
     private val dragHelper: ViewDragHelper = ViewDragHelper.create(this, 1f, object : ViewDragHelper.Callback() {
         override fun tryCaptureView(child: View, pointerId: Int): Boolean = true
-        override fun getViewHorizontalDragRange(child: View): Int = measuredWidth - child.measuredWidth
-        override fun getViewVerticalDragRange(child: View): Int = measuredHeight - child.measuredHeight
+        override fun getViewHorizontalDragRange(child: View): Int = Integer.MAX_VALUE
+        override fun getViewVerticalDragRange(child: View): Int = Integer.MAX_VALUE
         override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
 //            if (left < 0) return 0
 //            if (left > measuredWidth - child.measuredWidth) return measuredWidth - child.measuredWidth

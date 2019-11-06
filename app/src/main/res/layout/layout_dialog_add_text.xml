@@ -13,6 +13,7 @@
         android:gravity="left|top"
         android:hint="输入添加的文字内容"
         android:padding="3dp"
+        android:singleLine="true"
         android:textColor="#333"
         android:textSize="13dp"
         app:layout_constraintLeft_toLeftOf="parent"
