@@ -24,7 +24,6 @@ class TextBoxLayer : FrameLayout {
     fun add(text: String = "", color: Int = Color.WHITE): TextView {
         return AddTextTextView(context).apply {
             this.text = text
-            setSingleLine()
             setTextColor(color)
             setTextSize(TypedValue.COMPLEX_UNIT_PX, dp2px(20).toFloat())
             val pd = dp2px(5)
