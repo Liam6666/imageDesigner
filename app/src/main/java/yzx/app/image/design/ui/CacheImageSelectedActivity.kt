@@ -46,7 +46,7 @@ class CacheImageSelectedActivity : AppCompatActivity() {
         window.statusBarColor = Color.BLACK
         setContentView(R.layout.activity_cache_image_selected)
 
-        backShadow.setOnClickListener { finish() }
+        backShadow.setOnClickListener { onBackPressed() }
 
         ViewCompat.setTransitionName(image, intent.getStringExtra("tname") ?: "")
         Glide.with(this).load(path).diskCacheStrategy(DiskCacheStrategy.NONE).into(image)
