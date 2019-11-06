@@ -33,14 +33,17 @@ class AddTextPanel : FrameLayout {
     /** 获取关闭按钮 */
     var onCloseButtonClick: (() -> Unit)? = null
 
+    /** 删除按钮点击 */
+    var onDeleteButtonClick: (() -> Unit)? = null
+
     /** 设置对应的TextView */
     fun setTextView(tv: TextView) {
         restoreTextViewUIInfo(tv)
         setUIEvent(tv)
     }
 
-    /** 根据id获取内部任意View */
-    fun getView(id: Int) = findViewById<View>(id)
+    /** 设置新的文字内容 */
+    fun setNewText(str: String) = { tv_text_content.text = str }.invoke()
 
 
     /* 设置UI事件 */
@@ -50,6 +53,7 @@ class AddTextPanel : FrameLayout {
 
         changeText.setOnClickListener { onChangeTextButtonClick?.invoke() }
         close.setOnClickListener { onCloseButtonClick?.invoke() }
+        delete.setOnClickListener { onDeleteButtonClick?.invoke() }
 
         val rgbSeekBarListener = object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar) = transparentAllExcept(rSeekBar, gSeekBar, bSeekBar, r, g, b, tv_color)

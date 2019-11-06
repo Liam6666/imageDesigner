@@ -51,7 +51,7 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             textBox.layoutParams.height = result.y
             textBox.requestLayout()
         }
-        add.setOnClickListener { showAddTextInput() }
+        add.setOnClickListener { showAddOrEditTextInput() }
         save.setOnClickListener { }
         cache.setOnClickListener { }
         textBox.onTextViewClick = { innerTextView -> showEditPanel(innerTextView) }
@@ -59,7 +59,7 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
 
 
     /* 弹出添加输入文字的弹框 */
-    private fun showAddTextInput() {
+    private fun showAddOrEditTextInput(add: Boolean = true, onResult: ((String) -> Unit)? = null) {
         val view = inflateView(this, R.layout.layout_dialog_add_text, (window.decorView as ViewGroup))
         showDialog(view, resources.displayMetrics.widthPixels / 11 * 9, -2) { dialog ->
             dialog.setCancelable(false)
@@ -69,9 +69,10 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
                 if (inputTxt.isEmpty()) {
                     toast("文字不能为空")
                 } else {
-                    textBox.add(text = inputTxt)
+                    if (add) textBox.add(text = inputTxt)
                     KeyboardUtils.hideSoftInput(input)
                     dismissDialog(dialog)
+                    onResult?.invoke(inputTxt)
                 }
             }
             view.findViewById<View>(R.id.cancel).setOnClickListener {
@@ -92,6 +93,9 @@ class AddTextActivity : AppCompatActivity(), IImageDesignActivity {
             id = panelID
             layoutParams = ViewGroup.LayoutParams(-1, -1)
             translationX = resources.displayMetrics.widthPixels.toFloat()
+            onCloseButtonClick = { dismissPanel() }
+            onDeleteButtonClick = { textBox.delete(tv); dismissPanel() }
+            onChangeTextButtonClick = { showAddOrEditTextInput(false) { newText -> tv.text = newText; setNewText(newText) } }
         }
         (window.decorView as ViewGroup).addView(panel)
         panel.post {
