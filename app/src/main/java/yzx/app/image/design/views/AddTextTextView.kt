@@ -11,6 +11,10 @@ class AddTextTextView : AppCompatTextView {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
 
+    init {
+        includeFontPadding = false
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val pdLR = paddingLeft + paddingRight
         val textWidth = Layout.getDesiredWidth(text, paint)

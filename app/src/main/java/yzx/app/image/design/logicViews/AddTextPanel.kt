@@ -3,6 +3,7 @@ package yzx.app.image.design.logicViews
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -86,6 +87,20 @@ class AddTextPanel : FrameLayout {
             }
         }
         rotationSeekBar.setOnSeekBarChangeListener(rotationSeekBarListener)
+
+        val colorDrawable = ColorDrawable()
+        val backgroundSeekBarListener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onStartTrackingTouch(seekBar: SeekBar) = transparentAllExcept(brSeekBar, bgSeekBar, bbSeekBar, baSeekBar, br, bg, bb, ba, tv_bg_color)
+            override fun onStopTrackingTouch(seekBar: SeekBar) = transparentBack()
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                val color = Color.argb(baSeekBar.progress, brSeekBar.progress, bgSeekBar.progress, bbSeekBar.progress)
+                tv.background = colorDrawable.apply { this.color = color }
+            }
+        }
+        brSeekBar.setOnSeekBarChangeListener(backgroundSeekBarListener)
+        bgSeekBar.setOnSeekBarChangeListener(backgroundSeekBarListener)
+        bbSeekBar.setOnSeekBarChangeListener(backgroundSeekBarListener)
+        baSeekBar.setOnSeekBarChangeListener(backgroundSeekBarListener)
     }
 
 
@@ -138,6 +153,22 @@ class AddTextPanel : FrameLayout {
         rotationSeekBar.max = 359
         rotationSeekBar.progress = rotation
         tv_rotation.text = "文字旋转角度: (${rotation}°)"
+
+        brSeekBar.max = 255
+        bgSeekBar.max = 255
+        bbSeekBar.max = 255
+        baSeekBar.max = 255
+        val bgColor = (tv.background as? ColorDrawable)?.color
+        bgColor?.run {
+            val br = Color.red(this)
+            val bg = Color.green(this)
+            val bb = Color.blue(this)
+            val ba = Color.alpha(this)
+            brSeekBar.progress = br
+            bgSeekBar.progress = bg
+            bbSeekBar.progress = bb
+            baSeekBar.progress = ba
+        }
     }
 
 }
