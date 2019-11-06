@@ -7,8 +7,8 @@ import android.graphics.Color
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.request.target.Target
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import yzx.app.image.design.logicViews.ImageCacheMgr
@@ -67,6 +67,8 @@ fun IImageDesignActivity.toastMemoryError() {
 }
 
 
+private val backgroundScope = CoroutineScope(Dispatchers.Default)
+
 /**
  * 开始存储图片到本地相册
  */
@@ -75,7 +77,7 @@ fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
         val act = this as Activity
         if (result) {
             act.showWaitingDialog()
-            GlobalScope.launch {
+            backgroundScope.launch {
                 xo_ImageSaveDir.mkdir()
                 val targetFile = File(xo_ImageSaveDir, "ImageXO_${System.currentTimeMillis()}.png")
                 val saveResult = bitmap.saveToFile(targetFile)
@@ -122,7 +124,7 @@ private fun getFakeDelayDuration(bitmap: Bitmap): Long {
 fun IImageDesignActivity.cacheBitmap(bitmap: Bitmap) {
     val act = this as Activity
     act.showWaitingDialog()
-    GlobalScope.launch {
+    backgroundScope.launch {
         xo_ImageCacheDir.mkdir()
         val saveResult = bitmap.saveToFile(File(xo_ImageCacheDir, ImageCacheMgr.getCacheFileName()))
         delay(getFakeDelayDuration(bitmap))
