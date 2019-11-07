@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.layout_color_picker.view.*
 import yzx.app.image.design.R
+import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.inflateView
 import kotlin.math.min
 
@@ -38,36 +39,29 @@ class ColorPickerButtonContainer(context: Context, attrs: AttributeSet?) : Frame
 class ColorPickerButton(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     var color = Color.WHITE
         set(value) {
-            field = value
-            invalidate()
+            field = value; invalidate()
         }
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     override fun onDraw(canvas: Canvas) {
         canvas.translate(width / 2f, height / 2f)
+
         paint.style = Paint.Style.FILL
         paint.color = color
         canvas.drawCircle(0f, 0f, min(width, height) / 2f, paint)
+
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = dp2px(2).toFloat()
+        paint.color = Color.WHITE
+        canvas.drawCircle(0f, 0f, min(width, height) / 2f - paint.strokeWidth / 2f, paint)
     }
 }
 
 
 class ColorPickerBackground(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
-    private val redShader = SweepGradient(
-        0f, 0f,
-        intArrayOf(Color.parseColor("#000000"), Color.parseColor("#ff0000")),
-        floatArrayOf(start1 / 360f, end1 / 360f)
-    )
-    private val greenShader = SweepGradient(
-        0f, 0f,
-        intArrayOf(Color.parseColor("#000000"), Color.parseColor("#00ff00")),
-        floatArrayOf(start2 / 360f, end2 / 360f)
-    )
-    private val blueShader = SweepGradient(
-        0f, 0f,
-        intArrayOf(Color.parseColor("#000000"), Color.parseColor("#0000ff")),
-        floatArrayOf(start3 / 360f, end3 / 360f)
-    )
+    private val redShader = SweepGradient(0f, 0f, intArrayOf(Color.BLACK, Color.RED), floatArrayOf(start1 / 360f, end1 / 360f))
+    private val greenShader = SweepGradient(0f, 0f, intArrayOf(Color.BLACK, Color.GREEN), floatArrayOf(start2 / 360f, end2 / 360f))
+    private val blueShader = SweepGradient(0f, 0f, intArrayOf(Color.BLACK, Color.BLUE), floatArrayOf(start3 / 360f, end3 / 360f))
 
     private val rect = RectF()
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -86,8 +80,7 @@ class ColorPickerBackground(context: Context?, attrs: AttributeSet?) : View(cont
             invalidate()
         }
 
-    override
-    fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas) {
         val strokeWidth = min(width, height) / 22f
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = strokeWidth
@@ -102,10 +95,8 @@ class ColorPickerBackground(context: Context?, attrs: AttributeSet?) : View(cont
 
         paint.shader = redShader
         canvas.drawArc(rect, start1, sweepAngle, false, paint)
-
         paint.shader = greenShader
         canvas.drawArc(rect, start2, sweepAngle, false, paint)
-
         paint.shader = blueShader
         canvas.drawArc(rect, start3, sweepAngle, false, paint)
 
@@ -283,23 +274,9 @@ class ColorPicker : FrameLayout {
     //
 
 
-    private fun setRedButtonPositionByColor(color: Int) {
-        val red = Color.red(color).toFloat()
-        val percent = red / 255f
-        (redButton.parent as View).rotation = start1 + (sweepAngle * percent)
-    }
-
-    private fun setGreenButtonPositionByColor(color: Int) {
-        val green = Color.green(color).toFloat()
-        val percent = green / 255f
-        (greenButton.parent as View).rotation = start2 + (sweepAngle * percent)
-    }
-
-    private fun setBlueButtonPositionByColor(color: Int) {
-        val blue = Color.blue(color).toFloat()
-        val percent = blue / 255f
-        (blueButton.parent as View).rotation = start3 + (sweepAngle * percent)
-    }
+    private fun setRedButtonPositionByColor(color: Int) = { (redButton.parent as View).rotation = start1 + (sweepAngle * (Color.red(color) / 255f)) }.invoke()
+    private fun setGreenButtonPositionByColor(color: Int) = { (greenButton.parent as View).rotation = start2 + (sweepAngle * (Color.green(color) / 255f)) }.invoke()
+    private fun setBlueButtonPositionByColor(color: Int) = { (blueButton.parent as View).rotation = start3 + (sweepAngle * (Color.blue(color) / 255f)) }.invoke()
 
     private fun getRed(): Int = (getRedPercent() * 255f).toInt()
     private fun getGreen(): Int = (getGreenPercent() * 255f).toInt()
