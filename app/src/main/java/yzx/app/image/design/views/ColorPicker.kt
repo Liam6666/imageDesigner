@@ -195,12 +195,25 @@ class ColorPicker : FrameLayout {
     }
 
     private fun makeGreenButtonTouch() {
-        val downPoint = PointF()
+        val lastPoint = PointF()
+        val unit = sweepAngle / min(width, height)
         greenButton.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    lastPoint.y = event.rawY
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    val nowY = event.rawY
+                    val yGap = nowY - lastPoint.y
+                    lastPoint.y = nowY
+                    val degreeGap = -yGap * unit
+                    var targetRotation = (greenButton.parent as View).rotation + degreeGap
+                    if (targetRotation < start2)
+                        targetRotation = start2
+                    else if (targetRotation > end2)
+                        targetRotation = end2
+                    (greenButton.parent as View).rotation = targetRotation
+                    notifyColorChangeByUser()
                 }
             }
             true
@@ -209,15 +222,28 @@ class ColorPicker : FrameLayout {
 
     private fun makeBlueButtonTouch() {
         val lastPoint = PointF()
+        val unit = sweepAngle / min(width, height)
         blueButton.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    lastPoint.x = event.rawX
-                    lastPoint.y = event.rawY
+                    lastPoint.x = event.rawX; lastPoint.y = event.rawY
                 }
                 MotionEvent.ACTION_MOVE -> {
-                }
-                MotionEvent.ACTION_UP -> {
+                    val nowX = event.rawX
+                    val nowY = event.rawY
+                    val xGap = nowX - lastPoint.x
+                    val yGap = nowY - lastPoint.y
+                    lastPoint.x = nowX
+                    lastPoint.y = nowY
+                    val gap = if (getBluePercent() < 0.6f) xGap else yGap
+                    val degreeGap = gap * unit
+                    var targetRotation = (blueButton.parent as View).rotation + degreeGap
+                    if (targetRotation < start3)
+                        targetRotation = start3
+                    else if (targetRotation > end3)
+                        targetRotation = end3
+                    (blueButton.parent as View).rotation = targetRotation
+                    notifyColorChangeByUser()
                 }
             }
             true
