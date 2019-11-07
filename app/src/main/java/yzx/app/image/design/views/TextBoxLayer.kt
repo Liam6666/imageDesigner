@@ -3,6 +3,7 @@ package yzx.app.image.design.views
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.renderscript.Int2
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -25,6 +26,7 @@ class TextBoxLayer : FrameLayout {
         return AddTextTextView(context).apply {
             this.text = text
             setTextColor(color)
+            background = ColorDrawable(Color.BLACK)
             setTextSize(TypedValue.COMPLEX_UNIT_PX, dp2px(20).toFloat())
             val pd = dp2px(5)
             setPadding(pd, pd, pd, pd)
