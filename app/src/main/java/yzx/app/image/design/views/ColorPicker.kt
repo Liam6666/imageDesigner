@@ -162,6 +162,7 @@ class ColorPicker : FrameLayout {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     lastPoint.x = event.rawX; lastPoint.y = event.rawY
+                    onStartTrackingTouch?.invoke()
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val nowX = event.rawX
@@ -180,6 +181,9 @@ class ColorPicker : FrameLayout {
                     (redButton.parent as View).rotation = targetRotation
                     notifyColorChangeByUser()
                 }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    onStopTrackingTouch?.invoke()
+                }
             }
             true
         }
@@ -192,6 +196,7 @@ class ColorPicker : FrameLayout {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     lastPoint.y = event.rawY
+                    onStartTrackingTouch?.invoke()
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val nowY = event.rawY
@@ -206,6 +211,9 @@ class ColorPicker : FrameLayout {
                     (greenButton.parent as View).rotation = targetRotation
                     notifyColorChangeByUser()
                 }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    onStopTrackingTouch?.invoke()
+                }
             }
             true
         }
@@ -218,6 +226,7 @@ class ColorPicker : FrameLayout {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     lastPoint.x = event.rawX; lastPoint.y = event.rawY
+                    onStartTrackingTouch?.invoke()
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val nowX = event.rawX
@@ -235,6 +244,9 @@ class ColorPicker : FrameLayout {
                         targetRotation = end3
                     (blueButton.parent as View).rotation = targetRotation
                     notifyColorChangeByUser()
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    onStopTrackingTouch?.invoke()
                 }
             }
             true
@@ -268,6 +280,9 @@ class ColorPicker : FrameLayout {
 
     /** 颜色改变回调 */
     var onColorChanged: ((Int) -> Unit)? = null
+
+    var onStartTrackingTouch: (() -> Unit)? = null
+    var onStopTrackingTouch: (() -> Unit)? = null
 
 
     //

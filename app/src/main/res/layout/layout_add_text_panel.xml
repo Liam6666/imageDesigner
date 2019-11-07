@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     android:clickable="true">
 
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
     <View
         android:id="@+id/layer"
         android:layout_width="match_parent"
@@ -100,85 +108,13 @@
         app:layout_constraintTop_toBottomOf="@id/tv_text_content" />
 
 
-    <TextView
-        android:id="@+id/r"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <yzx.app.image.design.views.ColorPicker
+        android:id="@+id/colorPicker"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:text="R:"
-        android:textColor="#fff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_color" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/rSeekBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="90dp"
-        android:maxHeight="2dp"
-        android:minHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_scale"
-        android:thumbTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="@id/r"
-        app:layout_constraintLeft_toRightOf="@id/r"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/r" />
-
-
-    <TextView
-        android:id="@+id/g"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="5dp"
-        android:text="G:"
-        android:textColor="#fff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/r" />
-
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/gSeekBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="90dp"
-        android:maxHeight="2dp"
-        android:minHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_scale"
-        android:thumbTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="@id/g"
-        app:layout_constraintLeft_toRightOf="@id/g"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/g" />
-
-    <TextView
-        android:id="@+id/b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="5dp"
-        android:text="B:"
-        android:textColor="#fff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/g" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/bSeekBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="90dp"
-        android:maxHeight="2dp"
-        android:minHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_scale"
-        android:thumbTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="@id/b"
-        app:layout_constraintLeft_toRightOf="@id/b"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/b" />
 
 
     <TextView
@@ -191,7 +127,7 @@
         android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/b"
+        app:layout_constraintTop_toBottomOf="@id/colorPicker"
         tools:text="文字大小: (20)" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
@@ -360,6 +296,29 @@
         app:layout_constraintLeft_toRightOf="@id/ba"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/ba" />
+
+
+    <TextView
+        android:id="@+id/tv_background_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="5dp"
+        android:text="背景颜色:"
+        android:textColor="#fff"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_color"
+        app:layout_constraintLeft_toLeftOf="@id/verticalGuide" />
+
+    <yzx.app.image.design.views.ColorPicker
+        android:id="@+id/bgColorPicker"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintLeft_toLeftOf="@id/verticalGuide"
+        app:layout_constraintTop_toBottomOf="@id/tv_background_color" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

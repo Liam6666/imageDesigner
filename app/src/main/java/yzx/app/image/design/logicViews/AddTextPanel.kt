@@ -56,17 +56,10 @@ class AddTextPanel : FrameLayout {
         close.setOnClickListener { onCloseButtonClick?.invoke() }
         delete.setOnClickListener { onDeleteButtonClick?.invoke() }
 
-        val rgbSeekBarListener = object : SeekBar.OnSeekBarChangeListener {
-            override fun onStartTrackingTouch(seekBar: SeekBar) = transparentAllExcept(rSeekBar, gSeekBar, bSeekBar, r, g, b, tv_color)
-            override fun onStopTrackingTouch(seekBar: SeekBar) = transparentBack()
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                val color = Color.rgb(rSeekBar.progress, gSeekBar.progress, bSeekBar.progress)
-                tv.setTextColor(color)
-            }
-        }
-        rSeekBar.setOnSeekBarChangeListener(rgbSeekBarListener)
-        gSeekBar.setOnSeekBarChangeListener(rgbSeekBarListener)
-        bSeekBar.setOnSeekBarChangeListener(rgbSeekBarListener)
+        colorPicker.onStartTrackingTouch = { transparentAllExcept(colorPicker, tv_color) }
+        colorPicker.onStopTrackingTouch = { transparentBack() }
+        colorPicker.onColorChanged = { newColor -> tv.setTextColor(newColor) }
+
 
         val sizeSeekBarListener = object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar) = transparentAllExcept(tv_size, sizeSeekBar)
@@ -133,16 +126,8 @@ class AddTextPanel : FrameLayout {
     private fun restoreTextViewUIInfo(tv: TextView) {
         tv_text_content.text = tv.text
 
-        rSeekBar.max = 255
-        gSeekBar.max = 255
-        bSeekBar.max = 255
         val tvColor = tv.textColors.defaultColor
-        val r = Color.red(tvColor)
-        val g = Color.green(tvColor)
-        val b = Color.blue(tvColor)
-        rSeekBar.progress = r
-        gSeekBar.progress = g
-        bSeekBar.progress = b
+        colorPicker.setColor(tvColor)
 
         val size = tv.textSize.toInt()
         sizeSeekBar.max = dp2px(200)
