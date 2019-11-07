@@ -2,7 +2,6 @@ package yzx.app.image.design.ui
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.CornerPathEffect
 import android.graphics.Paint
 import android.os.Bundle
@@ -40,53 +39,41 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        saveLastSetting()
+    }
+
 
     private fun makeUI(originBmp: Bitmap) {
-        rSeekBar.max = 255
-        gSeekBar.max = 255
-        bSeekBar.max = 255
         lineSeekBar.max = 15
-
-        val listener = object : SeekBar.OnSeekBarChangeListener {
+        lineSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = saveLastSetting()
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = makeCircleViewAndLineUI()
-        }
-        rSeekBar.setOnSeekBarChangeListener(listener)
-        gSeekBar.setOnSeekBarChangeListener(listener)
-        bSeekBar.setOnSeekBarChangeListener(listener)
-        lineSeekBar.setOnSeekBarChangeListener(listener)
-
+            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                line.setBackgroundColor(colorPicker.getCurrentColor())
+                line.pivotX = 0f; line.pivotY = 0f
+                line.scaleY = getLineWidth()
+            }
+        })
+        colorPicker.onColorChanged = { newColor -> line.setBackgroundColor(newColor) }
         restoreLastSetting()
-
         save.setOnClickListener { createBmp(originBmp) { newBmp -> newBmp?.run { startSaveBitmap(newBmp) } } }
         cache.setOnClickListener { createBmp(originBmp) { newBmp -> newBmp?.run { cacheBitmap(newBmp) } } }
         clear.setOnClickListener { paintView.clear() }
         back1.setOnClickListener { paintView.back1() }
-
         initPaintView(originBmp)
     }
 
 
-    private fun getColor(): Int = Color.argb(255, rSeekBar.progress, gSeekBar.progress, bSeekBar.progress)
     private fun getLineWidth(): Float = dp2px(lineSeekBar.progress + 1).toFloat()
-
-    private fun makeCircleViewAndLineUI() {
-        colorCircle.setColor(getColor())
-        line.setBackgroundColor(getColor())
-        line.alpha = colorCircle.alpha
-        line.pivotX = 0f
-        line.pivotY = 0f
-        line.scaleY = getLineWidth()
-    }
-
 
     private fun initPaintView(bmp: Bitmap) {
         paintView.onNewPaintCreated = { p ->
             p.style = Paint.Style.STROKE
             p.strokeCap = Paint.Cap.ROUND
             p.strokeWidth = getLineWidth()
-            p.color = getColor()
+            p.color = colorPicker.getCurrentColor()
             p.pathEffect = CornerPathEffect(p.strokeWidth)
         }
         image.getRealImageWidthAndHeight { result ->
@@ -112,30 +99,16 @@ class FingerPaintActivity : AppCompatActivity(), IImageDesignActivity {
 
 
     private fun restoreLastSetting() {
-        var r = 255
-        var g = 255
-        var b = 255
-        var l = 5
-        localStorage.get("finger_paint_setting")?.runCatching {
-            val arr = split("_")
-            r = arr[0].toInt()
-            g = arr[1].toInt()
-            b = arr[2].toInt()
-            l = arr[3].toInt()
-        }
-        rSeekBar.progress = r
-        gSeekBar.progress = g
-        bSeekBar.progress = b
-        lineSeekBar.progress = l
+        localStorage.get("finger_paint_setting_color")?.runCatching { colorPicker.setColor(toInt()) }
+        localStorage.get("finger_paint_setting_width")?.runCatching { lineSeekBar.progress = toInt() }
     }
 
+
     private fun saveLastSetting() {
-        val r = rSeekBar.progress
-        val g = gSeekBar.progress
-        val b = bSeekBar.progress
-        val l = lineSeekBar.progress
-        val value = "${r}_${g}_${b}_$l"
-        localStorage.save("finger_paint_setting", value)
+        val lineWidth = lineSeekBar.progress
+        val color = colorPicker.getCurrentColor()
+        localStorage.save("finger_paint_setting_color", color.toString())
+        localStorage.save("finger_paint_setting_width", lineWidth.toString())
     }
 
 }

@@ -98,88 +98,15 @@
         app:layout_constraintRight_toLeftOf="@id/back1" />
 
 
-    <TextView
-        android:id="@+id/r"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:text="R:"
-        android:textColor="#fff"
+    <yzx.app.image.design.views.ColorPicker
+        android:id="@+id/colorPicker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/save"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@id/centerGuide" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/rSeekBar"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="2dp"
-        android:minHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_scale"
-        android:thumbTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="@id/r"
-        app:layout_constraintLeft_toRightOf="@id/r"
-        app:layout_constraintTop_toTopOf="@id/r" />
-
-
-    <TextView
-        android:id="@+id/g"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="5dp"
-        android:text="G:"
-        android:textColor="#fff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/r" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/gSeekBar"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="2dp"
-        android:minHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_scale"
-        android:thumbTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="@id/g"
-        app:layout_constraintLeft_toRightOf="@id/g"
-        app:layout_constraintTop_toTopOf="@id/g" />
-
-    <TextView
-        android:id="@+id/b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="5dp"
-        android:text="B:"
-        android:textColor="#fff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/g" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/bSeekBar"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="2dp"
-        android:minHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_scale"
-        android:thumbTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="@id/b"
-        app:layout_constraintLeft_toRightOf="@id/b"
-        app:layout_constraintTop_toTopOf="@id/b" />
-
-
-    <yzx.app.image.design.views.CircleView
-        android:id="@+id/colorCircle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:cv_color="#ffffff"
-        app:layout_constraintBottom_toBottomOf="@id/b"
-        app:layout_constraintLeft_toRightOf="@id/gSeekBar"
-        app:layout_constraintTop_toTopOf="@id/r" />
+        app:layout_constraintRight_toLeftOf="@id/verticalGuide"
+        app:layout_constraintTop_toBottomOf="@id/centerGuide" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -200,7 +127,7 @@
         android:textColor="#fff"
         android:textSize="12dp"
         android:translationX="10dp"
-        app:layout_constraintLeft_toRightOf="@id/colorCircle"
+        app:layout_constraintLeft_toRightOf="@id/verticalGuide"
         app:layout_constraintTop_toTopOf="@id/centerGuide" />
 
     <SeekBar
