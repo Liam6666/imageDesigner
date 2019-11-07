@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <yzx.app.image.design.views.ColorPickerBackground
+        android:id="@+id/bgView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+
+    <yzx.app.image.design.views.ColorPickerButtonContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <yzx.app.image.design.views.ColorPickerButton
+            android:id="@+id/redButton"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical|right" />
+    </yzx.app.image.design.views.ColorPickerButtonContainer>
+
+
+    <yzx.app.image.design.views.ColorPickerButtonContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <yzx.app.image.design.views.ColorPickerButton
+            android:id="@+id/greenButton"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical|right" />
+    </yzx.app.image.design.views.ColorPickerButtonContainer>
+
+
+    <yzx.app.image.design.views.ColorPickerButtonContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <yzx.app.image.design.views.ColorPickerButton
+            android:id="@+id/blueButton"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical|right" />
+    </yzx.app.image.design.views.ColorPickerButtonContainer>
+
+
+</FrameLayout>
