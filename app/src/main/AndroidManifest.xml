@@ -53,6 +53,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/DesignActivityCommonStyle" />
 
+        <activity
+            android:name=".ui.ImageFilterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
 
     </application>
 

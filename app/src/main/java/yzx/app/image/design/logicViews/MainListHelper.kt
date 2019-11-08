@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ScreenUtils
 import yzx.app.image.design.R
-import yzx.app.image.design.ui.AddTextActivity
-import yzx.app.image.design.ui.CacheListActivity
-import yzx.app.image.design.ui.FingerPaintActivity
-import yzx.app.image.design.ui.RotateTranslateActivity
+import yzx.app.image.design.ui.*
 import yzx.app.image.design.utils.AppPageRecord
 import yzx.app.image.design.utils.application
 import yzx.app.image.design.utils.dp2px
@@ -128,8 +125,8 @@ class MainListHelper {
         },
         ItemInfo().apply {
             animIcon = FilterIcon(application)
-            text = "效果滤镜"
-            click = Runnable { }
+            text = "颜色滤镜"
+            click = Runnable { onSelectedResult { path -> ImageFilterActivity.launch(application, path) } }
         },
         ItemInfo().apply {
             animIcon = DrawIcon(application)
