@@ -59,8 +59,16 @@ class TextBoxLayer : FrameLayout {
         super.onLayout(changed, left, top, right, bottom)
         dragXYInfo.entries.forEach {
             val childView = it.key
-            val originX = it.value.x
-            val originY = it.value.y
+            var originX = it.value.x
+            var originY = it.value.y
+            if (originX + childView.measuredWidth <= 0) {
+                it.value.x = 0
+                originX = 0
+            }
+            if (originY + childView.measuredHeight <= 0) {
+                it.value.y = 0
+                originY = 0
+            }
             it.key.layout(originX, originY, originX + childView.measuredWidth, originY + childView.measuredHeight)
         }
     }
