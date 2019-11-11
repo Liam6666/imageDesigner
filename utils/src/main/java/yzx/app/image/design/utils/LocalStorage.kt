@@ -21,7 +21,7 @@ interface LocalStorage {
 val localStorage = localStorage(File(application.filesDir, "__localStorage__"))
 
 
-private val mScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+private val mScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
 private fun localStorage(dir: File): LocalStorage {
     if (!dir.exists())
