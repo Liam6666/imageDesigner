@@ -52,6 +52,26 @@ object ImageFilters {
             }
         })
 
+        filters.add(object : FilterEntity {
+            override fun name(): String = "3"
+            override fun todo(source: Bitmap): Bitmap {
+                val result = emptyBitmaps[source]!!
+                clearEmptyBitmap(result)
+                filter3(source, result)
+                return result
+            }
+        })
+
+        filters.add(object : FilterEntity {
+            override fun name(): String = "4"
+            override fun todo(source: Bitmap): Bitmap {
+                val result = emptyBitmaps[source]!!
+                clearEmptyBitmap(result)
+                filter4(source, result)
+                return result
+            }
+        })
+
     }
 
 
@@ -64,30 +84,46 @@ object ImageFilters {
                 0f, 0f, 0f, 1f, 0f
             )
         )
-        Canvas(empty).apply {
-            Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                colorFilter = filter
-                drawBitmap(source, 0f, 0f, this)
-            }
-        }
+        Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
 
     private fun filter2(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                1f, 0f, 0f, 0f, -255f,
-                0f, 3f, 0f, 0f, -255f,
-                0f, 0f, 1f, 0f, -255f,
-                0f, 0f, 0f, 3f, 0f
+                1f, 0f, 0f, 0f, 0f,
+                0f, 2.3f, 0f, 0f, 0f,
+                0f, 0f, 1f, 0f, 0f,
+                0f, 0f, 0f, 1f, 0f
             )
         )
-        Canvas(empty).apply {
-            Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                colorFilter = filter
-                drawBitmap(source, 0f, 0f, this)
-            }
-        }
+        Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
+    }
+
+
+    private fun filter3(source: Bitmap, empty: Bitmap) {
+        val filter = ColorMatrixColorFilter(
+            floatArrayOf(
+                2.3f, 0f, 0f, 0f, 0f,
+                0f, 1f, 0f, 0f, 0f,
+                0f, 0f, 1f, 0f, 0f,
+                0f, 0f, 0f, 1f, 0f
+            )
+        )
+        Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
+    }
+
+
+    private fun filter4(source: Bitmap, empty: Bitmap) {
+        val filter = ColorMatrixColorFilter(
+            floatArrayOf(
+                1f, 0f, 0f, 0f, 0f,
+                0f, 1f, 0f, 0f, 0f,
+                0f, 0f, 2.3f, 0f, 0f,
+                0f, 0f, 0f, 1f, 0f
+            )
+        )
+        Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
 
