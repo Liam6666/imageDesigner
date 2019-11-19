@@ -15,10 +15,7 @@ import kotlinx.android.synthetic.main.activity_image_filter.*
 import kotlinx.android.synthetic.main.item_filter_list.view.*
 import yzx.app.image.design.R
 import yzx.app.image.design.util.ImageFilters
-import yzx.app.image.design.utils.decodeFileBitmapWithMaxLength
-import yzx.app.image.design.utils.dp2px
-import yzx.app.image.design.utils.inflateView
-import yzx.app.image.design.utils.launchActivity
+import yzx.app.image.design.utils.*
 
 
 class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
@@ -29,7 +26,7 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
 
 
     private val filePath by lazy { intent?.getStringExtra("f") ?: "" }
-
+    private var sourceBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +36,7 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
         makeStatusBar()
         setContentView(R.layout.activity_image_filter)
         decodeFileBitmapWithMaxLength(this, filePath, BitmapDecodeOptions.decodeBitmapMaxLength) { originBitmap ->
+            sourceBitmap = originBitmap
             if (originBitmap == null) onBitmapLoadedError() else makeUI(originBitmap)
         }
     }
@@ -46,13 +44,21 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
 
     private fun makeUI(originBitmap: Bitmap) {
         image.setImageBitmap(originBitmap)
-        makeList()
-        cache.setOnClickListener { }
-        save.setOnClickListener { }
+        ImageFilters.makeEmptyBitmap(originBitmap) {
+            toastMemoryError()
+            finish()
+        }
+        if (!isFinishing) {
+            makeList(originBitmap)
+            cache.setOnClickListener { if (selectedPosition != 0) cacheBitmap(ImageFilters.getResult(originBitmap)) else toast("未选择滤镜") }
+            save.setOnClickListener { if (selectedPosition != 0) startSaveBitmap(ImageFilters.getResult(originBitmap)) else toast("未选择滤镜") }
+        }
     }
 
 
-    private fun makeList() {
+    private var selectedPosition = 0
+
+    private fun makeList(originBitmap: Bitmap) {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(this, 5)
         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -62,8 +68,7 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
             }
         })
         recyclerView.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            var selectedPosition = 0
-            override fun getItemCount(): Int = ImageFilters.totalFilterCount
+            override fun getItemCount(): Int = ImageFilters.filters.size + 1
             override fun onCreateViewHolder(p: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
                 val view = inflateView(p.context, R.layout.item_filter_list, p)
                 view.layoutParams.width = (resources.displayMetrics.widthPixels - dp2px(24) - dp2px(10) * 5) / 5
@@ -78,26 +83,33 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
                     if (selectedPosition == 0) {
                         holder.itemView.number.visibility = View.VISIBLE
                         holder.itemView.number.text = ""
-                        holder.itemView.number.background = ColorDrawable(Color.parseColor("#66ffffff"))
+                        holder.itemView.number.background = ColorDrawable(Color.parseColor("#66FFFFFF"))
                     } else
                         holder.itemView.number.visibility = View.GONE
                 } else {
                     holder.itemView.image.visibility = View.VISIBLE
                     holder.itemView.number.visibility = View.VISIBLE
                     holder.itemView.defaultImage.visibility = View.GONE
-                    holder.itemView.number.text = position.toString()
-                    if (selectedPosition == position) {
-                        holder.itemView.number.background = ColorDrawable(Color.parseColor("#66ffffff"))
-                    } else
-                        holder.itemView.number.background = ColorDrawable(Color.parseColor("#66000000"))
+                    holder.itemView.number.text = ImageFilters.filters[position - 1].name()
+                    holder.itemView.number.background =
+                        if (selectedPosition == position) ColorDrawable(Color.parseColor("#66FFFFFF"))
+                        else ColorDrawable(Color.parseColor("#00000000"))
                 }
                 holder.itemView.setOnClickListener {
                     selectedPosition = position
                     notifyDataSetChanged()
-                    
+                    if (position == 0) image.setImageBitmap(originBitmap)
+                    else image.setImageBitmap(ImageFilters.filters[position - 1].todo(originBitmap))
                 }
             }
         }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sourceBitmap?.run { ImageFilters.clear(this) }
+        sourceBitmap = null
     }
 
 }
