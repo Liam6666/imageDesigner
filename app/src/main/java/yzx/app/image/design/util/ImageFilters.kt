@@ -1,6 +1,8 @@
 package yzx.app.image.design.util
 
 import android.graphics.*
+import yzx.app.image.design.R
+import yzx.app.image.design.utils.application
 import yzx.app.image.design.utils.runCacheOutOfMemory
 import java.util.*
 import kotlin.collections.ArrayList
@@ -9,6 +11,7 @@ import kotlin.collections.ArrayList
 interface FilterEntity {
     fun todo(source: Bitmap): Bitmap
     fun name(): String
+    fun getThumbnail(): Bitmap
 }
 
 
@@ -29,10 +32,16 @@ object ImageFilters {
     val filters = ArrayList<FilterEntity>()
 
 
+    private val thumbnailBitmapSource = BitmapFactory.decodeResource(application.resources, R.drawable.filter_thumbnail, BitmapFactory.Options().apply {
+        inSampleSize = 2
+    })
+
+
     init {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "1"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -43,6 +52,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "2"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -53,6 +63,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "3"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -63,6 +74,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "4"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -73,6 +85,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "5"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -83,6 +96,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "6"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -93,6 +107,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "7"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -103,6 +118,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "8"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -113,6 +129,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "9"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)
@@ -123,6 +140,7 @@ object ImageFilters {
 
         filters.add(object : FilterEntity {
             override fun name(): String = "10"
+            override fun getThumbnail(): Bitmap = thumbnailBitmapSource
             override fun todo(source: Bitmap): Bitmap {
                 val result = emptyBitmaps[source]!!
                 clearEmptyBitmap(result)

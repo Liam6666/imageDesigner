@@ -94,6 +94,7 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
                     holder.itemView.number.background =
                         if (selectedPosition == position) ColorDrawable(Color.parseColor("#66FFFFFF"))
                         else ColorDrawable(Color.parseColor("#00000000"))
+                    holder.itemView.image.setImageBitmap(ImageFilters.filters[position - 1].getThumbnail())
                 }
                 holder.itemView.setOnClickListener {
                     selectedPosition = position
