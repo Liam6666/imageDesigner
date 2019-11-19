@@ -1,0 +1,1 @@
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore 签名文件 -signedjar 生成后apk 需要签名得apk 签名文件别名

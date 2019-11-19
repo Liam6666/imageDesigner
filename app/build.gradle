@@ -35,8 +35,9 @@ android {
         release {
             signingConfig signingConfigs.signKey
             zipAlignEnabled true
-            shrinkResources true
-            minifyEnabled true
+            debuggable false
+            minifyEnabled false
+            shrinkResources false
             proguardFiles 'proguard-rules.pro'
         }
     }
