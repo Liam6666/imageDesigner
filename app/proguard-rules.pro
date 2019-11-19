@@ -1,10 +1,67 @@
 
-# 避免混淆泛型
--keepattributes Signature
-# 保留代码行号，方便异常信息的追踪
--keepattributes SourceFile,LineNumberTable
-# 混淆采用的算法
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
+-dontoptimize
+-dontpreverify
+-keep public class com.google.vending.licensing.ILicensingService
+-keep public class com.android.vending.licensing.ILicensingService
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+-keepclassmembers public class * extends android.view.View {
+   void set*(***);
+   *** get*();
+}
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keepclassmembers class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator CREATOR;
+}
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+-dontwarn android.support.**
+-dontwarn androidx.**
+-keep class android.support.annotation.Keep
+-keep class androidx.annotation.Keep
+
+-keep @android.support.annotation.Keep class * {*;}
+-keep @androidx.annotation.Keep class * {*;}
+
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep <methods>;
+}
+-keepclasseswithmembers class * {
+    @androidx.annotation.Keep <methods>;
+}
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep <fields>;
+}
+-keepclasseswithmembers class * {
+    @androidx.annotation.Keep <fields>;
+}
+-keepclasseswithmembers class * {
+     @android.support.annotation.Keep <init>(...);
+}
+-keepclasseswithmembers class * {
+  @androidx.annotation.Keep <init>(...);
+}
+
+
+
+-keepattributes Exceptions, InnerClasses
+-keepattributes Signature, Deprecated, SourceFile
+-keepattributes LineNumberTable, *Annotation*, EnclosingMethod
+-keepattributes *JavascriptInterface*
+
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
+
 
 
 
@@ -16,7 +73,6 @@
 #-printusage unused.txt
 # mapping.txt文件列出混淆前后的映射
 #-printmapping mapping.txt
-
 
 
 
@@ -36,7 +92,21 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 -keep class androidx.** {*;}
+-keep class com.google.android.material.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
 
+
+
+-keepclassmembers class * extends android.webkit.WebChromeClient {
+    public void openFileChooser(...);
+}
+-keepnames class * implements java.io.Serializable
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
 
 
 
@@ -46,13 +116,11 @@
   **[] $VALUES;
   public *;
 }
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 
 
 -keep class com.davemorrissey.labs.subscaleview.** { *; }
-
 
 
 
@@ -61,5 +129,8 @@
 
 
 
-
 -keep class com.blankj.utilcode.** { *;}
+
+
+
+-keep class kotlinx.** {*;}

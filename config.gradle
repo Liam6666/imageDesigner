@@ -9,6 +9,7 @@ ext {
             photoView       : 'com.github.chrisbanes:PhotoView:2.0.0',
             okhttp          : 'com.squareup.okhttp3:okhttp:4.2.2',
             blankj          : 'com.blankj:utilcodex:1.25.9',
+            multidex        : 'com.android.support:multidex:1.0.3',
     ]
 
 

@@ -5,6 +5,15 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
 
+    signingConfigs {
+        signKey {
+            storeFile file("../kk.keystore")
+            storePassword 'wocaohei1'
+            keyAlias 'key0'
+            keyPassword 'wocaohei1'
+        }
+    }
+
     compileSdkVersion 29
 
     defaultConfig {
@@ -14,19 +23,21 @@ android {
 
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-
+            signingConfig signingConfigs.signKey
         }
         release {
+            signingConfig signingConfigs.signKey
             zipAlignEnabled true
             shrinkResources true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules.pro'
         }
     }
 
@@ -42,6 +53,7 @@ dependencies {
     implementation dpd.glide
     annotationProcessor dpd.glideCompiler
     implementation dpd.photoView
+    implementation dpd.multidex
 
     implementation project(':libhttp')
     implementation project(':utils')
