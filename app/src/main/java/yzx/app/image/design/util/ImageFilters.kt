@@ -9,15 +9,24 @@ import kotlin.collections.ArrayList
 
 interface FilterEntity {
     fun todo(source: Bitmap): Bitmap
-    fun name(): String
     fun getThumbnail(source: Bitmap): Bitmap
 }
 
 
 object ImageFilters {
 
+    // 原图缩略图
+    private val thumbnails = WeakHashMap<Bitmap, Bitmap>()
+    // 原图同等大小的空图
     private val emptyBitmaps = WeakHashMap<Bitmap, Bitmap>()
+
+    /* 清洗画板空图  */
     private fun clearEmptyBitmap(empty: Bitmap) = Canvas(empty).drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+
+    /* 获取原图缩略图 */
+    private fun getSourceThumbnail(source: Bitmap) = thumbnails[source]!!
+
+    /** 创建空画板图 */
     fun makeEmptyBitmap(source: Bitmap, onMemoryError: () -> Unit) {
         runCacheOutOfMemory({
             val empty = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
@@ -25,18 +34,22 @@ object ImageFilters {
         }) { onMemoryError.invoke() }
     }
 
-
-    fun getResult(source: Bitmap): Bitmap = emptyBitmaps[source]!!
-    fun clear(source: Bitmap) = { emptyBitmaps.remove(source); thumbnails.remove(source) }.invoke()
-    val filters = ArrayList<FilterEntity>()
-    private val thumbnails = WeakHashMap<Bitmap, Bitmap>()
+    /** 创建缩略图 */
     fun makeThumbnail(source: Bitmap) = thumbnails.put(source, Bitmap.createScaledBitmap(source, dp2px(40), dp2px(40), false))
-    private fun getSourceThumbnail(source: Bitmap) = thumbnails[source]!!
+
+    /** 获取结果 */
+    fun getResult(source: Bitmap): Bitmap = emptyBitmaps[source]!!
+
+    /** 清除画板图和缩略图 */
+    fun clear(source: Bitmap) = { emptyBitmaps.remove(source); thumbnails.remove(source) }.invoke()
+
+    // 全部过滤器
+    val filters = ArrayList<FilterEntity>()
+
 
     init {
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "1"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter1(getSourceThumbnail(source), this) }
@@ -50,7 +63,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "2"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter2(getSourceThumbnail(source), this) }
@@ -64,7 +76,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "3"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter3(getSourceThumbnail(source), this) }
@@ -78,7 +89,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "4"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter4(getSourceThumbnail(source), this) }
@@ -92,7 +102,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "5"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter5(getSourceThumbnail(source), this) }
@@ -106,7 +115,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "6"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter6(getSourceThumbnail(source), this) }
@@ -120,7 +128,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "7"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter7(getSourceThumbnail(source), this) }
@@ -134,7 +141,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "8"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter8(getSourceThumbnail(source), this) }
@@ -148,7 +154,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "9"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter9(getSourceThumbnail(source), this) }
@@ -162,7 +167,6 @@ object ImageFilters {
         })
 
         filters.add(object : FilterEntity {
-            override fun name(): String = "10"
             override fun getThumbnail(source: Bitmap): Bitmap =
                 Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
                     .apply { filter10(getSourceThumbnail(source), this) }

@@ -2,9 +2,7 @@ package yzx.app.image.design.ui
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.Rect
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -81,20 +79,11 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
                 if (position == 0) {
                     holder.itemView.image.visibility = View.GONE
                     holder.itemView.defaultImage.visibility = View.VISIBLE
-                    if (selectedPosition == 0) {
-                        holder.itemView.number.visibility = View.VISIBLE
-                        holder.itemView.number.text = ""
-                        holder.itemView.number.background = ColorDrawable(Color.parseColor("#66FFFFFF"))
-                    } else
-                        holder.itemView.number.visibility = View.GONE
+                    holder.itemView.layer.visibility = if (selectedPosition == 0) View.VISIBLE else View.GONE
                 } else {
                     holder.itemView.image.visibility = View.VISIBLE
-                    holder.itemView.number.visibility = View.VISIBLE
                     holder.itemView.defaultImage.visibility = View.GONE
-                    //holder.itemView.number.text = ImageFilters.filters[position - 1].name()
-                    holder.itemView.number.background =
-                        if (selectedPosition == position) ColorDrawable(Color.parseColor("#66FFFFFF"))
-                        else ColorDrawable(Color.parseColor("#00000000"))
+                    holder.itemView.layer.visibility = if (selectedPosition == position) View.VISIBLE else View.GONE
                     holder.itemView.image.setImageBitmap(ImageFilters.filters[position - 1].getThumbnail(originBitmap))
                 }
                 holder.itemView.setOnClickListener {
