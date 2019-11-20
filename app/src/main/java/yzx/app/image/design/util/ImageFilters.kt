@@ -233,9 +233,42 @@ object ImageFilters {
                 return result
             }
         })
+
+        filters.add(object : FilterEntity {
+            override fun getThumbnail(source: Bitmap): Bitmap =
+                Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.ARGB_4444)
+                    .apply { filter15(getSourceThumbnail(source), this) }
+
+            override fun todo(source: Bitmap): Bitmap {
+                val result = emptyBitmaps[source]!!
+                clearEmptyBitmap(result)
+                filter15(source, result)
+                return result
+            }
+        })
+
+        filters.add(object : FilterEntity {
+            override fun getThumbnail(source: Bitmap): Bitmap =
+                Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.ARGB_4444)
+                    .apply { filter16(getSourceThumbnail(source), this) }
+
+            override fun todo(source: Bitmap): Bitmap {
+                val result = emptyBitmaps[source]!!
+                clearEmptyBitmap(result)
+                filter16(source, result)
+                return result
+            }
+        })
+
     }
 
 
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+
+
+    // 锐化
     private fun filter1(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -248,6 +281,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 趋向绿色
     private fun filter2(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -260,6 +294,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 趋向红色
     private fun filter3(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -272,6 +307,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 趋向蓝色
     private fun filter4(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -284,6 +320,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 趋向f0f颜色
     private fun filter5(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -296,7 +333,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
-
+    // 趋向0ff颜色
     private fun filter6(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -309,6 +346,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 趋向ff0颜色
     private fun filter7(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -321,6 +359,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 变暗
     private fun filter8(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -333,6 +372,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 变亮
     private fun filter9(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -345,6 +385,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 黑白
     private fun filter10(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(ColorMatrix().apply {
             setSaturation(0f)
@@ -352,6 +393,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 内阴影
     private fun filter11(source: Bitmap, empty: Bitmap) {
         Canvas(empty).apply {
             val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { maskFilter = BlurMaskFilter(min(source.width / 2f, source.height / 2f), BlurMaskFilter.Blur.INNER) }
@@ -360,6 +402,7 @@ object ImageFilters {
         }
     }
 
+    // 反向
     private fun filter12(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -372,6 +415,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 复古
     private fun filter13(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
@@ -384,6 +428,7 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    // 高斯模糊
     private fun filter14(source: Bitmap, empty: Bitmap, radius: Float) {
         val rs = androidx.renderscript.RenderScript.create(application)
         val oa = androidx.renderscript.Allocation.createFromBitmap(rs, empty)
@@ -392,6 +437,15 @@ object ImageFilters {
         sc.setInput(androidx.renderscript.Allocation.createFromBitmap(rs, source))
         sc.forEach(oa)
         oa.copyTo(empty)
+    }
+
+    // 素描
+    private fun filter15(source: Bitmap, empty: Bitmap) {
+
+    }
+
+    private fun filter16(source: Bitmap, empty: Bitmap) {
+
     }
 
 }
