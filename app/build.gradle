@@ -26,6 +26,10 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk { abiFilters "armeabi-v7a" }
+        renderscriptTargetApi 26
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {

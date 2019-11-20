@@ -1,11 +1,13 @@
 package yzx.app.image.design.util
 
 import android.graphics.*
+import androidx.renderscript.Element
+import yzx.app.image.design.utils.application
 import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.runCacheOutOfMemory
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.max
+import kotlin.math.min
 
 
 interface FilterEntity {
@@ -205,6 +207,32 @@ object ImageFilters {
                 return result
             }
         })
+
+        filters.add(object : FilterEntity {
+            override fun getThumbnail(source: Bitmap): Bitmap =
+                Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.RGB_565)
+                    .apply { filter13(getSourceThumbnail(source), this) }
+
+            override fun todo(source: Bitmap): Bitmap {
+                val result = emptyBitmaps[source]!!
+                clearEmptyBitmap(result)
+                filter13(source, result)
+                return result
+            }
+        })
+
+        filters.add(object : FilterEntity {
+            override fun getThumbnail(source: Bitmap): Bitmap =
+                Bitmap.createBitmap(getSourceThumbnail(source).width, getSourceThumbnail(source).height, Bitmap.Config.ARGB_4444)
+                    .apply { filter14(getSourceThumbnail(source), this, 5f) }
+
+            override fun todo(source: Bitmap): Bitmap {
+                val result = emptyBitmaps[source]!!
+                clearEmptyBitmap(result)
+                filter14(source, result, 18f)
+                return result
+            }
+        })
     }
 
 
@@ -308,10 +336,10 @@ object ImageFilters {
     private fun filter9(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                1.66f, 0f, 0f, 0f, 0f,
-                0f, 1.66f, 0f, 0f, 0f,
-                0f, 0f, 1.66f, 0f, 0f,
-                0f, 0f, 0f, 1f, 0f
+                1.24f, 0f, 0f, 0f, 0f,
+                0f, 1.24f, 0f, 0f, 0f,
+                0f, 0f, 1.24f, 0f, 0f,
+                0f, 0f, 0f, 1.24f, 0f
             )
         )
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
@@ -324,15 +352,13 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
-
     private fun filter11(source: Bitmap, empty: Bitmap) {
         Canvas(empty).apply {
-            val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { maskFilter = BlurMaskFilter(max(source.width / 2f, source.height / 2f), BlurMaskFilter.Blur.INNER) }
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { maskFilter = BlurMaskFilter(min(source.width / 2f, source.height / 2f), BlurMaskFilter.Blur.INNER) }
             paint.color = Color.BLACK
             drawBitmap(source, 0f, 0f, paint)
         }
     }
-
 
     private fun filter12(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
@@ -346,5 +372,26 @@ object ImageFilters {
         Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
     }
 
+    private fun filter13(source: Bitmap, empty: Bitmap) {
+        val filter = ColorMatrixColorFilter(
+            floatArrayOf(
+                1 / 2f, 1 / 2f, 1 / 2f, 0f, 0f,
+                1 / 3f, 1 / 3f, 1 / 3f, 0f, 0f,
+                1 / 4f, 1 / 4f, 1 / 4f, 0f, 0f,
+                0f, 0f, 0f, 1f, 0f
+            )
+        )
+        Canvas(empty).apply { Paint(Paint.ANTI_ALIAS_FLAG).apply { colorFilter = filter; drawBitmap(source, 0f, 0f, this) } }
+    }
+
+    private fun filter14(source: Bitmap, empty: Bitmap, radius: Float) {
+        val rs = androidx.renderscript.RenderScript.create(application)
+        val oa = androidx.renderscript.Allocation.createFromBitmap(rs, empty)
+        val sc = androidx.renderscript.ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
+        sc.setRadius(radius)
+        sc.setInput(androidx.renderscript.Allocation.createFromBitmap(rs, source))
+        sc.forEach(oa)
+        oa.copyTo(empty)
+    }
 
 }
