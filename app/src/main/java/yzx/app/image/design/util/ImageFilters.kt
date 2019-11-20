@@ -184,9 +184,9 @@ object ImageFilters {
     private fun filter1(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                2.3f, 0f, 0f, 0f, -255f,
-                0f, 2.3f, 0f, 0f, -255f,
-                0f, 0f, 2.3f, 0f, -255f,
+                1.9f, 0f, 0f, 0f, -130f,
+                0f, 1.9f, 0f, 0f, -130f,
+                0f, 0f, 1.9f, 0f, -130f,
                 0f, 0f, 0f, 1f, 0f
             )
         )
@@ -197,7 +197,7 @@ object ImageFilters {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
                 1f, 0f, 0f, 0f, 0f,
-                0f, 2.3f, 0f, 0f, 0f,
+                0f, 1.6f, 0f, 0f, 0f,
                 0f, 0f, 1f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
@@ -208,7 +208,7 @@ object ImageFilters {
     private fun filter3(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                2.3f, 0f, 0f, 0f, 0f,
+                1.6f, 0f, 0f, 0f, 0f,
                 0f, 1f, 0f, 0f, 0f,
                 0f, 0f, 1f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
@@ -222,7 +222,7 @@ object ImageFilters {
             floatArrayOf(
                 1f, 0f, 0f, 0f, 0f,
                 0f, 1f, 0f, 0f, 0f,
-                0f, 0f, 2.3f, 0f, 0f,
+                0f, 0f, 1.6f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
         )
@@ -232,9 +232,9 @@ object ImageFilters {
     private fun filter5(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                2.3f, 0f, 0f, 0f, 0f,
+                1.6f, 0f, 0f, 0f, 0f,
                 0f, 1f, 0f, 0f, 0f,
-                0f, 0f, 2.3f, 0f, 0f,
+                0f, 0f, 1.6f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
         )
@@ -246,8 +246,8 @@ object ImageFilters {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
                 1f, 0f, 0f, 0f, 0f,
-                0f, 2.3f, 0f, 0f, 0f,
-                0f, 0f, 2.3f, 0f, 0f,
+                0f, 1.6f, 0f, 0f, 0f,
+                0f, 0f, 1.6f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
         )
@@ -257,8 +257,8 @@ object ImageFilters {
     private fun filter7(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                2.3f, 0f, 0f, 0f, 0f,
-                0f, 2.3f, 0f, 0f, 0f,
+                1.6f, 0f, 0f, 0f, 0f,
+                0f, 1.6f, 0f, 0f, 0f,
                 0f, 0f, 1f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
@@ -269,9 +269,9 @@ object ImageFilters {
     private fun filter8(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                0.5f, 0f, 0f, 0f, 0f,
-                0f, 0.5f, 0f, 0f, 0f,
-                0f, 0f, 0.5f, 0f, 0f,
+                0.66f, 0f, 0f, 0f, 0f,
+                0f, 0.66f, 0f, 0f, 0f,
+                0f, 0f, 0.66f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
         )
@@ -281,9 +281,9 @@ object ImageFilters {
     private fun filter9(source: Bitmap, empty: Bitmap) {
         val filter = ColorMatrixColorFilter(
             floatArrayOf(
-                2f, 0f, 0f, 0f, 0f,
-                0f, 2f, 0f, 0f, 0f,
-                0f, 0f, 2f, 0f, 0f,
+                1.66f, 0f, 0f, 0f, 0f,
+                0f, 1.66f, 0f, 0f, 0f,
+                0f, 0f, 1.66f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
         )
