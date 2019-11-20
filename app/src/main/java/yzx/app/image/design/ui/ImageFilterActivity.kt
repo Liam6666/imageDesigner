@@ -44,6 +44,7 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
 
     private fun makeUI(originBitmap: Bitmap) {
         image.setImageBitmap(originBitmap)
+        ImageFilters.makeThumbnail(originBitmap)
         ImageFilters.makeEmptyBitmap(originBitmap) {
             toastMemoryError()
             finish()
@@ -90,11 +91,11 @@ class ImageFilterActivity : AppCompatActivity(), IImageDesignActivity {
                     holder.itemView.image.visibility = View.VISIBLE
                     holder.itemView.number.visibility = View.VISIBLE
                     holder.itemView.defaultImage.visibility = View.GONE
-                    holder.itemView.number.text = ImageFilters.filters[position - 1].name()
+                    //holder.itemView.number.text = ImageFilters.filters[position - 1].name()
                     holder.itemView.number.background =
                         if (selectedPosition == position) ColorDrawable(Color.parseColor("#66FFFFFF"))
                         else ColorDrawable(Color.parseColor("#00000000"))
-                    holder.itemView.image.setImageBitmap(ImageFilters.filters[position - 1].getThumbnail())
+                    holder.itemView.image.setImageBitmap(ImageFilters.filters[position - 1].getThumbnail(originBitmap))
                 }
                 holder.itemView.setOnClickListener {
                     selectedPosition = position
