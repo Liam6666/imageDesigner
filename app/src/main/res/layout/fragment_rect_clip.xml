@@ -6,13 +6,14 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
 
 
     <yzx.app.image.design.views.ClipRect
         android:id="@+id/clipRect"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
 
 </FrameLayout>

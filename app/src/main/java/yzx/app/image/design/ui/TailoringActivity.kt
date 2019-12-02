@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_image_filter.*
+import kotlinx.android.synthetic.main.activity_image_filter.image
+import kotlinx.android.synthetic.main.fragment_rect_clip.*
 import yzx.app.image.design.R
 import yzx.app.image.design.utils.decodeFileBitmapWithMaxLength
 import yzx.app.image.design.utils.launchActivity
@@ -66,7 +68,7 @@ class TailoringActivity : AppCompatActivity(), IImageDesignActivity {
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
             image.setImageBitmap(bmp)
-
+            clipRect.bindImageView(image)
         }
 
     }
