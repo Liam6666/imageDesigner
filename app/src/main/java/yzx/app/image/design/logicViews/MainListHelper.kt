@@ -136,18 +136,18 @@ class MainListHelper {
         ItemInfo().apply {
             animIcon = ClipIcon(application)
             text = "裁剪"
-            click = Runnable { }
+            click = Runnable { onSelectedResult { path -> TailoringActivity.launch(application, path) } }
         },
         ItemInfo().apply {
             animIcon = CombineIcon(application)
             text = "拼接合并"
             click = Runnable { }
-        },
-        ItemInfo().apply {
-            animIcon = CutoutIcon(application)
-            text = "区域抠取"
-            click = Runnable { }
         }
+//        ItemInfo().apply {
+//            animIcon = CutoutIcon(application)
+//            text = "区域抠取"
+//            click = Runnable { }
+//        }
     )
 
 }
