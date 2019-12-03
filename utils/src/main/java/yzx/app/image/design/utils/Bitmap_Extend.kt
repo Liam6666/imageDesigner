@@ -156,6 +156,26 @@ fun makeSameScaleAndOverlayBitmap(source: Bitmap, overlay: Bitmap): Bitmap {
 }
 
 
+/**
+ * 截图, 参数为原图的比例截取值, 范围0f~1f
+ */
+fun makeClipBitmap(source: Bitmap, leftP: Float, topP: Float, widthP: Float, heightP: Float, useOriginIfNoChange: Boolean = true): Bitmap {
+    check(leftP >= 0f && leftP + widthP <= 1f && widthP <= 1f && topP >= 0f && topP + heightP <= 1f && heightP <= 1f) { "params value error" }
+    if (leftP == 0f && topP == 0f && heightP == 1f && widthP == 1f)
+        return if (useOriginIfNoChange) source else Bitmap.createBitmap(source)
+    val byteLength: Int
+    val d = BitmapRegionDecoder.newInstance(ByteArrayOutputStream().run {
+        source.compress(Bitmap.CompressFormat.PNG, 100, this)
+        toByteArray().apply { byteLength = this.size }
+    }, 0, byteLength, true)
+    return d.decodeRegion(Rect().apply {
+        left = (source.width * leftP).toInt()
+        top = (source.height * topP).toInt()
+        right = (left + source.width * widthP).toInt()
+        bottom = (top + source.height * heightP).toInt()
+    }, BitmapFactory.Options().apply { inPreferredConfig = Bitmap.Config.ARGB_8888 })
+}
+
 
 
 

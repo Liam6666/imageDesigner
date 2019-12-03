@@ -11,6 +11,9 @@ import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.getRealImageWidthAndHeight
 
 
+class ClipRectResult(val leftPercent: Float, val topPercent: Float, val widthPercent: Float, val heightPercent: Float)
+
+
 class ClipRect : View {
 
     constructor(context: Context) : super(context)
@@ -67,6 +70,20 @@ class ClipRect : View {
                 invalidate()
             }
         }
+    }
+
+    /**
+     * 获取截取比例结果
+     */
+    fun getResult(): ClipRectResult? {
+        if (imageWidth == 0 || imageHeight == 0)
+            return null
+        return ClipRectResult(
+            (c_left - imageLeftBoundary) / imageWidth.toFloat(),
+            (c_top - imageTopBoundary) / imageHeight.toFloat(),
+            (c_right - c_left) / imageWidth.toFloat(),
+            (c_bottom - c_top) / imageHeight.toFloat()
+        )
     }
 
 

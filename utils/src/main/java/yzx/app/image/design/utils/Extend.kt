@@ -2,7 +2,6 @@ package yzx.app.image.design.utils
 
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -75,7 +74,7 @@ fun runOnMainThread(block: () -> Unit) {
 }
 
 
-fun runCacheOutOfMemory(block: () -> Unit, onOutOfMemory: () -> Unit = {}) {
+inline fun runCacheOutOfMemory(block: () -> Unit, onOutOfMemory: () -> Unit = {}) {
     try {
         block()
     } catch (e: OutOfMemoryError) {

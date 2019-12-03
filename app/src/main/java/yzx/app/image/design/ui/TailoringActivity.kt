@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.fragment_rect_clip.*
 import yzx.app.image.design.R
 import yzx.app.image.design.utils.decodeFileBitmapWithMaxLength
 import yzx.app.image.design.utils.launchActivity
+import yzx.app.image.design.utils.makeClipBitmap
+import yzx.app.image.design.utils.runCacheOutOfMemory
 
 
 class TailoringActivity : AppCompatActivity(), IImageDesignActivity {
@@ -57,13 +59,16 @@ class TailoringActivity : AppCompatActivity(), IImageDesignActivity {
 
         /** 获取结果 */
         fun getResult(): Bitmap? {
-            return bmp
+            val clipResult = clipRect.getResult() ?: return null
+            runCacheOutOfMemory({
+                return makeClipBitmap(bmp, clipResult.leftPercent, clipResult.topPercent, clipResult.widthPercent, clipResult.heightPercent)
+            }) { (activity as IImageDesignActivity).toastMemoryError() }
+            return null
         }
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             return inflater.inflate(R.layout.fragment_rect_clip, container, false)
         }
-
 
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
