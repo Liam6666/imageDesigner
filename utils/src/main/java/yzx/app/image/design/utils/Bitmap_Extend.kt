@@ -159,6 +159,7 @@ fun makeSameScaleAndOverlayBitmap(source: Bitmap, overlay: Bitmap): Bitmap {
 /**
  * 截图, 参数为原图的比例截取值, 范围0f~1f
  */
+@Deprecated(message = "效率低下", level = DeprecationLevel.WARNING)
 fun makeClipBitmap(source: Bitmap, leftP: Float, topP: Float, widthP: Float, heightP: Float, useOriginIfNoChange: Boolean = true): Bitmap {
     check(leftP >= 0f && leftP + widthP <= 1f && widthP <= 1f && topP >= 0f && topP + heightP <= 1f && heightP <= 1f) { "params value error" }
     if (leftP == 0f && topP == 0f && heightP == 1f && widthP == 1f)
@@ -177,11 +178,18 @@ fun makeClipBitmap(source: Bitmap, leftP: Float, topP: Float, widthP: Float, hei
 }
 
 
-
-
-
-
-
+/**
+ * 截图 (使用BitmapRegionDecoder有点太占用内存和cpu)
+ */
+fun makeClipBitmap2(source: Bitmap, leftP: Float, topP: Float, widthP: Float, heightP: Float, useOriginIfNoChange: Boolean = true): Bitmap {
+    check(leftP >= 0f && leftP + widthP <= 1f && widthP <= 1f && topP >= 0f && topP + heightP <= 1f && heightP <= 1f) { "params value error" }
+    if (leftP == 0f && topP == 0f && heightP == 1f && widthP == 1f)
+        return if (useOriginIfNoChange) source else Bitmap.createBitmap(source)
+    val resultBmp = Bitmap.createBitmap((source.width * widthP).toInt(), (source.height * heightP).toInt(), Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(resultBmp)
+    canvas.drawBitmap(source, -source.width * leftP, -source.height * topP, null)
+    return resultBmp
+}
 
 
 
