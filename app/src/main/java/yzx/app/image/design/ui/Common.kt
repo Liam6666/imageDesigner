@@ -102,17 +102,15 @@ fun IImageDesignActivity.startSaveBitmap(bitmap: Bitmap) {
 
 /* 获取保存图片的延迟时间, 为了能完美暂时WaitingDialog的动画 */
 private fun getFakeDelayDuration(bitmap: Bitmap): Long {
-    val long = 1000 * 1000
-    val middle = 2000 * 2000
     return when (bitmap.width * bitmap.height) {
-        in 0 until long -> {
-            900L
+        in 0 until 1000 * 1000 -> {
+            300L
         }
-        in 0 until middle -> {
-            500L
+        in 0 until 2000 * 2000 -> {
+            200L
         }
         else -> {
-            200L
+            100L
         }
     }
 }
