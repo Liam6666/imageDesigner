@@ -74,6 +74,12 @@ class TailoringActivity : AppCompatActivity(), IImageDesignActivity {
             super.onActivityCreated(savedInstanceState)
             image.setImageBitmap(bmp)
             clipRect.bindImageView(image)
+            clipRect.makeCornerLineTwinkle()
+        }
+
+        override fun onDestroyView() {
+            super.onDestroyView()
+            clipRect.cancelCornerLineTwinkle()
         }
 
     }

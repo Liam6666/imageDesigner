@@ -7,6 +7,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import yzx.app.image.design.utils.dp2px
 import yzx.app.image.design.utils.getRealImageWidthAndHeight
 
@@ -87,10 +91,30 @@ class ClipRect : View {
     }
 
 
-    private val cornerLineColor = Color.parseColor("#ffffff")
+    private val scope = MainScope()
+    /** 停止边角闪烁 */
+    fun cancelCornerLineTwinkle() = scope.cancel()
+
+    /** 让边角闪烁 */
+    fun makeCornerLineTwinkle() = scope.launch {
+        var index = -1
+        repeat(Int.MAX_VALUE) {
+            delay(333)
+            index++
+            if (index == cornerLineColors.size)
+                index = 0
+            currentCornerLineColor = cornerLineColors[index]
+            invalidate()
+        }
+    }
+
+
+    private val cornerLineColors = arrayOf(Color.WHITE, Color.RED, Color.GREEN, Color.BLUE)
+    private var currentCornerLineColor = cornerLineColors[0]
     private val cornerLineStrokeWidth = dp2px(3)
     private val darkColor = Color.parseColor("#aa000000")
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val cornerLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val clipPath = Path()
     private val darkPath = Path()
 
@@ -123,17 +147,17 @@ class ClipRect : View {
             color = darkColor
         })
 
-        paint.strokeWidth = cornerLineStrokeWidth.toFloat()
-        paint.color = cornerLineColor
-        paint.style = Paint.Style.FILL
-        canvas.drawLine(c_left, c_top + cornerLineStrokeWidth / 2f, c_left + touchRectLength, c_top + cornerLineStrokeWidth / 2f, paint)
-        canvas.drawLine(c_left + cornerLineStrokeWidth / 2, c_top, c_left + cornerLineStrokeWidth / 2, c_top + touchRectLength, paint)
-        canvas.drawLine(c_right, c_top + cornerLineStrokeWidth / 2, c_right - touchRectLength, c_top + cornerLineStrokeWidth / 2, paint)
-        canvas.drawLine(c_right - cornerLineStrokeWidth / 2, c_top, c_right - cornerLineStrokeWidth / 2, c_top + touchRectLength, paint)
-        canvas.drawLine(c_left + cornerLineStrokeWidth / 2, c_bottom, c_left + cornerLineStrokeWidth / 2, c_bottom - touchRectLength, paint)
-        canvas.drawLine(c_left, c_bottom - cornerLineStrokeWidth / 2, c_left + touchRectLength, c_bottom - cornerLineStrokeWidth / 2, paint)
-        canvas.drawLine(c_right - cornerLineStrokeWidth / 2, c_bottom, c_right - cornerLineStrokeWidth / 2, c_bottom - touchRectLength, paint)
-        canvas.drawLine(c_right, c_bottom - cornerLineStrokeWidth / 2, c_right - touchRectLength, c_bottom - cornerLineStrokeWidth / 2, paint)
+        cornerLinePaint.strokeWidth = cornerLineStrokeWidth.toFloat()
+        cornerLinePaint.color = currentCornerLineColor
+        cornerLinePaint.style = Paint.Style.FILL
+        canvas.drawLine(c_left, c_top + cornerLineStrokeWidth / 2f, c_left + touchRectLength, c_top + cornerLineStrokeWidth / 2f, cornerLinePaint)
+        canvas.drawLine(c_left + cornerLineStrokeWidth / 2, c_top, c_left + cornerLineStrokeWidth / 2, c_top + touchRectLength, cornerLinePaint)
+        canvas.drawLine(c_right, c_top + cornerLineStrokeWidth / 2, c_right - touchRectLength, c_top + cornerLineStrokeWidth / 2, cornerLinePaint)
+        canvas.drawLine(c_right - cornerLineStrokeWidth / 2, c_top, c_right - cornerLineStrokeWidth / 2, c_top + touchRectLength, cornerLinePaint)
+        canvas.drawLine(c_left + cornerLineStrokeWidth / 2, c_bottom, c_left + cornerLineStrokeWidth / 2, c_bottom - touchRectLength, cornerLinePaint)
+        canvas.drawLine(c_left, c_bottom - cornerLineStrokeWidth / 2, c_left + touchRectLength, c_bottom - cornerLineStrokeWidth / 2, cornerLinePaint)
+        canvas.drawLine(c_right - cornerLineStrokeWidth / 2, c_bottom, c_right - cornerLineStrokeWidth / 2, c_bottom - touchRectLength, cornerLinePaint)
+        canvas.drawLine(c_right, c_bottom - cornerLineStrokeWidth / 2, c_right - touchRectLength, c_bottom - cornerLineStrokeWidth / 2, cornerLinePaint)
     }
 
 
