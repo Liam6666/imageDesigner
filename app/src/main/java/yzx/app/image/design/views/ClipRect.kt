@@ -70,6 +70,9 @@ class ClipRect : View {
     }
 
 
+    private val cornerLineColor = Color.parseColor("#ffffff")
+    private val cornerLineStrokeWidth = dp2px(3)
+    private val darkColor = Color.parseColor("#aa000000")
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val clipPath = Path()
     private val darkPath = Path()
@@ -100,8 +103,20 @@ class ClipRect : View {
         darkPath.addRect(0f, c_bottom, width.toFloat(), height.toFloat(), Path.Direction.CW)
         darkPath.addRect(c_right, 0f, width.toFloat(), height.toFloat(), Path.Direction.CW)
         canvas.drawPath(darkPath, paint.apply {
-            color = Color.parseColor("#88000000")
+            color = darkColor
         })
+
+        paint.strokeWidth = cornerLineStrokeWidth.toFloat()
+        paint.color = cornerLineColor
+        paint.style = Paint.Style.FILL
+        canvas.drawLine(c_left, c_top + cornerLineStrokeWidth / 2f, c_left + touchRectLength, c_top + cornerLineStrokeWidth / 2f, paint)
+        canvas.drawLine(c_left + cornerLineStrokeWidth / 2, c_top, c_left + cornerLineStrokeWidth / 2, c_top + touchRectLength, paint)
+        canvas.drawLine(c_right, c_top + cornerLineStrokeWidth / 2, c_right - touchRectLength, c_top + cornerLineStrokeWidth / 2, paint)
+        canvas.drawLine(c_right - cornerLineStrokeWidth / 2, c_top, c_right - cornerLineStrokeWidth / 2, c_top + touchRectLength, paint)
+        canvas.drawLine(c_left + cornerLineStrokeWidth / 2, c_bottom, c_left + cornerLineStrokeWidth / 2, c_bottom - touchRectLength, paint)
+        canvas.drawLine(c_left, c_bottom - cornerLineStrokeWidth / 2, c_left + touchRectLength, c_bottom - cornerLineStrokeWidth / 2, paint)
+        canvas.drawLine(c_right - cornerLineStrokeWidth / 2, c_bottom, c_right - cornerLineStrokeWidth / 2, c_bottom - touchRectLength, paint)
+        canvas.drawLine(c_right, c_bottom - cornerLineStrokeWidth / 2, c_right - touchRectLength, c_bottom - cornerLineStrokeWidth / 2, paint)
     }
 
 
@@ -132,10 +147,31 @@ class ClipRect : View {
                 invalidate()
             }
             DownPosition.RT -> {
+                c_right += xGap
+                c_top += yGap
+                if (c_right > imageRightBoundary) c_right = imageRightBoundary
+                if (c_right - minClipLength < c_left) c_right = c_left + minClipLength
+                if (c_top < imageTopBoundary) c_top = imageTopBoundary
+                if (c_top + minClipLength > c_bottom) c_top = c_bottom - minClipLength
+                invalidate()
             }
             DownPosition.LB -> {
+                c_left += xGap
+                c_bottom += yGap
+                if (c_left < imageLeftBoundary) c_left = imageLeftBoundary
+                if (c_left + minClipLength > c_right) c_left = c_right - minClipLength
+                if (c_bottom > imageBottomBoundary) c_bottom = imageBottomBoundary
+                if (c_bottom - minClipLength < c_top) c_bottom = c_top + minClipLength
+                invalidate()
             }
             DownPosition.RB -> {
+                c_right += xGap
+                c_bottom += yGap
+                if (c_right > imageRightBoundary) c_right = imageRightBoundary
+                if (c_right - minClipLength < c_left) c_right = c_left + minClipLength
+                if (c_bottom > imageBottomBoundary) c_bottom = imageBottomBoundary
+                if (c_bottom - minClipLength < c_top) c_bottom = c_top + minClipLength
+                invalidate()
             }
         }
     }
@@ -147,7 +183,15 @@ class ClipRect : View {
 
     /* 获取手指点击位置 */
     private fun getDownPosition(x: Float, y: Float): DownPosition? {
-        return DownPosition.LT
+        if (x > c_left - touchRectLength && x < c_left + touchRectLength && y > c_top - touchRectLength && y < c_top + touchRectLength)
+            return DownPosition.LT
+        if (x > c_right - touchRectLength && x < c_right + touchRectLength && y > c_top - touchRectLength && y < c_top + touchRectLength)
+            return DownPosition.RT
+        if (x > c_left - touchRectLength && x < c_left + touchRectLength && y > c_bottom - touchRectLength && y < c_bottom + touchRectLength)
+            return DownPosition.LB
+        if (x > c_right - touchRectLength && x < c_right + touchRectLength && y > c_bottom - touchRectLength && y < c_bottom + touchRectLength)
+            return DownPosition.RB
+        return null
     }
 
 
