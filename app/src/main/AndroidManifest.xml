@@ -63,6 +63,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/DesignActivityCommonStyle" />
 
+        <activity
+            android:name=".ui.AreaLargerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
+
+
     </application>
 
 </manifest>

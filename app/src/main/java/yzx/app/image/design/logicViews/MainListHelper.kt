@@ -140,8 +140,8 @@ class MainListHelper {
         },
         ItemInfo().apply {
             animIcon = CombineIcon(application)
-            text = "拼接合并"
-            click = Runnable { }
+            text = "面积扩展"
+            click = Runnable { onSelectedResult { path -> AreaLargerActivity.launch(application, path) } }
         }
 //        ItemInfo().apply {
 //            animIcon = CutoutIcon(application)
