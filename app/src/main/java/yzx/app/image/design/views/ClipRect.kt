@@ -239,6 +239,30 @@ class ClipRect : View {
                 }
                 invalidate()
             }
+            DownPosition.LRTC -> {
+                c_top += yGap
+                if (c_top < imageTopBoundary) c_top = imageTopBoundary
+                if (c_top + minClipLength > c_bottom) c_top = c_bottom - minClipLength
+                invalidate()
+            }
+            DownPosition.TBRC -> {
+                c_right += xGap
+                if (c_right > imageRightBoundary) c_right = imageRightBoundary
+                if (c_right - minClipLength < c_left) c_right = c_left + minClipLength
+                invalidate()
+            }
+            DownPosition.LRBC -> {
+                c_bottom += yGap
+                if (c_bottom > imageBottomBoundary) c_bottom = imageBottomBoundary
+                if (c_bottom - minClipLength < c_top) c_bottom = c_top + minClipLength
+                invalidate()
+            }
+            DownPosition.TBLC -> {
+                c_left += xGap
+                if (c_left < imageLeftBoundary) c_left = imageLeftBoundary
+                if (c_left + minClipLength > c_right) c_left = c_right - minClipLength
+                invalidate()
+            }
         }
     }
 
@@ -257,6 +281,14 @@ class ClipRect : View {
             return DownPosition.LB
         if (x > c_right - touchRectLength && x < c_right + touchRectLength && y > c_bottom - touchRectLength && y < c_bottom + touchRectLength)
             return DownPosition.RB
+        if (x > c_left + touchRectLength && x < c_right - touchRectLength && y > c_top - touchRectLength && y < c_top + touchRectLength)
+            return DownPosition.LRTC
+        if (x < c_right + touchRectLength && x > c_right - touchRectLength && y > c_top + touchRectLength && y < c_bottom - touchRectLength)
+            return DownPosition.TBRC
+        if (x > c_left + touchRectLength && x < c_right - touchRectLength && y > c_bottom - touchRectLength && y < c_bottom + touchRectLength)
+            return DownPosition.LRBC
+        if (x > c_left - touchRectLength && x < c_left + touchRectLength && y > c_top + touchRectLength && y < c_bottom - touchRectLength)
+            return DownPosition.TBLC
         if (x > c_left && x < c_right && y > c_top && y < c_bottom)
             return DownPosition.CENTER
         return null
@@ -264,7 +296,7 @@ class ClipRect : View {
 
 
     enum class DownPosition {
-        LT, RT, LB, RB, CENTER
+        LT, RT, LB, RB, CENTER, LRTC, TBRC, LRBC, TBLC
     }
 
 }
