@@ -173,6 +173,31 @@ class ClipRect : View {
                 if (c_bottom - minClipLength < c_top) c_bottom = c_top + minClipLength
                 invalidate()
             }
+            DownPosition.CENTER -> {
+                val w = c_right - c_left
+                val h = c_bottom - c_top
+                c_left += xGap
+                c_right += xGap
+                c_top += yGap
+                c_bottom += yGap
+                if (c_left < imageLeftBoundary) {
+                    c_left = imageLeftBoundary
+                    c_right = c_left + w
+                }
+                if (c_right > imageRightBoundary) {
+                    c_right = imageRightBoundary
+                    c_left = c_right - w
+                }
+                if (c_top < imageTopBoundary) {
+                    c_top = imageTopBoundary
+                    c_bottom = c_top + h
+                }
+                if (c_bottom > imageBottomBoundary) {
+                    c_bottom = imageBottomBoundary
+                    c_top = c_bottom - h
+                }
+                invalidate()
+            }
         }
     }
 
@@ -191,12 +216,14 @@ class ClipRect : View {
             return DownPosition.LB
         if (x > c_right - touchRectLength && x < c_right + touchRectLength && y > c_bottom - touchRectLength && y < c_bottom + touchRectLength)
             return DownPosition.RB
+        if (x > c_left && x < c_right && y > c_top && y < c_bottom)
+            return DownPosition.CENTER
         return null
     }
 
 
     enum class DownPosition {
-        LT, RT, LB, RB
+        LT, RT, LB, RB, CENTER
     }
 
 }
