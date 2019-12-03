@@ -12,10 +12,7 @@ import kotlinx.android.synthetic.main.activity_image_filter.*
 import kotlinx.android.synthetic.main.activity_image_filter.image
 import kotlinx.android.synthetic.main.fragment_rect_clip.*
 import yzx.app.image.design.R
-import yzx.app.image.design.utils.decodeFileBitmapWithMaxLength
-import yzx.app.image.design.utils.launchActivity
-import yzx.app.image.design.utils.makeClipBitmap2
-import yzx.app.image.design.utils.runCacheOutOfMemory
+import yzx.app.image.design.utils.*
 
 
 class TailoringActivity : AppCompatActivity(), IImageDesignActivity {
@@ -59,6 +56,10 @@ class TailoringActivity : AppCompatActivity(), IImageDesignActivity {
 
         /** 获取结果 */
         fun getResult(): Bitmap? {
+            if (bmp.width < 10 || bmp.height < 10) {
+                toast("图片太小, 无法切图")
+                return null
+            }
             val clipResult = clipRect.getResult() ?: return null
             runCacheOutOfMemory({
                 return makeClipBitmap2(bmp, clipResult.leftPercent, clipResult.topPercent, clipResult.widthPercent, clipResult.heightPercent)
