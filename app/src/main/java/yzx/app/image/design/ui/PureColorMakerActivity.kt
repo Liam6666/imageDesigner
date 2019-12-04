@@ -44,6 +44,7 @@ class PureColorMakerActivity : AppCompatActivity(), IImageDesignActivity, Corout
         }
         colorPicker.onColorChanged = { notifyExampleView() }
         viewer.visibility = View.INVISIBLE
+        tip.visibility = View.VISIBLE
         cache.setOnClickListener {
             if (viewer.visibility != View.VISIBLE) return@setOnClickListener
             getBitmap { it?.run { cacheBitmap(this) } }
@@ -60,11 +61,13 @@ class PureColorMakerActivity : AppCompatActivity(), IImageDesignActivity, Corout
         val heightInputStr = heightInput.text.toString()
         if (widthInputStr.isEmpty() || heightInputStr.isEmpty()) {
             viewer.visibility = View.INVISIBLE
+            tip.visibility = View.VISIBLE
         } else {
             val color = colorPicker.getCurrentColor()
             val w = widthInputStr.toInt()
             val h = heightInputStr.toInt()
             viewer.visibility = View.VISIBLE
+            tip.visibility = View.INVISIBLE
             viewer.setBackgroundColor(color)
             when {
                 w > h -> {

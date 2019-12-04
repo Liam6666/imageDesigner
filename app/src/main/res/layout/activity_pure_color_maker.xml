@@ -22,6 +22,15 @@
             android:layout_height="match_parent"
             android:layout_gravity="center" />
 
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="😌还没填宽高↘↘"
+            android:textColor="#fff"
+            android:textSize="12dp" />
+
     </FrameLayout>
 
 
@@ -35,8 +44,8 @@
 
     <yzx.app.image.design.views.ColorPicker
         android:id="@+id/colorPicker"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginLeft="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/tbGuide" />
@@ -44,10 +53,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="背景颜色"
         android:textColor="#fff"
-        android:textSize="14dp"
+        android:textSize="13dp"
         app:layout_constraintLeft_toLeftOf="@id/colorPicker"
         app:layout_constraintRight_toRightOf="@id/colorPicker"
         app:layout_constraintTop_toBottomOf="@id/colorPicker" />
@@ -109,7 +118,7 @@
         android:layout_marginBottom="12dp"
         android:text="输入宽高像素:"
         android:textColor="#fff"
-        android:textSize="14dp"
+        android:textSize="13dp"
         app:layout_constraintBottom_toTopOf="@id/widthInput"
         app:layout_constraintLeft_toLeftOf="@id/widthInput" />
 
