@@ -16,7 +16,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/app_name"
         android:textColor="#000"
-        android:textSize="30dp"
+        android:textSize="27dp"
         android:textStyle="italic"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
