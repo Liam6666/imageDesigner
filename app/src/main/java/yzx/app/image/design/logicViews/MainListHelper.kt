@@ -142,12 +142,12 @@ class MainListHelper {
             animIcon = CombineIcon(application)
             text = "面积扩展"
             click = Runnable { onSelectedResult { path -> AreaLargerActivity.launch(application, path) } }
+        },
+        ItemInfo().apply {
+            animIcon = CutoutIcon(application)
+            text = "纯色图生成"
+            click = Runnable { onSelectedResult { path -> PureColorMakerActivity.launch(application, path) } }
         }
-//        ItemInfo().apply {
-//            animIcon = CutoutIcon(application)
-//            text = "区域抠取"
-//            click = Runnable { }
-//        }
     )
 
 }

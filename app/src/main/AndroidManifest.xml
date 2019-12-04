@@ -68,6 +68,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/DesignActivityCommonStyle" />
 
+        <activity
+            android:name=".ui.PureColorMakerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DesignActivityCommonStyle" />
+        
 
     </application>
 
