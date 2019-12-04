@@ -1,5 +1,5 @@
 # 图片编辑工具app
-
+欢迎加入QQ群：777318632
 
 ## 截图功能
 ![image](https://github.com/Yikinayi/imageDesigner/blob/master/images/pic_jietu.png?raw=true)
