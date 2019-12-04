@@ -192,7 +192,23 @@ fun makeClipBitmap2(source: Bitmap, leftP: Float, topP: Float, widthP: Float, he
 }
 
 
-
+/**
+ * 扩展bitmap面积
+ */
+fun makeExpendBitmap(source: Bitmap, color: Int, topP: Float, rightP: Float, bottomP: Float, leftP: Float, useOriginIfNoChange: Boolean = true): Bitmap {
+    check(topP >= 0 && rightP >= 0 && leftP >= 0 && bottomP >= 0) { "params error" }
+    if (topP == 0f && rightP == 0f && bottomP == 0f && leftP == 0f)
+        return if (useOriginIfNoChange) source else Bitmap.createBitmap(source)
+    val topGrow = source.height * topP
+    val rightGrow = source.width * rightP
+    val bottomGrow = source.height * bottomP
+    val leftGrow = source.width * leftP
+    val result = Bitmap.createBitmap((source.width + leftGrow + rightGrow).toInt(), (source.height + topGrow + bottomGrow).toInt(), Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(result)
+    canvas.drawColor(color)
+    canvas.drawBitmap(source, leftGrow, topGrow, null)
+    return result
+}
 
 
 

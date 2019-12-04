@@ -106,13 +106,29 @@ class AreaLargerActivity : AppCompatActivity(), IImageDesignActivity {
                 image.setPadding(image.paddingLeft, image.paddingTop, image.paddingRight, targetPaddingBottom)
             }
 
-            cache.setOnClickListener {
-
-            }
-            save.setOnClickListener {
-
-            }
+            cache.setOnClickListener { getResultBitmap(originBitmap)?.run { cacheBitmap(this) } }
+            save.setOnClickListener { getResultBitmap(originBitmap)?.run { startSaveBitmap(this) } }
         }
     }
+
+
+    /**
+     * 获取结果bitmap
+     */
+    private fun getResultBitmap(originBitmap: Bitmap): Bitmap? {
+        if (image.paddingLeft + image.paddingRight + image.paddingTop + image.paddingBottom < 1) {
+            toast("图片无改动")
+            return null
+        }
+        runCacheOutOfMemory({
+            return makeExpendBitmap(
+                originBitmap, colorPicker.getCurrentColor(),
+                image.paddingTop.toFloat() / image.height, image.paddingRight.toFloat() / image.width,
+                image.paddingBottom.toFloat() / image.height, image.paddingLeft.toFloat() / image.width
+            )
+        }) { toastMemoryError() }
+        return null
+    }
+
 
 }
