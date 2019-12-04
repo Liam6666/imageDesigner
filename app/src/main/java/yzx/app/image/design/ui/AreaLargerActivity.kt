@@ -3,9 +3,12 @@ package yzx.app.image.design.ui
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_area_larger.*
+import kotlinx.coroutines.*
 import yzx.app.image.design.R
 import yzx.app.image.design.utils.*
 
@@ -32,6 +35,8 @@ class AreaLargerActivity : AppCompatActivity(), IImageDesignActivity {
         }
     }
 
+
+    private val repeatScope = MainScope()
 
     private fun makeUI(originBitmap: Bitmap) {
         window.decorView.post {
@@ -108,6 +113,36 @@ class AreaLargerActivity : AppCompatActivity(), IImageDesignActivity {
 
             cache.setOnClickListener { getResultBitmap(originBitmap)?.run { cacheBitmap(this) } }
             save.setOnClickListener { getResultBitmap(originBitmap)?.run { startSaveBitmap(this) } }
+
+            var currentRepeatJob: Job? = null
+            fun performRepeat(view: View) {
+                view.setOnLongClickListener {
+                    currentRepeatJob?.cancel()
+                    currentRepeatJob = repeatScope.launch { repeat(200) { view.performClick(); delay(100) } }
+                    true
+                }
+            }
+            performRepeat(l_add)
+            performRepeat(l_reduce)
+            performRepeat(t_add)
+            performRepeat(t_reduce)
+            performRepeat(r_add)
+            performRepeat(r_reduce)
+            performRepeat(b_add)
+            performRepeat(b_reduce)
+            val touchListener = View.OnTouchListener { _, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> currentRepeatJob?.cancel()
+                }; false
+            }
+            l_add.setOnTouchListener(touchListener)
+            l_reduce.setOnTouchListener(touchListener)
+            t_add.setOnTouchListener(touchListener)
+            t_reduce.setOnTouchListener(touchListener)
+            r_add.setOnTouchListener(touchListener)
+            r_reduce.setOnTouchListener(touchListener)
+            b_add.setOnTouchListener(touchListener)
+            b_reduce.setOnTouchListener(touchListener)
         }
     }
 
@@ -130,5 +165,10 @@ class AreaLargerActivity : AppCompatActivity(), IImageDesignActivity {
         return null
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        repeatScope.cancel()
+    }
 
 }

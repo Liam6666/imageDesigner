@@ -132,7 +132,7 @@ class AddTextPanel : FrameLayout {
         colorPicker.setColor(tvColor)
 
         val size = tv.textSize.toInt()
-        sizeSeekBar.max = dp2px(200)
+        sizeSeekBar.max = dp2px(80)
         sizeSeekBar.progress = size
         tv_size.text = "文字大小: (${size})"
 
