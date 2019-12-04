@@ -1,17 +1,23 @@
 package yzx.app.image.design.ui
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_pure_color_maker.*
+import kotlinx.coroutines.*
 import yzx.app.image.design.R
+import yzx.app.image.design.logicViews.dismissWaitingDialog
+import yzx.app.image.design.logicViews.showWaitingDialog
+import yzx.app.image.design.utils.createPureColorBitmap
 import yzx.app.image.design.utils.launchActivity
+import yzx.app.image.design.utils.runCacheOutOfMemory
 
 
-class PureColorMakerActivity : AppCompatActivity(), IImageDesignActivity {
+class PureColorMakerActivity : AppCompatActivity(), IImageDesignActivity, CoroutineScope by MainScope() {
 
 
     companion object {
@@ -37,8 +43,15 @@ class PureColorMakerActivity : AppCompatActivity(), IImageDesignActivity {
             heightInput.addTextChangedListener(this)
         }
         colorPicker.onColorChanged = { notifyExampleView() }
-        cache.setOnClickListener { }
-        save.setOnClickListener { }
+        viewer.visibility = View.INVISIBLE
+        cache.setOnClickListener {
+            if (viewer.visibility != View.VISIBLE) return@setOnClickListener
+            getBitmap { it?.run { cacheBitmap(this) } }
+        }
+        save.setOnClickListener {
+            if (viewer.visibility != View.VISIBLE) return@setOnClickListener
+            getBitmap { it?.run { startSaveBitmap(this) } }
+        }
     }
 
 
@@ -71,6 +84,28 @@ class PureColorMakerActivity : AppCompatActivity(), IImageDesignActivity {
                 }
             }
         }
+    }
+
+
+    private fun getBitmap(block: (Bitmap?) -> Unit) {
+        showWaitingDialog()
+        launch {
+            val bmp = withContext(Dispatchers.Default) {
+                var result: Bitmap? = null
+                runCacheOutOfMemory({
+                    result = createPureColorBitmap(colorPicker.getCurrentColor(), widthInput.text.toString().toInt(), heightInput.text.toString().toInt())
+                }) { toastMemoryError() }
+                result
+            }
+            dismissWaitingDialog()
+            block(bmp)
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 
 }

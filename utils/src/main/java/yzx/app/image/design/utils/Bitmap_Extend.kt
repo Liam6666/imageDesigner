@@ -211,6 +211,14 @@ fun makeExpendBitmap(source: Bitmap, color: Int, topP: Float, rightP: Float, bot
 }
 
 
+/**
+ * 来点色图
+ */
+fun createPureColorBitmap(color: Int, width: Int, height: Int): Bitmap {
+    return Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565).apply {
+        Canvas(this).drawColor(color)
+    }
+}
 
 
 
