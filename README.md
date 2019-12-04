@@ -2,4 +2,4 @@
 
 
 ## 截图功能
-![image](https://github.com/Yikinayi/imageDesigner/images/pic_jietu.jpg)
+![image](https://github.com/Yikinayi/imageDesigner/blob/master/images/pic_jietu.jpg?raw=true)
