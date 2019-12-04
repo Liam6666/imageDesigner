@@ -146,7 +146,7 @@ class MainListHelper {
         ItemInfo().apply {
             animIcon = CutoutIcon(application)
             text = "纯色图生成"
-            click = Runnable { onSelectedResult { path -> PureColorMakerActivity.launch(application, path) } }
+            click = Runnable { PureColorMakerActivity.launch(application) }
         }
     )
 

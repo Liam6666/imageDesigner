@@ -1,7 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="#000">
 
+
+    <FrameLayout
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:background="@drawable/bg_pure_color_container_stroke"
+        app:layout_constraintBottom_toBottomOf="@id/tbGuide"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/viewer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/tbGuide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+
+    <yzx.app.image.design.views.ColorPicker
+        android:id="@+id/colorPicker"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tbGuide" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="背景颜色"
+        android:textColor="#fff"
+        android:textSize="14dp"
+        app:layout_constraintLeft_toLeftOf="@id/colorPicker"
+        app:layout_constraintRight_toRightOf="@id/colorPicker"
+        app:layout_constraintTop_toBottomOf="@id/colorPicker" />
+
+
+    <EditText
+        android:id="@+id/heightInput"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="12dp"
+        android:background="#cccccc"
+        android:hint="高"
+        android:inputType="number"
+        android:maxLength="4"
+        android:padding="2dp"
+        android:singleLine="true"
+        android:textColor="#03A9F4"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/colorPicker"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/colorPicker" />
+
+    <TextView
+        android:id="@+id/wht"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
+        android:text="----"
+        android:textColor="#cccccc"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@id/heightInput"
+        app:layout_constraintRight_toLeftOf="@id/heightInput"
+        app:layout_constraintTop_toTopOf="@id/heightInput" />
+
+
+    <EditText
+        android:id="@+id/widthInput"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="12dp"
+        android:background="#cccccc"
+        android:hint="宽"
+        android:inputType="number"
+        android:maxLength="4"
+        android:padding="2dp"
+        android:singleLine="true"
+        android:textColor="#03A9F4"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toLeftOf="@id/wht"
+        app:layout_constraintTop_toTopOf="@id/heightInput" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="输入宽高像素:"
+        android:textColor="#fff"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toTopOf="@id/widthInput"
+        app:layout_constraintLeft_toLeftOf="@id/widthInput" />
+
+
+    <Button
+        android:id="@+id/cache"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_complete"
+        android:text="暂存"
+        android:textColor="#fff"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_complete"
+        android:text="保存"
+        android:textColor="#fff"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/cache"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
