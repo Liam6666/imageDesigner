@@ -13,7 +13,7 @@ import yzx.app.image.design.utils.inflateView
 import kotlin.math.min
 
 
-private const val gapAngle = 20f
+private const val gapAngle = 22f
 private const val sweepAngle = (360f - (gapAngle * 3)) / 3f
 
 private const val start1 = gapAngle / 2f + 1f
@@ -44,6 +44,7 @@ class ColorPickerButton(context: Context?, attrs: AttributeSet?) : View(context,
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     override fun onDraw(canvas: Canvas) {
         canvas.translate(width / 2f, height / 2f)
+        canvas.scale(0.9f, 0.9f)
 
         paint.style = Paint.Style.FILL
         paint.color = color
@@ -142,7 +143,7 @@ class ColorPicker : FrameLayout {
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        val buttonLen = (min(width, height) / 8f).toInt()
+        val buttonLen = (min(width, height) / 6f).toInt()
         redButton.layoutParams.width = buttonLen
         redButton.layoutParams.height = buttonLen
         greenButton.layoutParams.width = buttonLen
@@ -235,7 +236,7 @@ class ColorPicker : FrameLayout {
                     val yGap = nowY - lastPoint.y
                     lastPoint.x = nowX
                     lastPoint.y = nowY
-                    val gap = if (getBluePercent() < 0.6f) xGap else yGap
+                    val gap = if (getBluePercent() < 0.65f) xGap else yGap
                     val degreeGap = gap * unit
                     var targetRotation = (blueButton.parent as View).rotation + degreeGap
                     if (targetRotation < start3)
